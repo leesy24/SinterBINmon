@@ -1,5 +1,6 @@
 VERSION 5.00
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
+Object = "{40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0"; "AdsOcx.ocx"
 Begin VB.Form frmMain 
    AutoRedraw      =   -1  'True
    BackColor       =   &H00404000&
@@ -16,6 +17,20 @@ Begin VB.Form frmMain
    ScaleHeight     =   12060
    ScaleWidth      =   13590
    ShowInTaskbar   =   0   'False
+   Begin ADSOCXLib.AdsOcx AdsOcx1 
+      Left            =   4800
+      Top             =   1560
+      _Version        =   131074
+      _ExtentX        =   900
+      _ExtentY        =   953
+      _StockProps     =   0
+      AdsAmsServerNetId=   "172.16.21.20.1.1"
+      AdsAmsServerPort=   800
+      AdsAmsClientPort=   32801
+      AdsClientType   =   ""
+      AdsClientAdsState=   ""
+      AdsClientAdsControl=   ""
+   End
    Begin VB.TextBox txtMaxHH 
       Alignment       =   1  '오른쪽 맞춤
       Height          =   270
@@ -189,12 +204,12 @@ Begin VB.Form frmMain
          Appearance      =   0  '평면
          BackColor       =   &H80000005&
          BackStyle       =   0  '투명
-         Caption         =   "SILO LEVEL MONITORING"
+         Caption         =   "[5소결] BIN LEVEL MONITORING"
          BeginProperty Font 
             Name            =   "Arial Black"
             Size            =   21.75
             Charset         =   0
-            Weight          =   900
+            Weight          =   700
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
@@ -290,8 +305,8 @@ Dim d1 As Single
 
 
 
-Dim ipAddr(15) As String
-Dim ipPort(15) As String
+Dim ipAddr(11) As String
+Dim ipPort(11) As String
 
 Dim AOdata(33) As Integer
 
@@ -380,9 +395,9 @@ Dim i As Long
     ioD(2) = 32768 / 4 - 1
     ioD(3) = 32768 / 8 - 1
     
-''    AdsOcx1.AdsAmsServerNetId = "172.16.21.20.1.1"   '''AdsOcx1.AdsAmsClientNetId
-''    AdsOcx1.AdsAmsServerPort = 800
-''    AdsOcx1.EnableErrorHandling = True
+    AdsOcx1.AdsAmsServerNetId = "172.16.21.20.1.1"   '''AdsOcx1.AdsAmsClientNetId
+    AdsOcx1.AdsAmsServerPort = 800
+    AdsOcx1.EnableErrorHandling = True
     
     
 ''    For i = 0 To 3  ''0xf020==61472
@@ -452,10 +467,10 @@ Dim i As Long
     ioD(29) = 0
     ioD(30) = 0
     ioD(31) = 0
-''
-''    AdsOcx1.AdsSyncWriteReq &HF020&, &H64&, 64, ioD
-''
-''
+
+    AdsOcx1.AdsSyncWriteReq &HF020&, &H64&, 64, ioD
+
+
 
     
 End Sub
@@ -464,9 +479,9 @@ Private Sub cmdADSclr_Click()
 Dim i As Integer
 Dim d As Integer
 
-''    AdsOcx1.AdsAmsServerNetId = "172.16.21.20.1.1"   '''AdsOcx1.AdsAmsClientNetId
-''    AdsOcx1.AdsAmsServerPort = 800
-''    AdsOcx1.EnableErrorHandling = True
+    AdsOcx1.AdsAmsServerNetId = "172.16.21.20.1.1"   '''AdsOcx1.AdsAmsClientNetId
+    AdsOcx1.AdsAmsServerPort = 800
+    AdsOcx1.EnableErrorHandling = True
     
 ''    d = 0
 ''    For i = 0 To 31
@@ -477,7 +492,7 @@ Dim d As Integer
     For i = 0 To 31
         ioD(i) = 0
     Next i
-''    AdsOcx1.AdsSyncWriteReq &HF020&, &H64&, 64, ioD
+    AdsOcx1.AdsSyncWriteReq &HF020&, &H64&, 64, ioD
     
 End Sub
 
@@ -606,14 +621,14 @@ Dim i As Integer
         AOdata(i) = 0
     Next i
     
-    For i = 1 To 14
+    For i = 1 To 10
         Load ucBINmon1(i)
     Next i
 
-    For i = 0 To 14
+    For i = 0 To 10
 
-        ucBINmon1(i).Width = Width / 15 - 30
-        ucBINmon1(i).Left = (i * (Width / 15)) + 20
+        ucBINmon1(i).Width = Width / 11 - 30
+        ucBINmon1(i).Left = (i * (Width / 11)) + 20
         ucBINmon1(i).Height = 12200
 
         ucBINmon1(i).Visible = True
@@ -628,7 +643,7 @@ Dim i As Integer
     txtSD1.Height = 1200
 
 
-    For i = 0 To 14
+    For i = 0 To 7
         ''ipAddr(i) = "192.168.0.22"  ''151"
         ipAddr(i) = "192.168.0.151"
         ipPort(i) = Trim(Str(7001 + i))
@@ -636,18 +651,18 @@ Dim i As Integer
         ucBINmon1(i).setIDX i, ipAddr(i), ipPort(i)
     Next i
     ''''
-'    For i = 8 To 10
-'        ''ipAddr(i) = "192.168.0.21"  ''152"
-'        ipAddr(i) = "192.168.0.152"
-'        ipPort(i) = Trim(Str(7001 + i - 8))
-'
-'        ucBINmon1(i).setIDX i, ipAddr(i), ipPort(i)
-'    Next i
-'
-    For i = 0 To 14
+    For i = 8 To 10
+        ''ipAddr(i) = "192.168.0.21"  ''152"
+        ipAddr(i) = "192.168.0.152"
+        ipPort(i) = Trim(Str(7001 + i - 8))
+        
+        ucBINmon1(i).setIDX i, ipAddr(i), ipPort(i)
+    Next i
+    
+    For i = 0 To 10
         ucBINmon1(i).setBinID
         ucBINmon1(i).picCON_Cir1
-
+        
         cboIDX.AddItem i + 1
     Next i
     cboIDX.ListIndex = 0
@@ -677,7 +692,7 @@ Dim i As Integer
     
     txtMaxHH.Enabled = False
     
-    For i = 0 To 14
+    For i = 0 To 10
         
         ucBINmon1(i).set_maxHH CLng(txtMaxHH)
     
@@ -776,25 +791,25 @@ Dim str1 As String
     txtSD1 = txtSD1 & str1
     txtSD1.SelStart = Len(txtSD1)
 
-''
-''On Error GoTo wsErrADS
-''
-''    AdsOcx1.AdsAmsServerNetId = "172.16.21.20.1.1"   '''AdsOcx1.AdsAmsClientNetId
-''    AdsOcx1.AdsAmsServerPort = 800
-''    AdsOcx1.EnableErrorHandling = True
-''
-''    AdsOcx1.AdsSyncWriteReq &HF020&, &H64&, 64, AOdata  ''ioD
-''
-''wsErrADS:
-''    '''''Just-Cancle...for next
-''
-''    txtWSpcs = wsPcs.State
-''
-''    If wsPcs.State = sckConnected Then
-''        '''''''''''''
-''        EditPcsData 5
-''        '''''''''''''
-''    End If
+
+On Error GoTo wsErrADS
+
+    AdsOcx1.AdsAmsServerNetId = "172.16.21.20.1.1"   '''AdsOcx1.AdsAmsClientNetId
+    AdsOcx1.AdsAmsServerPort = 800
+    AdsOcx1.EnableErrorHandling = True
+    
+    AdsOcx1.AdsSyncWriteReq &HF020&, &H64&, 64, AOdata  ''ioD
+
+wsErrADS:
+    '''''Just-Cancle...for next
+
+    txtWSpcs = wsPcs.State
+    
+    If wsPcs.State = sckConnected Then
+        '''''''''''''
+        EditPcsData 5
+        '''''''''''''
+    End If
     
 End Sub
 
@@ -905,7 +920,7 @@ Private Sub tmrINIT_Timer()
     tmrINIT.Enabled = False
     
     Dim i
-    For i = 0 To 14
+    For i = 0 To 10
         ucBINmon1(i).picCON_Cir1
     Next i
 

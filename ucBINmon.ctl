@@ -63,7 +63,7 @@ Begin VB.UserControl ucBINmon
    Begin VB.TextBox txtRDmon 
       BackColor       =   &H00C0C0C0&
       Height          =   735
-      Left            =   240
+      Left            =   360
       MultiLine       =   -1  'True
       ScrollBars      =   2  '수직
       TabIndex        =   13
@@ -83,7 +83,7 @@ Begin VB.UserControl ucBINmon
       BackColor       =   &H00E0E0E0&
       BorderStyle     =   0  '없음
       Height          =   270
-      Left            =   1080
+      Left            =   1200
       TabIndex        =   12
       Text            =   "0"
       Top             =   1080
@@ -95,7 +95,7 @@ Begin VB.UserControl ucBINmon
       BackColor       =   &H00E0E0E0&
       BorderStyle     =   0  '없음
       Height          =   270
-      Left            =   600
+      Left            =   720
       TabIndex        =   11
       Text            =   "0"
       Top             =   1080
@@ -107,7 +107,7 @@ Begin VB.UserControl ucBINmon
       BackColor       =   &H00E0E0E0&
       BorderStyle     =   0  '없음
       Height          =   270
-      Left            =   0
+      Left            =   120
       TabIndex        =   10
       Text            =   "0"
       Top             =   1080
@@ -119,7 +119,7 @@ Begin VB.UserControl ucBINmon
       FillColor       =   &H00808080&
       ForeColor       =   &H00000000&
       Height          =   375
-      Left            =   0
+      Left            =   120
       ScaleHeight     =   345
       ScaleWidth      =   1545
       TabIndex        =   9
@@ -148,7 +148,7 @@ Begin VB.UserControl ucBINmon
       BackColor       =   &H00E0E0E0&
       BorderStyle     =   0  '없음
       Height          =   255
-      Left            =   0
+      Left            =   120
       TabIndex        =   7
       Text            =   "0"
       Top             =   720
@@ -160,7 +160,7 @@ Begin VB.UserControl ucBINmon
       BackColor       =   &H00FF8080&
       BorderStyle     =   0  '없음
       Height          =   270
-      Left            =   0
+      Left            =   120
       TabIndex        =   6
       Text            =   "0"
       Top             =   480
@@ -178,7 +178,7 @@ Begin VB.UserControl ucBINmon
       BackColor       =   &H00E0E0E0&
       BorderStyle     =   0  '없음
       Height          =   270
-      Left            =   960
+      Left            =   1080
       TabIndex        =   5
       Text            =   "0"
       Top             =   480
@@ -190,7 +190,7 @@ Begin VB.UserControl ucBINmon
       BackColor       =   &H00E0E0E0&
       BorderStyle     =   0  '없음
       Height          =   270
-      Left            =   480
+      Left            =   600
       TabIndex        =   4
       Text            =   "0"
       Top             =   480
@@ -200,11 +200,11 @@ Begin VB.UserControl ucBINmon
       BackColor       =   &H0000FF00&
       Caption         =   "BIN1"
       Height          =   255
-      Left            =   0
+      Left            =   120
       Style           =   1  '그래픽
       TabIndex        =   3
       Top             =   120
-      Width           =   1215
+      Width           =   1455
    End
    Begin MSWinsockLib.Winsock wsock1 
       Left            =   0
@@ -219,7 +219,7 @@ Begin VB.UserControl ucBINmon
       FillColor       =   &H00FFFF80&
       ForeColor       =   &H80000008&
       Height          =   1575
-      Left            =   0
+      Left            =   120
       ScaleHeight     =   1545
       ScaleWidth      =   1545
       TabIndex        =   2
@@ -232,7 +232,7 @@ Begin VB.UserControl ucBINmon
       FillColor       =   &H00808080&
       ForeColor       =   &H80000008&
       Height          =   2895
-      Left            =   0
+      Left            =   120
       ScaleHeight     =   2865
       ScaleWidth      =   1545
       TabIndex        =   1
@@ -245,7 +245,7 @@ Begin VB.UserControl ucBINmon
       FillColor       =   &H00808080&
       ForeColor       =   &H00000000&
       Height          =   2895
-      Left            =   0
+      Left            =   120
       ScaleHeight     =   2865
       ScaleWidth      =   1545
       TabIndex        =   0
@@ -1064,7 +1064,7 @@ Private Sub tmrRun_Timer()
         cmdCONN.BackColor = vbGreen
     Else
         wsACT = False
-        cmdCONN.BackColor = vbGreen ''vbRed
+        cmdCONN.BackColor = vbRed
     End If
 
 
@@ -1180,7 +1180,7 @@ Dim i As Integer
 
     wsPause = False
 
-    cmdCONN.BackColor = vbGreen ''vbRed
+    cmdCONN.BackColor = vbRed
 
     ''''Sick:LMS-211''''
     startString = Chr(2) + Chr(0) + Chr(2) + Chr(0) + Chr(32) + Chr(36) + Chr(52) + Chr(8)
@@ -1222,13 +1222,11 @@ End Sub
 
 
 Public Sub setBinID()
-'    If UCindex < 7 Then
-'        cmdCONN.Caption = "(" & UCindex + 1 & ")  " & "BIN-" & (UCindex + 1)
-'    Else
-'        cmdCONN.Caption = "(" & UCindex + 1 & ")  " & "BIN-" & (UCindex + 2)
-'    End If
-
-    cmdCONN.Caption = "Silo#" & (UCindex + 1)
+    If UCindex < 7 Then
+        cmdCONN.Caption = "(" & UCindex + 1 & ")  " & "BIN-" & (UCindex + 1)
+    Else
+        cmdCONN.Caption = "(" & UCindex + 1 & ")  " & "BIN-" & (UCindex + 2)
+    End If
 End Sub
 
 
@@ -1371,49 +1369,49 @@ End Function
 Public Sub picCON_Cir1()
 
     picCON.ForeColor = vbRed  ''vbBlack
-    picCON.Circle ((picCON.Width / 2) + 50, (picCON.Height / 2) - 20), (picCON.Width / 2) * 0.1 '' - 100 ''600
+    picCON.Circle ((picCON.Width / 2) - 20, (picCON.Height / 4) - 20), (picCON.Width / 2) * 0.1 '' - 100 ''600
 
 
     picCON.ForeColor = vbCyan  ''vbRed  ''vbBlack
     
-'  If (UCindex <> 7) And (UCindex <> 8) Then
+  If (UCindex <> 7) And (UCindex <> 8) Then
     picCON.Circle ((picCON.Width / 2) - 20, (picCON.Height / 2) - 20), (picCON.Width / 2) * 0.95 '' - 100 ''600
-'  End If
+  End If
 
 
-'  If (UCindex >= 4) And (UCindex <= 6) Then
-'    picCON.ForeColor = vbBlue
-'    picCON.Circle ((picCON.Width / 2) - 20, (picCON.Height / 2) + 250), (picCON.Width / 2) * 0.2 '' - 100 ''600
-'
-'  ElseIf (UCindex = 7) Or (UCindex = 8) Then
-'    picCON.ForeColor = vbBlack
-'
-'''<가로>''
-'''    picCON.Line (40, (picCON.Height / 2) - 400)-(picCON.Width - 60, (picCON.Height / 2) - 400)
-'''    picCON.Line (40, (picCON.Height / 2) + 400)-(picCON.Width - 60, (picCON.Height / 2) + 400)
-'''    picCON.Line (40, (picCON.Height / 2) - 400)-(40, (picCON.Height / 2) + 400)
-'''    picCON.Line (picCON.Width - 60, (picCON.Height / 2) - 400)-(picCON.Width - 60, (picCON.Height / 2) + 400)
-'''
-'''    picCON.Line (640, (picCON.Height / 2) - 100)-(picCON.Width - 660, (picCON.Height / 2) - 100)
-'''    picCON.Line (640, (picCON.Height / 2) + 100)-(picCON.Width - 660, (picCON.Height / 2) + 100)
-'''    picCON.Line (640, (picCON.Height / 2) - 100)-(640, (picCON.Height / 2) + 100)
-'''    picCON.Line (picCON.Width - 660, (picCON.Height / 2) - 100)-(picCON.Width - 660, (picCON.Height / 2) + 100)
-'
-'''<세로>''
-'    picCON.Line (picCON.Width / 2 - 400, (40))-(picCON.Width / 2 + 400, (40))
-'    picCON.Line (picCON.Width / 2 - 400, (picCON.Height - 60))-(picCON.Width / 2 + 400, (picCON.Height - 60))
-'    picCON.Line (picCON.Width / 2 - 400, (40))-(picCON.Width / 2 - 400, (picCON.Height - 60))
-'    picCON.Line (picCON.Width / 2 + 400, (40))-(picCON.Width / 2 + 400, (picCON.Height - 60))
-'
-'    picCON.Line (picCON.Width / 2 - 100, (picCON.Height / 2 - 150))-(picCON.Width / 2 + 100, (picCON.Height / 2 - 150))
-'    picCON.Line (picCON.Width / 2 - 100, (picCON.Height / 2 + 150))-(picCON.Width / 2 + 100, (picCON.Height / 2 + 150))
-'    picCON.Line (picCON.Width / 2 - 100, (picCON.Height / 2 - 150))-(picCON.Width / 2 - 100, (picCON.Height / 2 + 150))
-'    picCON.Line (picCON.Width / 2 + 100, (picCON.Height / 2 - 150))-(picCON.Width / 2 + 100, (picCON.Height / 2 + 150))
-'
-'  Else
-'    picCON.Circle ((picCON.Width / 2) + 250, (picCON.Height / 2) - 20), (picCON.Width / 2) * 0.2 '' - 100 ''600
-'
-'  End If
+  If (UCindex >= 4) And (UCindex <= 6) Then
+    picCON.ForeColor = vbBlue
+    picCON.Circle ((picCON.Width / 2) - 20, (picCON.Height / 2) + 250), (picCON.Width / 2) * 0.2 '' - 100 ''600
+    
+  ElseIf (UCindex = 7) Or (UCindex = 8) Then
+    picCON.ForeColor = vbBlack
+
+''<가로>''
+''    picCON.Line (40, (picCON.Height / 2) - 400)-(picCON.Width - 60, (picCON.Height / 2) - 400)
+''    picCON.Line (40, (picCON.Height / 2) + 400)-(picCON.Width - 60, (picCON.Height / 2) + 400)
+''    picCON.Line (40, (picCON.Height / 2) - 400)-(40, (picCON.Height / 2) + 400)
+''    picCON.Line (picCON.Width - 60, (picCON.Height / 2) - 400)-(picCON.Width - 60, (picCON.Height / 2) + 400)
+''
+''    picCON.Line (640, (picCON.Height / 2) - 100)-(picCON.Width - 660, (picCON.Height / 2) - 100)
+''    picCON.Line (640, (picCON.Height / 2) + 100)-(picCON.Width - 660, (picCON.Height / 2) + 100)
+''    picCON.Line (640, (picCON.Height / 2) - 100)-(640, (picCON.Height / 2) + 100)
+''    picCON.Line (picCON.Width - 660, (picCON.Height / 2) - 100)-(picCON.Width - 660, (picCON.Height / 2) + 100)
+    
+''<세로>''
+    picCON.Line (picCON.Width / 2 - 400, (40))-(picCON.Width / 2 + 400, (40))
+    picCON.Line (picCON.Width / 2 - 400, (picCON.Height - 60))-(picCON.Width / 2 + 400, (picCON.Height - 60))
+    picCON.Line (picCON.Width / 2 - 400, (40))-(picCON.Width / 2 - 400, (picCON.Height - 60))
+    picCON.Line (picCON.Width / 2 + 400, (40))-(picCON.Width / 2 + 400, (picCON.Height - 60))
+    
+    picCON.Line (picCON.Width / 2 - 100, (picCON.Height / 2 - 150))-(picCON.Width / 2 + 100, (picCON.Height / 2 - 150))
+    picCON.Line (picCON.Width / 2 - 100, (picCON.Height / 2 + 150))-(picCON.Width / 2 + 100, (picCON.Height / 2 + 150))
+    picCON.Line (picCON.Width / 2 - 100, (picCON.Height / 2 - 150))-(picCON.Width / 2 - 100, (picCON.Height / 2 + 150))
+    picCON.Line (picCON.Width / 2 + 100, (picCON.Height / 2 - 150))-(picCON.Width / 2 + 100, (picCON.Height / 2 + 150))
+        
+  Else
+    picCON.Circle ((picCON.Width / 2) + 250, (picCON.Height / 2) - 20), (picCON.Width / 2) * 0.2 '' - 100 ''600
+    
+  End If
     
     picCON.ForeColor = &HFFC0FF     ''&HFF00FF
     ''picCON.Line (40, (picCON.Height / 2) - 20)-(picCON.Width - 60, (picCON.Height / 2) - 20)
@@ -1441,21 +1439,21 @@ Public Sub picCON_Cir1()
 ''    End If
 
 ''<세로>''
-'    If (UCindex = 7) Or (UCindex = 8) Then
-'        picCON.CurrentX = picCON.Width / 2 - 700
-'        picCON.CurrentY = picCON.Height - 900
-'        picCON.Print "V:150"
-'        picCON.CurrentX = picCON.Width / 2 - 700
-'        picCON.CurrentY = picCON.Height - 650
-'        picCON.Print "T:195"
-'    Else
-    '        picCON.CurrentX = picCON.Width / 2 - 700
-    '        picCON.CurrentY = picCON.Height - 900
-    '        picCON.Print "V:400"
-    '        picCON.CurrentX = picCON.Width / 2 - 700
-    '        picCON.CurrentY = picCON.Height - 650
-    '        picCON.Print "T:520"
-'    End If
+    If (UCindex = 7) Or (UCindex = 8) Then
+        picCON.CurrentX = picCON.Width / 2 - 700
+        picCON.CurrentY = picCON.Height - 900
+        picCON.Print "V:150"
+        picCON.CurrentX = picCON.Width / 2 - 700
+        picCON.CurrentY = picCON.Height - 650
+        picCON.Print "T:195"
+    Else
+        picCON.CurrentX = picCON.Width / 2 - 700
+        picCON.CurrentY = picCON.Height - 900
+        picCON.Print "V:400"
+        picCON.CurrentX = picCON.Width / 2 - 700
+        picCON.CurrentY = picCON.Height - 650
+        picCON.Print "T:520"
+    End If
 
 End Sub
 
