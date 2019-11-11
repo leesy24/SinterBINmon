@@ -26,7 +26,7 @@ Begin VB.Form frmMain
       _StockProps     =   0
       AdsAmsServerNetId=   "172.16.21.20.1.1"
       AdsAmsServerPort=   800
-      AdsAmsClientPort=   32777
+      AdsAmsClientPort=   33007
       AdsClientType   =   ""
       AdsClientAdsState=   ""
       AdsClientAdsControl=   ""
@@ -38,8 +38,8 @@ Begin VB.Form frmMain
       TabIndex        =   20
       Top             =   1440
       Width           =   1695
-      _ExtentX        =   2990
-      _ExtentY        =   18018
+      _extentx        =   2990
+      _extenty        =   18018
    End
    Begin prjBIN5mon.ucBINdps ucBINdps1 
       Height          =   7815
@@ -48,13 +48,13 @@ Begin VB.Form frmMain
       TabIndex        =   19
       Top             =   1440
       Width           =   1695
-      _ExtentX        =   2990
-      _ExtentY        =   13785
+      _extentx        =   2990
+      _extenty        =   13785
    End
    Begin VB.TextBox txtMaxHH 
       Alignment       =   1  '오른쪽 맞춤
       Height          =   270
-      Left            =   12360
+      Left            =   10440
       TabIndex        =   17
       Text            =   "1850"
       Top             =   960
@@ -274,7 +274,7 @@ Begin VB.Form frmMain
       Caption         =   "MaxHigh:"
       ForeColor       =   &H00FFC0FF&
       Height          =   255
-      Left            =   11520
+      Left            =   9600
       TabIndex        =   18
       Top             =   960
       Width           =   975
@@ -330,7 +330,11 @@ Dim ipPort(11) As String
 Dim AOdata(33) As Integer
 Dim AOdata2(33) As Integer
 
-
+Dim BinWidth As Integer
+''
+Dim BinMaxH(33) As Integer
+''
+Dim BinTYPE(33) As Integer
 
 
 
@@ -664,6 +668,7 @@ Dim i As Integer
         cmdHide.Left = picTop.Width - 2600
         cmdRunStop.Top = 200
         cmdRunStop.Left = picTop.Width - 4000
+    
         
     For i = 0 To 32
         AOdata(i) = 0
@@ -698,6 +703,10 @@ Dim i As Integer
 ''    ucBINdps1(0).Height = 6100  '''12200
 ''    ucBINdps1(0).Visible = True
     
+    
+    BinWidth = 1800  '''2000
+    ''''''''
+    
     For i = 1 To 9
         Load ucBINdps1(i)
         ''<--201706
@@ -707,7 +716,7 @@ Dim i As Integer
     
         ucBINdps1(i).Top = 1400
 
-        ucBINdps1(i).Width = Width / 11 - 50
+        ucBINdps1(i).Width = BinWidth  '''Width / 11 - 50
         ucBINdps1(i).Left = (i * (Width / 11)) + 20 ''+ 1720
         ucBINdps1(i).Height = 6100  '''12200
 
@@ -727,7 +736,7 @@ Dim i As Integer
     
         ucBINdps1(i).Top = 7600
 
-        ucBINdps1(i).Width = Width / 11 - 50
+        ucBINdps1(i).Width = BinWidth  '''Width / 11 - 50
         ucBINdps1(i).Left = ((i - 10) * (Width / 11)) + 20 ''+ 1720
         ucBINdps1(i).Height = 6100  '''12200
 
@@ -744,8 +753,16 @@ Dim i As Integer
     txtSD1.Height = 1300
 
 
+
+    
     For i = 0 To 19
-        ucBINdps1(i).setScanTYPE 211  '''LMS-211  '''LD-LRS-3100,, DPS-2590
+        BinTYPE(i) = GetSetting(App.Title, "Settings", "BINtype_" & Trim(i), 211)
+        '''''''
+        SaveSetting App.Title, "Settings", "BINtype_" & Trim(i), BinTYPE(i)
+    Next i
+
+    For i = 0 To 19
+        ucBINdps1(i).setScanTYPE BinTYPE(i) ''' 211  '''LMS-211  '''LD-LRS-3100,, DPS-2590
     Next i
 
     ''ucBINdps1(0).setScanTYPE 2590  '''''LD-LRS-3100,, DPS-2590
@@ -910,46 +927,52 @@ Dim i As Integer
     Next i
     
     
+    
+    For i = 0 To 19
+        BinMaxH(i) = GetSetting(App.Title, "Settings", "MaxH_" & Trim(i), 1850)
+        '''''''
+        SaveSetting App.Title, "Settings", "MaxH_" & Trim(i), BinMaxH(i)
+    Next i
+    
     For i = 0 To 19  ''12소결  '''9 '''10
-        ucBINdps1(i).set_maxHH CLng(txtMaxHH)
+        ucBINdps1(i).set_maxHH CLng(BinMaxH(i))  '''CLng(txtMaxHH)
         '''''''''''''''''''''''
         ucBINdps1(i).rxMode = 0  ''7
         '''''''''''''''''''''''
         ''ucBINmon1(i).runCONN
     Next i
 '''''''''''
-'''    ucBINdps1(0).set_maxHH CLng(txtMaxHH)
-'''    '''''''''''''''''''''''
-'''    ucBINdps1(0).rxMode = 0  ''7
-    
-    
-    
-    
-    
-    '''''''[TEST]''''LD-LRS-3100,, DPS-2590
-    i = 20
-    Load ucBINdps1(i)
-    ''''''
-        ucBINdps1(i).Top = 4000  ''7600
-        ''
-        ucBINdps1(i).Width = Width / 11 - 50
-        ucBINdps1(i).Left = ((i - 10) * (Width / 11)) + 20 ''+ 1720
-        ucBINdps1(i).Height = 6100  '''12200
-        ''
-        ucBINdps1(i).Visible = True
-        ''
-        DoEvents
 
-        ucBINdps1(i).setScanTYPE 2590  '''''LD-LRS-3100,, DPS-2590
-        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        ucBINdps1(i).setIDX (i), "10.0.10.99", "8001"  ''"192.168.0.21", "7001"
 
-        ucBINdps1(i).setOptionD "0", "0.6", "0.5"
 
-        ucBINdps1(i).set_maxHH CLng(txtMaxHH)
-        ucBINdps1(i).setBinID
-        ''
-        ucBINdps1(i).rxMode = 0
+    
+'''    '''''''[TEST]''''LD-LRS-3100,, DPS-2590
+'''    i = 20
+'''    Load ucBINdps1(i)
+'''    ''''''
+'''        ucBINdps1(i).Top = 7600 ''4000  ''7600
+'''        ''
+'''        ucBINdps1(i).Width = BinWidth  '''Width / 11 - 50
+'''        ucBINdps1(i).Left = ((i - 10) * (Width / 11)) + 20 ''+ 1720
+'''        ucBINdps1(i).Height = 6100  '''12200
+'''        ''
+'''        ucBINdps1(i).Visible = True
+'''        ''
+'''        DoEvents
+'''
+'''        ucBINdps1(i).setScanTYPE 2590  '''''LD-LRS-3100,, DPS-2590
+'''        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''        ucBINdps1(i).setIDX (i), "192.168.0.11", "8282"  ''"192.168.0.21", "7001"
+'''
+'''        ucBINdps1(i).setOptionD "0", "0.6", "0.5"
+'''
+'''        BinMaxH(i) = GetSetting(App.Title, "Settings", "MaxH_" & Trim(i), 1850)
+'''        SaveSetting App.Title, "Settings", "MaxH_" & Trim(i), BinMaxH(i)
+'''        ''''
+'''        ucBINdps1(i).set_maxHH CLng(BinMaxH(i))  '''CLng(txtMaxHH)
+'''        ucBINdps1(i).setBinID
+'''        ''
+'''        ucBINdps1(i).rxMode = 0
         
         
     

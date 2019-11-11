@@ -13,6 +13,40 @@ Begin VB.UserControl ucBINdps
    FillStyle       =   0  '단색
    ScaleHeight     =   9555
    ScaleWidth      =   1890
+   Begin VB.TextBox txtTypes 
+      Alignment       =   2  '가운데 맞춤
+      Appearance      =   0  '평면
+      BackColor       =   &H00FFFFC0&
+      BorderStyle     =   0  '없음
+      Enabled         =   0   'False
+      Height          =   255
+      Left            =   480
+      TabIndex        =   25
+      Text            =   "0"
+      Top             =   720
+      Width           =   495
+   End
+   Begin VB.TextBox txtHmax 
+      Alignment       =   2  '가운데 맞춤
+      BackColor       =   &H00FFFFC0&
+      Enabled         =   0   'False
+      Height          =   270
+      Left            =   1080
+      TabIndex        =   24
+      Text            =   "0"
+      Top             =   4800
+      Width           =   615
+   End
+   Begin VB.CommandButton cmdHmax 
+      BackColor       =   &H00C0C000&
+      Caption         =   "SET"
+      Height          =   255
+      Left            =   1080
+      Style           =   1  '그래픽
+      TabIndex        =   23
+      Top             =   720
+      Width           =   615
+   End
    Begin VB.Timer tmrWDT 
       Enabled         =   0   'False
       Interval        =   10000
@@ -152,7 +186,7 @@ Begin VB.UserControl ucBINdps
       TabIndex        =   7
       Text            =   "0"
       Top             =   720
-      Width           =   1455
+      Width           =   255
    End
    Begin VB.TextBox txtMode 
       Alignment       =   2  '가운데 맞춤
@@ -445,6 +479,13 @@ Private Declare Function Polygon Lib "gdi32" (ByVal hdc As Long, lpPoint As POIN
 Public Sub setScanTYPE(iScan As Integer)  '''LD-LRS-3100,, DPS-2590
     ScanTYPE = iScan
     
+    txtTypes = iScan
+    
+    SaveSetting App.Title, "Settings", "BINtype_" & Trim(UCindex), ScanTYPE
+    ''SaveSetting
+
+
+    
 ''''    If ScanTYPE = 2590 Then
 ''''            txtRxS.Visible = True
 ''''    Else
@@ -453,6 +494,35 @@ Public Sub setScanTYPE(iScan As Integer)  '''LD-LRS-3100,, DPS-2590
     
 End Sub
 
+
+Private Sub cmdHmax_Click()
+
+    If cmdHmax.BackColor = vbGreen Then   ''&H00C0C000&
+        cmdHmax.BackColor = &HC0C000
+        txtHmax.Enabled = False
+        txtTypes.Enabled = False
+        
+        If (txtHmax >= 1700) And (txtHmax <= 2000) Then
+            maxHH = txtHmax
+            set_maxHH maxHH  '''(CLng(maxHH))
+        Else
+            txtHmax = maxHH
+        End If
+        
+        If (txtTypes = 211) Or (txtTypes = 2590) Then
+            ScanTYPE = txtTypes
+            setScanTYPE ScanTYPE
+        Else
+            txtTypes = ScanTYPE
+        End If
+        
+    Else
+        cmdHmax.BackColor = vbGreen
+        txtHmax.Enabled = True
+        txtTypes.Enabled = True
+    End If
+    
+End Sub
 
 Private Sub picXbar_Click()
 
@@ -843,8 +913,8 @@ Dim X1, Y1, X2, Y2 As Double
 ''(debug) txtRDmon.Text = Str(frmMain.cboIDX.ListIndex)
 
 
-    avrSUM = 0
-    avrCNT = 0
+'''    avrSUM = 0
+'''    avrCNT = 0
     
 ''''    For k = 10 To 90
 ''''        If (scanDX(k) > 20) And (scanDX(k) < 80) Then
@@ -923,8 +993,15 @@ Dim X1, Y1, X2, Y2 As Double
     Next k
 '''=====================================================1
 Dim avr1 As Long
-    avr1 = avrSUM / avrCNT
-    ''''''''''''''''''''''
+
+    avr1 = 0
+    ''''''''
+
+    If (avrSUM > 0) And (avrCNT > 0) Then  ''<==((20170707)Error-Debug~~
+        avr1 = avrSUM / avrCNT
+        ''''''''''''''''''''''
+    End If
+    
     avrSUM = 0
     avrCNT = 0
     txtRDmon = ""
@@ -941,6 +1018,9 @@ Dim avr1 As Long
     Next k
 '''=====================================================1/2
     If (UCindex = 6) Or (UCindex = 7) Or (UCindex = 16) Or (UCindex = 17) Then
+    
+      If (avrSUM > 0) And (avrCNT > 0) Then  ''<==((20170707)Error-Debug~~
+      
         avr1 = avrSUM / avrCNT
         ''''''''''''''''''''''
         avrSUM = 0
@@ -953,6 +1033,9 @@ Dim avr1 As Long
 ''(debug)       txtRDmon = txtRDmon & scanDY(k) & vbCrLf
             End If
         Next k
+        
+      End If
+        
     End If
 
 ''    ''''=====================================================1/4
@@ -978,7 +1061,7 @@ Dim avr1 As Long
         avrHeight = (avrHeight + avr1) / 2
         '''''''''''''''''''''''''''''''''''''''''
     Else
-        avrHeight = 0
+        avrHeight = avr1   '''0 ''<==((20170707)Error-Debug~~
     End If
         
     
@@ -1081,6 +1164,14 @@ End Function
 
 Public Sub set_maxHH(hh As Long)
     maxHH = hh
+    ''''''''''
+    txtHmax = hh
+    
+    
+        SaveSetting App.Title, "Settings", "MaxH_" & Trim(UCindex), CInt(maxHH)
+        ''SaveSetting
+    
+    
 End Sub
 
 
@@ -1107,7 +1198,7 @@ End Function
 
 Private Sub tmrRun_Timer()
 
-    txtTime1.Text = Format(Now, "YYYYMMDD h:m:s")
+    txtTime1.Text = Format(Now, "ss")  ''' "hh:mm:ss")  ''' "YYYYMMDD h:m:s")
 
     If wsock1.State = sckConnected Then
         wsACT = True
@@ -1307,6 +1398,12 @@ Dim i As Integer
     txtOpX.Height = 200
     txtOpMid.Height = 200
     txtOpBot.Height = 200
+    
+    cmdHmax.Height = 220
+    txtHmax.Height = 250
+    ''
+    txtTypes.Height = 200
+    
     
     
     inCNT = 0
