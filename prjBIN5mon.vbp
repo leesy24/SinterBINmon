@@ -1,9 +1,11 @@
 Type=Exe
 Form=frmMain.frm
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\WINDOWS\system32\stdole2.tlb#OLE Automation
-UserControl=ucBINmon.ctl
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+UserControl=ucBINdps.ctl
 Object={248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0; MSWINSCK.OCX
-Object={40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0; AdsOcx.ocx
+Object={40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0; Adsocx.ocx
+UserControl=ucBINmon.ctl
+Module=modLog; modLog.bas
 IconForm="frmMain"
 Startup="frmMain"
 HelpFile=""

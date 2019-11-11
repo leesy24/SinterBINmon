@@ -1,22 +1,22 @@
 VERSION 5.00
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
-Object = "{40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0"; "AdsOcx.ocx"
+Object = "{40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0"; "Adsocx.ocx"
 Begin VB.Form frmMain 
    AutoRedraw      =   -1  'True
    BackColor       =   &H00404000&
-   BorderStyle     =   0  '없음
+   BorderStyle     =   1  '단일 고정
    Caption         =   "BIN5_Monitor"
-   ClientHeight    =   12060
-   ClientLeft      =   0
-   ClientTop       =   0
+   ClientHeight    =   12885
+   ClientLeft      =   45
+   ClientTop       =   330
    ClientWidth     =   13590
    FillStyle       =   0  '단색
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   12060
+   MinButton       =   0   'False
+   ScaleHeight     =   12885
    ScaleWidth      =   13590
-   ShowInTaskbar   =   0   'False
    Begin ADSOCXLib.AdsOcx AdsOcx1 
       Left            =   4800
       Top             =   1560
@@ -26,17 +26,37 @@ Begin VB.Form frmMain
       _StockProps     =   0
       AdsAmsServerNetId=   "172.16.21.20.1.1"
       AdsAmsServerPort=   800
-      AdsAmsClientPort=   32801
+      AdsAmsClientPort=   32777
       AdsClientType   =   ""
       AdsClientAdsState=   ""
       AdsClientAdsControl=   ""
+   End
+   Begin prjBIN5mon.ucBINmon ucBINmon1 
+      Height          =   10215
+      Index           =   0
+      Left            =   120
+      TabIndex        =   20
+      Top             =   1440
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   18018
+   End
+   Begin prjBIN5mon.ucBINdps ucBINdps1 
+      Height          =   7815
+      Index           =   0
+      Left            =   2040
+      TabIndex        =   19
+      Top             =   1440
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   13785
    End
    Begin VB.TextBox txtMaxHH 
       Alignment       =   1  '오른쪽 맞춤
       Height          =   270
       Left            =   12360
-      TabIndex        =   18
-      Text            =   "1750"
+      TabIndex        =   17
+      Text            =   "1850"
       Top             =   960
       Width           =   615
    End
@@ -47,7 +67,7 @@ Begin VB.Form frmMain
       Left            =   2520
       MaskColor       =   &H00E0E0E0&
       Style           =   1  '그래픽
-      TabIndex        =   16
+      TabIndex        =   15
       Top             =   960
       Width           =   1215
    End
@@ -55,8 +75,8 @@ Begin VB.Form frmMain
       Alignment       =   1  '오른쪽 맞춤
       Height          =   270
       Left            =   1800
-      TabIndex        =   15
-      Text            =   "8003"
+      TabIndex        =   14
+      Text            =   "8001"
       Top             =   960
       Width           =   615
    End
@@ -64,7 +84,7 @@ Begin VB.Form frmMain
       Alignment       =   1  '오른쪽 맞춤
       Height          =   270
       Left            =   480
-      TabIndex        =   14
+      TabIndex        =   13
       Text            =   "172.24.55.27"
       Top             =   960
       Width           =   1335
@@ -73,19 +93,9 @@ Begin VB.Form frmMain
       Enabled         =   0   'False
       Height          =   270
       Left            =   120
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   960
       Width           =   180
-   End
-   Begin prjBIN5mon.ucBINmon ucBINmon1 
-      Height          =   10455
-      Index           =   0
-      Left            =   120
-      TabIndex        =   12
-      Top             =   1560
-      Width           =   1935
-      _extentx        =   3413
-      _extenty        =   16748
    End
    Begin VB.CommandButton cmdDmon 
       Caption         =   "dMon"
@@ -108,11 +118,11 @@ Begin VB.Form frmMain
    Begin VB.TextBox txtSD1 
       BackColor       =   &H00C0C0C0&
       Height          =   735
-      Left            =   2280
+      Left            =   2880
       MultiLine       =   -1  'True
       ScrollBars      =   2  '수직
       TabIndex        =   8
-      Top             =   8880
+      Top             =   11160
       Width           =   10575
    End
    Begin VB.CommandButton cmdADSclr 
@@ -142,6 +152,15 @@ Begin VB.Form frmMain
       TabIndex        =   0
       Top             =   120
       Width           =   13335
+      Begin VB.CommandButton adsTest1 
+         Caption         =   "adsTest1"
+         Height          =   255
+         Left            =   3840
+         TabIndex        =   21
+         Top             =   480
+         Visible         =   0   'False
+         Width           =   1935
+      End
       Begin VB.Timer tmrPcs 
          Interval        =   2000
          Left            =   6480
@@ -204,7 +223,7 @@ Begin VB.Form frmMain
          Appearance      =   0  '평면
          BackColor       =   &H80000005&
          BackStyle       =   0  '투명
-         Caption         =   "[5소결] BIN LEVEL MONITORING"
+         Caption         =   "[1,2소결] BIN LEVEL MONITORING"
          BeginProperty Font 
             Name            =   "Arial Black"
             Size            =   21.75
@@ -232,7 +251,7 @@ Begin VB.Form frmMain
       End
       Begin VB.Label lbTeam 
          BackColor       =   &H00808080&
-         Caption         =   "(주)제일시스템"
+         Caption         =   "DASAN-InfoTEK"
          BeginProperty Font 
             Name            =   "바탕체"
             Size            =   9.75
@@ -244,7 +263,7 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00404040&
          Height          =   255
-         Left            =   1800
+         Left            =   1920
          TabIndex        =   3
          Top             =   360
          Width           =   1935
@@ -256,7 +275,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFC0FF&
       Height          =   255
       Left            =   11520
-      TabIndex        =   19
+      TabIndex        =   18
       Top             =   960
       Width           =   975
    End
@@ -266,7 +285,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFC0FF&
       Height          =   255
       Left            =   4440
-      TabIndex        =   17
+      TabIndex        =   16
       Top             =   960
       Width           =   3015
    End
@@ -276,7 +295,7 @@ Begin VB.Form frmMain
       Height          =   255
       Left            =   7680
       TabIndex        =   5
-      Top             =   960
+      Top             =   1080
       Visible         =   0   'False
       Width           =   3615
    End
@@ -309,6 +328,10 @@ Dim ipAddr(11) As String
 Dim ipPort(11) As String
 
 Dim AOdata(33) As Integer
+Dim AOdata2(33) As Integer
+
+
+
 
 
 
@@ -382,6 +405,31 @@ Dim AOdata(33) As Integer
 ''''    Call AdsOcx1.AdsSyncWriteReq(&H4021&, 152&, 2&, VBVarBoolean)
 
 
+Private Sub adsTest1_Click()
+
+Dim ioD(33) As Integer
+Dim i As Long
+
+
+    ioD(0) = 10000
+    
+    ''Port: 301, IGrp: 0xF030, IOffs: 0x12, Len: 2
+    ''Port: 301, IGrp: 0xF030, IOffs: 0x2C, Len: 2
+    
+    
+    ''AdsOcx1.AdsAmsServerNetId = "172.16.21.20.1.1"   '''AdsOcx1.AdsAmsClientNetId
+    
+    AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0"
+    
+    AdsOcx1.AdsAmsServerPort = 301  ''800
+    AdsOcx1.EnableErrorHandling = True
+    
+    
+    AdsOcx1.AdsSyncWriteReq &HF030&, &H12&, 2, ioD
+    AdsOcx1.AdsSyncWriteReq &HF030&, &H2C&, 2, ioD
+    
+    
+End Sub
 
 
 Private Sub cmdADS1_Click()
@@ -497,9 +545,9 @@ Dim d As Integer
 End Sub
 
 
-Private Sub cmdDmon_Click()
-    txtSD1 = ucBINmon1(cboIDX.ListIndex).ret_SDXY
-End Sub
+''Private Sub cmdDmon_Click()
+''    ''' txtSD1 = ucBINmon1(cboIDX.ListIndex).ret_SDXY
+''End Sub
 
 
 Private Sub cmdExit_Click()
@@ -549,21 +597,21 @@ Private Sub cmdRunStop_Click()
     ''QBColor
   Dim i As Integer
   
-    If cmdRunStop.BackColor = &H8000& Then  ''run
-        For i = 0 To 10
-            ucBINmon1(i).scan_STOP
-        Next i
-        cmdRunStop.BackColor = &H80&        ''stop
-        txtMaxHH.Enabled = True
-    Else  ''stop
-        For i = 0 To 10
-            ucBINmon1(i).set_maxHH CLng(txtMaxHH)
-            ucBINmon1(i).scan_RUN
-        Next i
-        cmdRunStop.BackColor = &H8000&        ''run
-        txtMaxHH.Enabled = False
-    End If
-    
+''    If cmdRunStop.BackColor = &H8000& Then  ''run
+''        For i = 0 To 10
+''            ucBINmon1(i).scan_STOP
+''        Next i
+''        cmdRunStop.BackColor = &H80&        ''stop
+''        txtMaxHH.Enabled = True
+''    Else  ''stop
+''        For i = 0 To 10
+''            ucBINmon1(i).set_maxHH CLng(txtMaxHH)
+''            ucBINmon1(i).scan_RUN
+''        Next i
+''        cmdRunStop.BackColor = &H8000&        ''run
+''        txtMaxHH.Enabled = False
+''    End If
+''
         
 End Sub
 
@@ -619,72 +667,306 @@ Dim i As Integer
         
     For i = 0 To 32
         AOdata(i) = 0
+        AOdata2(i) = 0
     Next i
     
-    For i = 1 To 10
-        Load ucBINmon1(i)
+''    For i = 1 To 10
+''        Load ucBINmon1(i)
+''    Next i
+
+''    For i = 0 To 10
+''
+''        ucBINmon1(i).Width = Width / 11 - 30
+''        ucBINmon1(i).Left = (i * (Width / 11)) + 20
+''        ucBINmon1(i).Height = 12200
+''
+''        ucBINmon1(i).Visible = True
+''
+''        DoEvents
+''
+''    Next i
+'''''''''''''
+    ucBINmon1(0).Width = Width / 11 - 30
+    ucBINmon1(0).Left = 20  '''(i * (Width / 11)) + 20
+    ucBINmon1(0).Height = 12200
+    ucBINmon1(0).Visible = False '''= True
+    
+    
+    
+''    ucBINdps1(0).Width = Width / 11 - 30
+''    ucBINdps1(0).Left = 2000  ''20  '''(i * (Width / 11)) + 20
+''    ucBINdps1(0).Height = 6100  '''12200
+''    ucBINdps1(0).Visible = True
+    
+    For i = 1 To 9
+        Load ucBINdps1(i)
+        ''<--201706
     Next i
+    ''''''
+    For i = 0 To 9
+    
+        ucBINdps1(i).Top = 1400
 
-    For i = 0 To 10
+        ucBINdps1(i).Width = Width / 11 - 50
+        ucBINdps1(i).Left = (i * (Width / 11)) + 20 ''+ 1720
+        ucBINdps1(i).Height = 6100  '''12200
 
-        ucBINmon1(i).Width = Width / 11 - 30
-        ucBINmon1(i).Left = (i * (Width / 11)) + 20
-        ucBINmon1(i).Height = 12200
+        ucBINdps1(i).Visible = True
 
-        ucBINmon1(i).Visible = True
-        
         DoEvents
-        
+
     Next i
-
-    txtSD1.Left = 100
-    txtSD1.Top = Height - 1300
-    txtSD1.Width = Width - 200
-    txtSD1.Height = 1200
-
-
-    For i = 0 To 7
-        ''ipAddr(i) = "192.168.0.22"  ''151"
-        ipAddr(i) = "192.168.0.151"
-        ipPort(i) = Trim(Str(7001 + i))
-        
-        ucBINmon1(i).setIDX i, ipAddr(i), ipPort(i)
+'''''''''''
+    
+    
+    For i = 10 To 19
+        Load ucBINdps1(i)
     Next i
-    ''''
-    For i = 8 To 10
-        ''ipAddr(i) = "192.168.0.21"  ''152"
-        ipAddr(i) = "192.168.0.152"
-        ipPort(i) = Trim(Str(7001 + i - 8))
-        
-        ucBINmon1(i).setIDX i, ipAddr(i), ipPort(i)
+    ''''''
+    For i = 10 To 19
+    
+        ucBINdps1(i).Top = 7600
+
+        ucBINdps1(i).Width = Width / 11 - 50
+        ucBINdps1(i).Left = ((i - 10) * (Width / 11)) + 20 ''+ 1720
+        ucBINdps1(i).Height = 6100  '''12200
+
+        ucBINdps1(i).Visible = True
+
+        DoEvents
+
     Next i
     
-    For i = 0 To 10
-        ucBINmon1(i).setBinID
-        ucBINmon1(i).picCON_Cir1
-        
+    
+    txtSD1.Left = 100
+    txtSD1.Top = Height - 1600
+    txtSD1.Width = Width - 300
+    txtSD1.Height = 1300
+
+
+    For i = 0 To 19
+        ucBINdps1(i).setScanTYPE 211  '''LMS-211  '''LD-LRS-3100,, DPS-2590
+    Next i
+
+    ''ucBINdps1(0).setScanTYPE 2590  '''''LD-LRS-3100,, DPS-2590
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+''''   if      ( pos == 0 )''''      m_pLmsClient[pos]->Connect( "192.168.0.21", 7001);
+''''   else if ( pos == 1 )''''      m_pLmsClient[pos]->Connect( "192.168.0.21", 7002);
+''''   else if ( pos == 2 )''''      m_pLmsClient[pos]->Connect( "192.168.0.21", 7003);
+''''   else if ( pos == 3 )''''      m_pLmsClient[pos]->Connect( "192.168.0.21", 7004);
+''''   else if ( pos == 4 )''''      m_pLmsClient[pos]->Connect( "192.168.0.22", 7001);
+''''   else if ( pos == 5 )''''      m_pLmsClient[pos]->Connect( "192.168.0.22", 7002);
+''''   else if ( pos == 6 )''''      m_pLmsClient[pos]->Connect( "192.168.0.22", 7003);
+''''   else if ( pos == 7 )''''      m_pLmsClient[pos]->Connect( "192.168.0.22", 7004);
+''''   else if ( pos == 8 )''''      m_pLmsClient[pos]->Connect( "192.168.0.22", 7005);
+''''   else if ( pos == 9 )''''      m_pLmsClient[pos]->Connect( "192.168.0.22", 7006);
+''''
+''''//   else if ( pos == 10 )'''//  m_pLmsClient[pos]->Connect( "192.168.0.152", 7003);
+''''
+''''   /**
+''''   else if ( pos == 11 )''''      m_pLmsClient[pos]->Connect( "192.168.0.31", 7002);
+''''   else if ( pos == 12 )''''      m_pLmsClient[pos]->Connect( "192.168.0.31", 7003);
+''''   else if ( pos == 13 )''''      m_pLmsClient[pos]->Connect( "192.168.0.31", 7004);
+''''   else if ( pos == 14 )''''      m_pLmsClient[pos]->Connect( "192.168.0.32", 7001);
+''''   else if ( pos == 15 )''''      m_pLmsClient[pos]->Connect( "192.168.0.32", 7002);
+''''   else if ( pos == 16 )''''      m_pLmsClient[pos]->Connect( "192.168.0.32", 7003);
+''''   else if ( pos == 17 )''''      m_pLmsClient[pos]->Connect( "192.168.0.32", 7004);
+''''   else if ( pos == 18 )''''      m_pLmsClient[pos]->Connect( "192.168.0.32", 7005);
+''''   else if ( pos == 19 )''''      m_pLmsClient[pos]->Connect( "192.168.0.32", 7006);
+''''   **/
+
+''    For i = 0 To 7
+''        ''ipAddr(i) = "192.168.0.22"  ''151"
+''        ipAddr(i) = "192.168.0.151"
+''        ipPort(i) = Trim(Str(7001 + i))
+''
+''        ucBINmon1(i).setIDX i, ipAddr(i), ipPort(i)
+''    Next i
+''    ''''
+''    For i = 8 To 10
+''        ''ipAddr(i) = "192.168.0.21"  ''152"
+''        ipAddr(i) = "192.168.0.152"
+''        ipPort(i) = Trim(Str(7001 + i - 8))
+''
+''        ucBINmon1(i).setIDX i, ipAddr(i), ipPort(i)
+''    Next i
+''''''''''''''
+
+''    ipAddr(0) = "192.168.0.21"  ''ipAddr(0) = "192.168.0.22"  ''151"
+''    ipPort(0) = Trim(Str(7003))
+''    ucBINdps1(0).setIDX 0, ipAddr(0), ipPort(0)
+    ''
+    ucBINdps1(0).setIDX 0, "192.168.0.21", "7001"
+    ucBINdps1(1).setIDX 1, "192.168.0.21", "7002"
+    ucBINdps1(2).setIDX 2, "192.168.0.21", "7003"
+    ucBINdps1(3).setIDX 3, "192.168.0.21", "7004"
+    '''
+    ucBINdps1(4).setIDX 4, "192.168.0.22", "7001"
+    ucBINdps1(5).setIDX 5, "192.168.0.22", "7002"
+    ucBINdps1(6).setIDX 6, "192.168.0.22", "7003"
+    ucBINdps1(7).setIDX 7, "192.168.0.22", "7004"
+    ucBINdps1(8).setIDX 8, "192.168.0.22", "7005"
+    ucBINdps1(9).setIDX 9, "192.168.0.22", "7006"
+    
+    
+    
+    ''''    Serial port configuration : /serial/
+    ''''     No. Title Mode Port# Serial-Settings
+    ''''    1 Port #1 TCP 7001 RS_422 9600 N 8 1 None
+    ''''    2 Port #2 TCP 7002 RS_422 9600 N 8 1 None
+    ''''    3 Port #3 TCP 7003 RS_422 9600 N 8 1 None
+    ''''    4 Port #4 TCP 7004 RS_422 9600 N 8 1 None
+    ''''    5 Port #5 TCP 7005 RS_422 9600 N 8 1 None
+    ''''    6 Port #7 TCP 7007 RS_422 9600 N 8 1 None
+    ''''    7 Port #6 TCP 7006 RS_422 9600 N 8 1 None
+    ''''    8 Port #8 TCP 7008 RS_422 9600 N 8 1 None
+    ''''    Copyright 2005 Sena Technologies, Inc. All rights reserved.
+
+    ''''    Serial ports statistics
+    ''''    Port Baud Rate Tx Rx RTS CTS DTR DSR CD
+    ''''    1 9600 324 268760032
+    ''''    2 9600 276 268753348
+    ''''    3 9600 450 268758379
+    ''''    4 9600 359 268746696
+    ''''    5 9600 375 268768898
+    ''''    6 9600 0 0
+    ''''    7 9600 233 268745615
+    ''''    8 9600 0 0
+    ''''    Copyright 2005 Sena Technologies, Inc. All rights reserved.
+    
+    
+    ucBINdps1(10).setIDX 10, "192.168.0.31", "7001"
+    ucBINdps1(11).setIDX 11, "192.168.0.31", "7002"
+    ucBINdps1(12).setIDX 12, "192.168.0.31", "7003"
+    ucBINdps1(13).setIDX 13, "192.168.0.31", "7004"
+    '''
+    ucBINdps1(14).setIDX 14, "192.168.0.32", "7001"
+    ucBINdps1(15).setIDX 15, "192.168.0.32", "7002"
+    ucBINdps1(16).setIDX 16, "192.168.0.32", "7003"
+    ucBINdps1(17).setIDX 17, "192.168.0.32", "7004"
+    ucBINdps1(18).setIDX 18, "192.168.0.32", "7005"
+    ucBINdps1(19).setIDX 19, "192.168.0.32", "7006"
+    
+    
+    
+''    ucBINdps1(0).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(1).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(2).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(3).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(4).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(5).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(6).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(7).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(8).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(9).setOptionD "0", "0.53", "0.5"
+''
+''    ucBINdps1(10).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(11).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(12).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(13).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(14).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(15).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(16).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(17).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(18).setOptionD "0", "0.53", "0.5"
+''    ucBINdps1(19).setOptionD "0", "0.53", "0.5"
+    
+    For i = 0 To 19  '''''''''''''''''''''';201705
+        ucBINdps1(i).setOptionD "0", "0.6", "0.5"
+    Next i
+    
+    ucBINdps1(6).setOptionD "0", "0.49", "0.5"
+    ucBINdps1(7).setOptionD "0", "0.49", "0.5"
+    ucBINdps1(16).setOptionD "0", "0.49", "0.5"
+    ucBINdps1(17).setOptionD "0", "0.49", "0.5"
+    
+    
+    
+    
+    
+    
+''    ucBINdps1(0).setOptionD "200", "0.53", "0.5"
+''
+''    ucBINmon1(1).setOptionD "0", "0.53", "0.5"
+''    ucBINmon1(2).setOptionD "200", "0.53", "0.5"
+''    ucBINmon1(3).setOptionD "0", "0.53", "0.5"
+''    ucBINmon1(4).setOptionD "0", "0.53", "0.65"
+''    ucBINmon1(5).setOptionD "0", "0.53", "0.65"
+''    ucBINmon1(6).setOptionD "200", "0.53", "0.65"
+''    ucBINmon1(7).setOptionD "200", "0.44", "0.5"
+''    ucBINmon1(8).setOptionD "200", "0.44", "0.5"
+''    ucBINmon1(9).setOptionD "0", "0.53", "0.5"
+''    ucBINmon1(10).setOptionD "0", "0.53", "0.5"
+    
+
+    
+    For i = 0 To 19  '''''''''''''''''''''';201705
+        ucBINdps1(i).setBinID
+        ''ucBINdps1(i).picCON_Cir1
+        ''
         cboIDX.AddItem i + 1
     Next i
+    
+    
+    For i = 0 To 19  ''12소결  '''9 '''10
+        ucBINdps1(i).set_maxHH CLng(txtMaxHH)
+        '''''''''''''''''''''''
+        ucBINdps1(i).rxMode = 0  ''7
+        '''''''''''''''''''''''
+        ''ucBINmon1(i).runCONN
+    Next i
+'''''''''''
+'''    ucBINdps1(0).set_maxHH CLng(txtMaxHH)
+'''    '''''''''''''''''''''''
+'''    ucBINdps1(0).rxMode = 0  ''7
+    
+    
+    
+    
+    
+    '''''''[TEST]''''LD-LRS-3100,, DPS-2590
+    i = 20
+    Load ucBINdps1(i)
+    ''''''
+        ucBINdps1(i).Top = 4000  ''7600
+        ''
+        ucBINdps1(i).Width = Width / 11 - 50
+        ucBINdps1(i).Left = ((i - 10) * (Width / 11)) + 20 ''+ 1720
+        ucBINdps1(i).Height = 6100  '''12200
+        ''
+        ucBINdps1(i).Visible = True
+        ''
+        DoEvents
+
+        ucBINdps1(i).setScanTYPE 2590  '''''LD-LRS-3100,, DPS-2590
+        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        ucBINdps1(i).setIDX (i), "10.0.10.99", "8001"  ''"192.168.0.21", "7001"
+
+        ucBINdps1(i).setOptionD "0", "0.6", "0.5"
+
+        ucBINdps1(i).set_maxHH CLng(txtMaxHH)
+        ucBINdps1(i).setBinID
+        ''
+        ucBINdps1(i).rxMode = 0
+        
+        
+    
+    
     cboIDX.ListIndex = 0
     cboIDX.Refresh
     
-    
-    ucBINmon1(0).setOptionD "200", "0.53", "0.5"
-    ucBINmon1(1).setOptionD "0", "0.53", "0.5"
-    ucBINmon1(2).setOptionD "200", "0.53", "0.5"
-    ucBINmon1(3).setOptionD "0", "0.53", "0.5"
-    ucBINmon1(4).setOptionD "0", "0.53", "0.65"
-    ucBINmon1(5).setOptionD "0", "0.53", "0.65"
-    ucBINmon1(6).setOptionD "200", "0.53", "0.65"
-    ucBINmon1(7).setOptionD "200", "0.44", "0.5"
-    ucBINmon1(8).setOptionD "200", "0.44", "0.5"
-    ucBINmon1(9).setOptionD "0", "0.53", "0.5"
-    ucBINmon1(10).setOptionD "0", "0.53", "0.5"
-    
 
-    lbVS1.Caption = Screen.Width & "x" & Screen.Height _
-                    & ", " & ucBINmon1(0).Width & "x" & ucBINmon1(0).Height _
-                    & ", " & ucBINmon1(0).picGET_width & "x" & ucBINmon1(0).picGET_height
+    lbVS1.Caption = Screen.Width & "x" & Screen.Height
+'' _
+''                    & ", " & ucBINmon1(0).Width & "x" & ucBINmon1(0).Height _
+''                    & ", " & ucBINmon1(0).picGET_width & "x" & ucBINmon1(0).picGET_height
+
+
+    BINLog vbCrLf & vbCrLf & Format(Now, "YYYYMMDD-hh:mm:ss") & " ====[SILO BIN-LEVEL START]===" & vbCrLf, "1소결"
+    BINLog vbCrLf & vbCrLf & Format(Now, "YYYYMMDD-hh:mm:ss") & " ====[SILO BIN-LEVEL START]===" & vbCrLf, "2소결"
+
 
 
     tmrINIT.Interval = 5000
@@ -692,17 +974,6 @@ Dim i As Integer
     
     txtMaxHH.Enabled = False
     
-    For i = 0 To 10
-        
-        ucBINmon1(i).set_maxHH CLng(txtMaxHH)
-    
-        '''''''''''''''''''''''
-        ucBINmon1(i).rxMode = 0  ''7
-        '''''''''''''''''''''''
-        
-        ''ucBINmon1(i).runCONN
-        
-    Next i
 
 ''        cmdRunStop.BackColor = &H80&    ''stop
 ''        cmdRunStop_Click                ''<<RUN>>''
@@ -721,102 +992,188 @@ Private Sub tmrAoDo_Timer()
 Dim i As Integer
 Dim ioD(33) As Integer
 Dim str1 As String
+Dim str2 As String
 
-    ioD(0) = ucBINmon1(0).ret_AOd  ''32768 * 0.05       ''1
-    ioD(1) = ucBINmon1(1).ret_AOd   ''32768 * 0.1        ''2
-    ioD(2) = ucBINmon1(2).ret_AOd   ''32768 * 0.15       ''3
-    ioD(3) = 1 ''0
 
-    ioD(4) = ucBINmon1(3).ret_AOd   ''32768 * 0.2        ''4
-    ioD(5) = ucBINmon1(4).ret_AOd   ''32768 * 0.25       ''5
-    ioD(6) = ucBINmon1(5).ret_AOd   ''32768 * 0.3        ''6
-    ioD(7) = 1 ''0
+Dim aaD(33) As Integer
 
-    ioD(8) = ucBINmon1(6).ret_AOd   ''32768 * 0.35       ''7
-    ioD(9) = ucBINmon1(7).ret_AOd   ''32768 * 0.4        ''8
-    ioD(10) = ucBINmon1(8).ret_AOd   ''32768 * 0.45      ''9
-    ioD(11) = 1 ''0
-
-    ioD(12) = ucBINmon1(9).ret_AOd   ''32768 * 0.5       ''10
-    ioD(13) = ucBINmon1(10).ret_AOd   ''32768 * 0.55      ''11
-    ''''''''''''''''''''''''''''''''''''
-    ioD(14) = ioD(0)      ''1
-    ioD(15) = 1 ''0
-
-    ioD(16) = ioD(1)       ''2
-    ioD(17) = ioD(2)      ''3
-    ioD(18) = ioD(4)      ''4
-    ioD(19) = 1 ''0
-
-    ioD(20) = ioD(5)      ''5
-    ioD(21) = ioD(6)       ''6
-    ioD(22) = ioD(8)      ''7
-    ioD(23) = 1 ''0
-
-    ioD(24) = ioD(9)      ''8
-    ioD(25) = ioD(10)      ''9
-    ioD(26) = ioD(12)       ''10
-    ioD(27) = 1 ''0
-
-    ioD(28) = ioD(13)      ''11
-    ioD(29) = 1 ''0
-    ioD(30) = 1 ''0
-    ioD(31) = 1 ''0
-    
-    
-    For i = 0 To 31
-''--------------------------------------------------------(Temp)
-''        If (ioD(i) > 0) And (ioD(i) <= 32767) Then
-''            AOdata(i) = ioD(i)
-''        Else
-''            Exit Sub
-''            ''=========>> Cancle for Next~~ /(protect_Zero_send)
-''        End If
-''--------------------------------------------------------(Temp)
-
-        AOdata(i) = ioD(i)
-        ''''''''''''''''''
+    For i = 0 To 19
+        aaD(i) = ucBINdps1(i).ret_AOd
+        '''''''''''''''''''''''''''''
     Next i
     
-    
-    If Len(txtSD1) > 6000 Then
-        txtSD1 = Mid(txtSD1, 3000)
-    End If
-    txtSD1 = txtSD1 & vbCrLf
-    
-    str1 = ""
-    For i = 0 To 13  ''31
-        str1 = str1 & " [" & Format((i + 1), "00") & "]" & Format(AOdata(i), "00000")
+    ''SAVE--First!!
+    For i = 0 To 19
+        If (aaD(i) > 0) And (aaD(i) < 32768) Then
+            SaveSetting App.Title, "Settings", "AV_" & Trim(i), aaD(i)
+        Else
+            aaD(i) = GetSetting(App.Title, "Settings", "AV_" & Trim(i), 32767)  ''0
+        End If
     Next i
-    txtSD1 = txtSD1 & str1
-    txtSD1.SelStart = Len(txtSD1)
 
 
-On Error GoTo wsErrADS
+        ioD(0) = aaD(0)  ''ucBINdps1(0).ret_AOd
+        ioD(1) = aaD(1)  ''ucBINdps1(1).ret_AOd
+        ioD(2) = aaD(2)  ''ucBINdps1(2).ret_AOd
+        ioD(3) = 1 ''0
 
-    AdsOcx1.AdsAmsServerNetId = "172.16.21.20.1.1"   '''AdsOcx1.AdsAmsClientNetId
-    AdsOcx1.AdsAmsServerPort = 800
-    AdsOcx1.EnableErrorHandling = True
-    
-    AdsOcx1.AdsSyncWriteReq &HF020&, &H64&, 64, AOdata  ''ioD
+        ioD(4) = aaD(3)  ''ucBINdps1(3).ret_AOd
+        ioD(5) = aaD(4)  ''ucBINdps1(4).ret_AOd
+        ioD(6) = aaD(5)  ''ucBINdps1(5).ret_AOd
+        ioD(7) = 1 ''0
+
+        ioD(8) = aaD(6)  ''ucBINdps1(6).ret_AOd
+        ioD(9) = aaD(7)  ''ucBINdps1(7).ret_AOd
+        ioD(10) = aaD(8)  ''ucBINdps1(8).ret_AOd
+        ioD(11) = 1 ''0
+
+        ioD(12) = aaD(9)  ''ucBINdps1(9).ret_AOd
+        ''''''''''''''''''''''''''''''''''''
+        ioD(13) = ioD(0)
+        ioD(14) = ioD(1)
+        ioD(15) = 1
+
+        ioD(16) = ioD(2)
+        ioD(17) = ioD(4)
+        ioD(18) = ioD(5)
+        ioD(19) = 1
+
+        ioD(20) = ioD(6)
+        ioD(21) = ioD(8)
+        ioD(22) = ioD(9)
+        ioD(23) = 1
+
+        ioD(24) = ioD(10)
+        ioD(25) = ioD(12)
+        ioD(26) = 1
+        ioD(27) = 1
+''''
+
+        For i = 0 To 27 ''31
+    ''--------------------------------------------------------(Temp)
+    ''        If (ioD(i) > 0) And (ioD(i) <= 32767) Then
+    ''            AOdata(i) = ioD(i)
+    ''        Else
+    ''            Exit Sub
+    ''            ''=========>> Cancle for Next~~ /(protect_Zero_send)
+    ''        End If
+    ''--------------------------------------------------------(Temp)
+
+            AOdata(i) = ioD(i)
+            ''''''''''''''''''
+        Next i
+
+
+        ioD(0) = aaD(10)  ''ucBINdps1(10).ret_AOd
+        ioD(1) = aaD(11)  ''ucBINdps1(11).ret_AOd
+        ioD(2) = aaD(12)  ''ucBINdps1(12).ret_AOd
+        ioD(3) = 1 ''0
+
+        ioD(4) = aaD(13)  ''ucBINdps1(13).ret_AOd
+        ioD(5) = aaD(14)  ''ucBINdps1(14).ret_AOd
+        ioD(6) = aaD(15)  ''ucBINdps1(15).ret_AOd
+        ioD(7) = 1 ''0
+
+        ioD(8) = aaD(16)  ''ucBINdps1(16).ret_AOd
+        ioD(9) = aaD(17)  ''ucBINdps1(17).ret_AOd
+        ioD(10) = aaD(18)  ''ucBINdps1(18).ret_AOd
+        ioD(11) = 1 ''0
+
+        ioD(12) = aaD(19)  ''ucBINdps1(19).ret_AOd
+        ''''''''''''''''''''''''''''''''''''
+        ioD(13) = ioD(0)
+        ioD(14) = ioD(1)
+        ioD(15) = 1
+
+        ioD(16) = ioD(2)
+        ioD(17) = ioD(4)
+        ioD(18) = ioD(5)
+        ioD(19) = 1
+
+        ioD(20) = ioD(6)
+        ioD(21) = ioD(8)
+        ioD(22) = ioD(9)
+        ioD(23) = 1
+
+        ioD(24) = ioD(10)
+        ioD(25) = ioD(12)
+        ioD(26) = 1
+        ioD(27) = 1
+''''
+        For i = 0 To 27 ''31
+            AOdata2(i) = ioD(i)
+            ''''''''''''''''''
+        Next i
+
+
+        If Len(txtSD1) > 6000 Then
+            txtSD1 = Mid(txtSD1, 3000)
+        End If
+        txtSD1 = txtSD1 & vbCrLf & vbCrLf
+
+        str1 = " <1> "
+        For i = 0 To 12  ''31
+            str1 = str1 & " [1-" & Format((i + 1), "00") & "]" & Format(AOdata(i), "00000")
+        Next i
+        txtSD1 = txtSD1 & Format(Now, "YYYYMMDD-hh:mm:ss") & str1 & vbCrLf
+        str2 = " <2> "
+        For i = 0 To 12
+            str2 = str2 & " [2-" & Format((i + 1), "00") & "]" & Format(AOdata2(i), "00000")
+        Next i
+        txtSD1 = txtSD1 & Format(Now, "YYYYMMDD-hh:mm:ss") & str2
+        txtSD1.SelStart = Len(txtSD1)
+        
+
+        ''BINLog vbCrLf, "12소결"
+        BINLog str1, "1소결"
+        BINLog str2, "2소결"
+        
+
+    On Error GoTo wsErrADS
+
+''''        AdsOcx1.AdsAmsServerNetId = "172.16.21.20.1.1"   '''AdsOcx1.AdsAmsClientNetId
+''''        AdsOcx1.AdsAmsServerPort = 800
+''''        AdsOcx1.EnableErrorHandling = True
+''''        '''''''
+''''        AdsOcx1.AdsSyncWriteReq &HF020&, &H64&, 64, AOdata  ''ioD
+
+        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0"
+        AdsOcx1.AdsAmsServerPort = 301  ''800  ''1소결!!
+        AdsOcx1.EnableErrorHandling = True
+        ''''
+        AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata
+        
+        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0"
+        AdsOcx1.AdsAmsServerPort = 302  ''800  ''2소결!!
+        AdsOcx1.EnableErrorHandling = True
+        ''''
+        AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata2
+
 
 wsErrADS:
-    '''''Just-Cancle...for next
+        '''''Just-Cancle...for next
 
-    txtWSpcs = wsPcs.State
-    
-    If wsPcs.State = sckConnected Then
-        '''''''''''''
-        EditPcsData 5
-        '''''''''''''
-    End If
-    
+        txtWSpcs = wsPcs.State
+
+        If wsPcs.State = sckConnected Then
+            '''''''''''''
+            EditPcsData 1
+            ''DoEvents
+            '''''''''''''
+            EditPcsData 2
+            ''DoEvents
+            '''''''''''''
+        End If
+''''
 End Sub
 
 
 Private Sub EditPcsData(Pno As Integer)
 
-Dim sendbuf(2295) As Byte  ''Variant
+'''Dim sendbuf(2295) As Byte  ''Variant  ''BIN5
+Dim sendbuf(2087) As Byte  ''Variant  <--1,2소결 '''2088
+
+
 Dim i As Integer
 Dim j As Integer
 Dim cnt1 As Integer
@@ -824,6 +1181,8 @@ Dim ret1 As Integer
 Dim str1 As String
 Dim L8 As Byte
 Dim H8 As Byte
+'''
+Dim posUCidx As Integer
 
 
 ''struct SENDBUF
@@ -850,45 +1209,56 @@ Dim H8 As Byte
 '   sendbuf.plant = Plant;
 
     sendbuf(0) = &H22:    sendbuf(1) = &H11     ''Header
-    sendbuf(2) = &HF8:    sendbuf(3) = &H8      ''Size
-    sendbuf(4) = &H5:     sendbuf(5) = &H0      ''Plant-No
+    sendbuf(2) = &H28:    sendbuf(3) = &H8      ''Size <--1,2소결 '''2088==0x0828
+    sendbuf(4) = &H1:     sendbuf(5) = &H0      ''Plant-No
     sendbuf(6) = &H0:     sendbuf(7) = &H0      ''spare
 
+    If Pno = 2 Then
+        sendbuf(4) = &H2  ''Plant-No
+        posUCidx = 10
+    ElseIf Pno = 1 Then
+        sendbuf(4) = &H1  ''Plant-No
+        posUCidx = 0
+    Else
+        Exit Sub  ''===>>>
+    End If
 
-    For i = 0 To 10
-        sendbuf(8 + i * 2) = CByte(ucBINmon1(i).ret_Act)   ''BIN_Comm_Act
+
+
+    For i = 0 To 9
+        sendbuf(8 + i * 2) = CByte(ucBINdps1(i + posUCidx).ret_Act) ''BIN_Comm_Act
         sendbuf(8 + i * 2 + 1) = &H0
         
 ''        If sendbuf(8 + i * 2) < 1 Then
 ''            Exit Sub ''=======================>>>Cancle PCS!!!
 ''        End If
-        
     Next i
-    For i = 0 To 10
-        sendbuf(30 + i * 2) = CByte(ucBINmon1(i).ret_HH Mod 256)
-        sendbuf(30 + i * 2 + 1) = CByte(ucBINmon1(i).ret_HH / 256) ''Height...AVR
+    For i = 0 To 9
+        sendbuf(28 + i * 2) = CByte(ucBINdps1(i + posUCidx).ret_HH Mod 256)
+        sendbuf(28 + i * 2 + 1) = CByte(ucBINdps1(i + posUCidx).ret_HH / 256) ''Height...AVR
     Next i
-    For i = 0 To 10
-        sendbuf(52 + i * 2) = CByte(ucBINmon1(i).ret_VV Mod 256)
-        sendbuf(52 + i * 2 + 1) = CByte(ucBINmon1(i).ret_VV / 256) ''VVV...AVR
+    For i = 0 To 9
+        sendbuf(48 + i * 2) = CByte(ucBINdps1(i + posUCidx).ret_VV Mod 256)
+        sendbuf(48 + i * 2 + 1) = CByte(ucBINdps1(i + posUCidx).ret_VV / 256) ''VVV...AVR
     Next i
     ''74''((+(11*202)==2222==>((2296))
-    For j = 0 To 10
-      If ucBINmon1(j).ret_Act > 0 Then
+    For j = 0 To 9
+      If ucBINdps1(j + posUCidx).ret_Act > 0 Then
       ''''''''''''''''''''''''''''''''
         For i = 0 To 100
-            ret1 = ucBINmon1(j).GETscanD(i)
+            ret1 = ucBINdps1(j + posUCidx).GETscanD(i)
             ''''''''''''''''''''''''''''''''''scan_Data''
             L8 = CByte(ret1 Mod 256)
             H8 = CByte(ret1 / 256)
-            cnt1 = 74 + (j * 202) + (i * 2)
+            cnt1 = 68 + (j * 202) + (i * 2)
             sendbuf(cnt1) = L8
             sendbuf(cnt1 + 1) = H8
         Next i
       Else
+        cnt1 = 68 + (j * 202)   '''201705~
         For i = 0 To 100
-            sendbuf(cnt1) = 0
-            sendbuf(cnt1 + 1) = 0
+            sendbuf(cnt1 + (i * 2)) = 0:
+            sendbuf(cnt1 + (i * 2) + 1) = 0
         Next i
       End If
     Next j
@@ -920,11 +1290,15 @@ Private Sub tmrINIT_Timer()
     tmrINIT.Enabled = False
     
     Dim i
-    For i = 0 To 10
-        ucBINmon1(i).picCON_Cir1
-    Next i
+    
+''    For i = 0 To 10
+''        ucBINmon1(i).picCON_Cir1
+''    Next i
+'''''''''''''''
+    ''ucBINmon1(0).picCON_Cir1
+    
 
-    tmrAoDo.Interval = 1000
+    tmrAoDo.Interval = 2000  '''3000  '''1000
     tmrAoDo.Enabled = True
     
     tmrPcs.Interval = 3000
@@ -955,13 +1329,10 @@ Private Sub tmrPcs_Timer()
 End Sub
 
 
-Private Sub ucBINmon1_upDXY(Index As Integer)
-    ''ucBINmon1(Index).ret_SDXY
-End Sub
+''Private Sub ucBINmon1_upDXY(Index As Integer)
+''    ''ucBINmon1(Index).ret_SDXY
+''End Sub
 
-Private Sub ucBINmon1_Click(Index As Integer)
-
-End Sub
 
 Private Sub wsPcs_DataArrival(ByVal bytesTotal As Long)
 Dim rBuf As Variant

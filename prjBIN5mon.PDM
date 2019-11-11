@@ -4,7 +4,7 @@ Most Recent Package=Standard Setup Package 1
 
 [Package|Standard Setup Package 1|Root]
 SubWizProgID=PDWizard.SetupPkgSubWiz
-BuildFolder=D:\SRC\BIN5mon\BIN5mon.044\Package
+BuildFolder=C:\tmp\ddddd\DPS_2D_LASER\Package
 
 [Package|Standard Setup Package 1|Configure DAO ISAMs]
 Applicable=No
@@ -27,12 +27,7 @@ C:\WINDOWS\system32\AdsOcx.ocx=
 [Package|Standard Setup Package 1|Files Removed]
 
 [Package|Standard Setup Package 1|Files In Project]
-D:\SRC\BIN5mon\BIN5mon.044\BIN5mon.exe=Yes
 C:\WINDOWS\system32\msvbvm60.dll=Yes
-C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
-C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
-C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
-C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
 C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
 C:\WINDOWS\system32\VB6KO.DLL=Yes
 C:\WINDOWS\system32\MSWINSCK.OCX=Yes
@@ -42,6 +37,11 @@ C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
 C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
 C:\WINDOWS\system32\Vb6stkit.dll=Yes
 C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+C:\tmp\ddddd\DPS_2D_LASER\BIN5mon.053toDPS-029\BIN5mon.exe=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
 
 [Package|Standard Setup Package 1|Configure Registry Files]
 Applicable=No
@@ -65,10 +65,18 @@ C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPa
 C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
 C:\WINDOWS\system32\Vb6stkit.dll=$(WinSysPathSysFile)
 C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+C:\tmp\ddddd\DPS_2D_LASER\BIN5mon.053toDPS-028\BIN5mon.exe=$(AppPath)
+C:\WINDOWS\system32\oleaut32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\olepro32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\asycfilt.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\stdole2.tlb=$(WinSysPathSysFile)
+C:\tmp\ddddd\DPS_2D_LASER\BIN5mon.053toDPS-029\BIN5mon.exe=$(AppPath)
 
 [Package|Standard Setup Package 1|Configure Shared Files]
 Applicable=Yes
 D:\SRC\BIN5mon\BIN5mon.044\BIN5mon.exe=No
+C:\tmp\ddddd\DPS_2D_LASER\BIN5mon.053toDPS-028\BIN5mon.exe=No
+C:\tmp\ddddd\DPS_2D_LASER\BIN5mon.053toDPS-029\BIN5mon.exe=No
 
 [Package|Standard Setup Package 1|Distribution]
 Type=single
@@ -77,7 +85,7 @@ Title=BIN5mon
 
 [Package|Standard Setup Package 1|IconGroups]
 Group0=BIN5mon
-PrivateGroup0=-1
+PrivateGroup0=0
 Parent0=$(Programs)
 
 [Package|Standard Setup Package 1|BIN5mon]
@@ -87,11 +95,11 @@ StartIn1=$(AppPath)
 Key1=Icon1
 
 [Package|Standard Setup Package 1|Package]
-PackageFolder=D:\SRC\BIN5mon\BIN5mon.044\Package
-ProjectFolder=D:\SRC\BIN5mon\BIN5mon.044
+PackageFolder=C:\tmp\ddddd\DPS_2D_LASER\Package
+ProjectFolder=C:\tmp\ddddd\DPS_2D_LASER\BIN5mon.053toDPS-029
 ServerSideCab=
-File1=D:\SRC\BIN5mon\BIN5mon.044\Package\setup.exe
-File2=D:\SRC\BIN5mon\BIN5mon.044\Package\Setup.Lst
-File3=D:\SRC\BIN5mon\BIN5mon.044\Package\BIN5mon.CAB
+File1=C:\tmp\ddddd\DPS_2D_LASER\Package\setup.exe
+File2=C:\tmp\ddddd\DPS_2D_LASER\Package\Setup.Lst
+File3=C:\tmp\ddddd\DPS_2D_LASER\Package\BIN5mon.CAB
 Handler1=PDWizard.FolderDplySubWiz
 Handler2=PDWizard.WebPostDplySubWiz

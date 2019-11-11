@@ -1078,7 +1078,7 @@ Private Sub tmrRun_Timer()
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''WDT
     
     If (rxMode = 0) And (tmrWS.Enabled = False) Then
-        tmrWS.Interval = 2000
+        tmrWS.Interval = 5000 '''2000
         tmrWS.Enabled = True
     ElseIf (rxMode = 1) And (wsock1.State = sckConnected) Then   ''re_1sec~
         wsock1.SendData stopString  ''scan_STOP
