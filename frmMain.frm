@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
-Object = "{40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0"; "Adsocx.ocx"
+Object = "{40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0"; "AdsOcx.ocx"
 Begin VB.Form frmMain 
    AutoRedraw      =   -1  'True
    BackColor       =   &H00404000&
@@ -18,15 +18,15 @@ Begin VB.Form frmMain
    ScaleHeight     =   12885
    ScaleWidth      =   13590
    Begin ADSOCXLib.AdsOcx AdsOcx1 
-      Left            =   4800
-      Top             =   1560
+      Left            =   8280
+      Top             =   1200
       _Version        =   131074
       _ExtentX        =   900
       _ExtentY        =   953
       _StockProps     =   0
       AdsAmsServerNetId=   "172.16.21.20.1.1"
       AdsAmsServerPort=   800
-      AdsAmsClientPort=   33007
+      AdsAmsClientPort=   32945
       AdsClientType   =   ""
       AdsClientAdsState=   ""
       AdsClientAdsControl=   ""
@@ -90,6 +90,7 @@ Begin VB.Form frmMain
       Width           =   1335
    End
    Begin VB.TextBox txtWSpcs 
+      BackColor       =   &H00FF00FF&
       Enabled         =   0   'False
       Height          =   270
       Left            =   120
@@ -128,7 +129,7 @@ Begin VB.Form frmMain
    Begin VB.CommandButton cmdADSclr 
       Caption         =   "ADSclr"
       Height          =   255
-      Left            =   4080
+      Left            =   8880
       TabIndex        =   7
       Top             =   1320
       Visible         =   0   'False
@@ -137,7 +138,7 @@ Begin VB.Form frmMain
    Begin VB.CommandButton cmdADS1 
       Caption         =   "ADS1"
       Height          =   255
-      Left            =   5040
+      Left            =   9840
       TabIndex        =   6
       Top             =   1320
       Visible         =   0   'False
@@ -269,6 +270,16 @@ Begin VB.Form frmMain
          Width           =   1935
       End
    End
+   Begin VB.Label lbTimeNow 
+      BackStyle       =   0  '투명
+      Caption         =   "RunTime"
+      ForeColor       =   &H00FFC0FF&
+      Height          =   255
+      Left            =   4320
+      TabIndex        =   22
+      Top             =   1200
+      Width           =   3015
+   End
    Begin VB.Label Label1 
       BackStyle       =   0  '투명
       Caption         =   "MaxHigh:"
@@ -281,10 +292,10 @@ Begin VB.Form frmMain
    End
    Begin VB.Label lbUpTime 
       BackStyle       =   0  '투명
-      Caption         =   "UpTime"
+      Caption         =   "Up_Time"
       ForeColor       =   &H00FFC0FF&
       Height          =   255
-      Left            =   4440
+      Left            =   4320
       TabIndex        =   16
       Top             =   960
       Width           =   3015
@@ -637,7 +648,8 @@ Dim i As Integer
        End
     End If
     
-    lbUpTime.Caption = "UpTime: " & Format(Now, "YYYY-MM-DD h:m:s")
+    lbUpTime.Caption = "Up_Time: " & Format(Now, "YYYY-MM-DD h:m:s")
+    lbTimeNow.Caption = "RunTime: " & Format(Now, "YYYY-MM-DD h:m:s")
     
     frmMain.AutoRedraw = True
 
@@ -751,22 +763,6 @@ Dim i As Integer
     txtSD1.Top = Height - 1600
     txtSD1.Width = Width - 300
     txtSD1.Height = 1300
-
-
-
-    
-    For i = 0 To 19
-        BinTYPE(i) = GetSetting(App.Title, "Settings", "BINtype_" & Trim(i), 211)
-        '''''''
-        SaveSetting App.Title, "Settings", "BINtype_" & Trim(i), BinTYPE(i)
-    Next i
-
-    For i = 0 To 19
-        ucBINdps1(i).setScanTYPE BinTYPE(i) ''' 211  '''LMS-211  '''LD-LRS-3100,, DPS-2590
-    Next i
-
-    ''ucBINdps1(0).setScanTYPE 2590  '''''LD-LRS-3100,, DPS-2590
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 
 ''''   if      ( pos == 0 )''''      m_pLmsClient[pos]->Connect( "192.168.0.21", 7001);
@@ -925,9 +921,22 @@ Dim i As Integer
         ''
         cboIDX.AddItem i + 1
     Next i
+
     
-    
-    
+    For i = 0 To 19
+        BinTYPE(i) = GetSetting(App.Title, "Settings", "BINtype_" & Trim(i), 211)
+        '''''''
+        '''SaveSetting App.Title, "Settings", "BINtype_" & Trim(i), BinTYPE(i)
+    Next i
+    '''
+    For i = 0 To 19
+        ucBINdps1(i).setScanTYPE BinTYPE(i) ''' 211  '''LMS-211  '''LD-LRS-3100,, DPS-2590
+    Next i
+
+    ''ucBINdps1(0).setScanTYPE 2590  '''''LD-LRS-3100,, DPS-2590
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   
+
     For i = 0 To 19
         BinMaxH(i) = GetSetting(App.Title, "Settings", "MaxH_" & Trim(i), 1850)
         '''''''
@@ -1019,6 +1028,8 @@ Dim str2 As String
 
 
 Dim aaD(33) As Integer
+
+    lbTimeNow.Caption = "RunTime: " & Format(Now, "YYYY-MM-DD h:m:s")
 
     For i = 0 To 19
         aaD(i) = ucBINdps1(i).ret_AOd
@@ -1136,12 +1147,14 @@ Dim aaD(33) As Integer
 
         str1 = " <1> "
         For i = 0 To 12  ''31
-            str1 = str1 & " [1-" & Format((i + 1), "00") & "]" & Format(AOdata(i), "00000")
+            ''str1 = str1 & " [1-" & Format((i + 1), "00") & "]" & Format(AOdata(i), "00000")
+            str1 = str1 & " [1-" & Format((i + 1), "00") & "]" & Format(CLng(AOdata(i)) * 100 / 32768, "00.0")
         Next i
         txtSD1 = txtSD1 & Format(Now, "YYYYMMDD-hh:mm:ss") & str1 & vbCrLf
         str2 = " <2> "
         For i = 0 To 12
-            str2 = str2 & " [2-" & Format((i + 1), "00") & "]" & Format(AOdata2(i), "00000")
+            ''str2 = str2 & " [2-" & Format((i + 1), "00") & "]" & Format(AOdata2(i), "00000")
+            str2 = str2 & " [2-" & Format((i + 1), "00") & "]" & Format(CLng(AOdata2(i)) * 100 / 32768, "00.0")
         Next i
         txtSD1 = txtSD1 & Format(Now, "YYYYMMDD-hh:mm:ss") & str2
         txtSD1.SelStart = Len(txtSD1)
@@ -1186,6 +1199,9 @@ wsErrADS:
             EditPcsData 2
             ''DoEvents
             '''''''''''''
+            txtWSpcs.BackColor = vbGreen
+        Else
+            txtWSpcs.BackColor = vbRed  ''&HFF00FF
         End If
 ''''
 End Sub

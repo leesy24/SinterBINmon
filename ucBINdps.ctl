@@ -16,7 +16,7 @@ Begin VB.UserControl ucBINdps
    Begin VB.TextBox txtTypes 
       Alignment       =   2  '가운데 맞춤
       Appearance      =   0  '평면
-      BackColor       =   &H00FFFFC0&
+      BackColor       =   &H00C0FFC0&
       BorderStyle     =   0  '없음
       Enabled         =   0   'False
       Height          =   255
@@ -479,11 +479,16 @@ Private Declare Function Polygon Lib "gdi32" (ByVal hdc As Long, lpPoint As POIN
 Public Sub setScanTYPE(iScan As Integer)  '''LD-LRS-3100,, DPS-2590
     ScanTYPE = iScan
     
-    txtTypes = iScan
+    txtTypes = ScanTYPE  ''iScan
     
     SaveSetting App.Title, "Settings", "BINtype_" & Trim(UCindex), ScanTYPE
     ''SaveSetting
 
+    If (txtTypes = 2590) Then
+        txtTypes.BackColor = &HC0FFC0
+    Else
+        txtTypes.BackColor = &HFFFFC0
+    End If
 
     
 ''''    If ScanTYPE = 2590 Then
@@ -520,6 +525,12 @@ Private Sub cmdHmax_Click()
         cmdHmax.BackColor = vbGreen
         txtHmax.Enabled = True
         txtTypes.Enabled = True
+    End If
+    
+    If (txtTypes = 2590) Then
+        txtTypes.BackColor = &HC0FFC0
+    Else
+        txtTypes.BackColor = &HFFFFC0
     End If
     
 End Sub
@@ -1207,11 +1218,20 @@ Private Sub tmrRun_Timer()
         wsACT = False
         cmdCONN.BackColor = vbRed
     End If
+    
+    If txtMode = 7 Then
+        txtMode.BackColor = &HFF8080
+    Else
+        txtMode.BackColor = vbRed
+    End If
+    
 
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''WDT
     tmrRunWDTcnt = tmrRunWDTcnt + 1
     If tmrRunWDTcnt > 10 Then  ''5
+        wsock1.Close  '''(20170708)~
+        ''''''''''''
         rxMode = 0
         tmrWS.Enabled = False   '''===>@tmrRun :: Restart!!!!!!!!!!
         tmrRunWDTcnt = 0
@@ -1359,6 +1379,8 @@ Private Sub tmrScan1_Timer()  '''Resend~~~
     
     
     If rxMode < 7 Then
+        wsock1.Close  '''(20170708)~
+        ''''''''''''
         rxMode = 0              ''''ReStart!!!!
         tmrWS.Enabled = False   ''''(063)
     End If
@@ -1369,14 +1391,16 @@ End Sub
 
 
 Private Sub tmrWDT_Timer()
-
-    If tmrRun.Enabled = True Then  '''RUN-MODE'''
+'''
+'''    If tmrRun.Enabled = True Then  '''RUN-MODE'''
     
+        wsock1.Close  '''(20170708)~
+        ''''''''''''
         rxMode = 0
         tmrWS.Enabled = False   '''===>@tmrRun :: Restart!!!!!!!!!!
         
-    End If
-
+'''    End If
+'''
 End Sub
 
 
@@ -1911,7 +1935,7 @@ Private Sub wsock1_DataArrival(ByVal bytesTotal As Long)
                 scanD(n1) = 499
             End If
             
-            If scanD(n1) > 50000 Then
+            If scanD(n1) > 30000 Then  '''50000 ''Err~32767~~
                 scanD(n1) = 999
             End If
 
@@ -2448,7 +2472,9 @@ Dim DsumR As Long
             scanDD(i) = scanD(i)
     Next i
     ''''
-    If (UCindex < 10) And (picPASScnt = 0) Then
+    ''If (UCindex < 10) And (picPASScnt = 0) And (ScanTYPE = 211) Then  ''20170708~
+    ''If (UCindex > 0) And (UCindex < 10) And (picPASScnt = 0) Then   ''20170708~
+    If (UCindex < 10) And (picPASScnt = 0) Then   ''20170708~
         For i = 0 To 100
                 scanD(i) = scanDD(100 - i)
         Next i
