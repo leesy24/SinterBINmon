@@ -1025,8 +1025,8 @@ Public Function ret_VV() As Integer
     End If
 End Function
 
-Public Function GETscanD(ang As Integer) As Integer
-    GETscanD = CInt(scanDfilt(ang))   '' / 10)
+Public Function GETscanD(ang As Integer) As Long
+    GETscanD = CLng(scanDfilt(ang))   '' / 10)
 End Function
 
 Public Sub set_maxHH(hh As Long)

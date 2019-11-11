@@ -5,7 +5,7 @@ Begin VB.Form frmMain
    AutoRedraw      =   -1  'True
    BackColor       =   &H00404000&
    BorderStyle     =   1  '단일 고정
-   Caption         =   "BIN5_Monitor"
+   Caption         =   "BIN5_Monitor_180719"
    ClientHeight    =   12885
    ClientLeft      =   45
    ClientTop       =   330
@@ -26,7 +26,7 @@ Begin VB.Form frmMain
       _StockProps     =   0
       AdsAmsServerNetId=   "172.16.21.20.1.1"
       AdsAmsServerPort=   800
-      AdsAmsClientPort=   32836
+      AdsAmsClientPort=   32807
       AdsClientType   =   ""
       AdsClientAdsState=   ""
       AdsClientAdsControl=   ""
@@ -76,7 +76,7 @@ Begin VB.Form frmMain
       Height          =   270
       Left            =   1800
       TabIndex        =   14
-      Text            =   "8002"
+      Text            =   "8001"
       Top             =   960
       Width           =   615
    End
@@ -224,7 +224,7 @@ Begin VB.Form frmMain
          Appearance      =   0  '평면
          BackColor       =   &H80000005&
          BackStyle       =   0  '투명
-         Caption         =   "[3,4소결] BIN LEVEL MONITORING"
+         Caption         =   "[1,2소결] BIN LEVEL MONITORING"
          BeginProperty Font 
             Name            =   "Arial Black"
             Size            =   21.75
@@ -811,17 +811,17 @@ Dim i As Integer
 ''    ipPort(0) = Trim(Str(7003))
 ''    ucBINdps1(0).setIDX 0, ipAddr(0), ipPort(0)
     ''
-    ucBINdps1(0).setIDX 0, "192.168.0.41", "7001"  ''<==(34BIN) :: .21", "7001" (12BIN)
-    ucBINdps1(1).setIDX 1, "192.168.0.41", "7002"
-    ucBINdps1(2).setIDX 2, "192.168.0.41", "7003"
-    ucBINdps1(3).setIDX 3, "192.168.0.41", "7004"
+    ucBINdps1(0).setIDX 0, "192.168.0.21", "7001"
+    ucBINdps1(1).setIDX 1, "192.168.0.21", "7002"
+    ucBINdps1(2).setIDX 2, "192.168.0.21", "7003"
+    ucBINdps1(3).setIDX 3, "192.168.0.21", "7004"
     '''
-    ucBINdps1(4).setIDX 4, "192.168.0.42", "7001"
-    ucBINdps1(5).setIDX 5, "192.168.0.42", "7002"
-    ucBINdps1(6).setIDX 6, "192.168.0.42", "7003"
-    ucBINdps1(7).setIDX 7, "192.168.0.42", "7004"
-    ucBINdps1(8).setIDX 8, "192.168.0.42", "7005"
-    ucBINdps1(9).setIDX 9, "192.168.0.42", "7006"
+    ucBINdps1(4).setIDX 4, "192.168.0.22", "7001"
+    ucBINdps1(5).setIDX 5, "192.168.0.22", "7002"
+    ucBINdps1(6).setIDX 6, "192.168.0.22", "7003"
+    ucBINdps1(7).setIDX 7, "192.168.0.22", "7004"
+    ucBINdps1(8).setIDX 8, "192.168.0.22", "7005"
+    ucBINdps1(9).setIDX 9, "192.168.0.22", "7006"
     
     
     
@@ -850,17 +850,17 @@ Dim i As Integer
     ''''    Copyright 2005 Sena Technologies, Inc. All rights reserved.
     
     
-    ucBINdps1(10).setIDX 10, "192.168.0.51", "7001"  ''<==(34BIN) :: .21", "7001" (12BIN)
-    ucBINdps1(11).setIDX 11, "192.168.0.51", "7002"
-    ucBINdps1(12).setIDX 12, "192.168.0.51", "7003"
-    ucBINdps1(13).setIDX 13, "192.168.0.51", "7004"
+    ucBINdps1(10).setIDX 10, "192.168.0.31", "7001"
+    ucBINdps1(11).setIDX 11, "192.168.0.31", "7002"
+    ucBINdps1(12).setIDX 12, "192.168.0.31", "7003"
+    ucBINdps1(13).setIDX 13, "192.168.0.31", "7004"
     '''
-    ucBINdps1(14).setIDX 14, "192.168.0.52", "7001"
-    ucBINdps1(15).setIDX 15, "192.168.0.52", "7002"
-    ucBINdps1(16).setIDX 16, "192.168.0.52", "7003"
-    ucBINdps1(17).setIDX 17, "192.168.0.52", "7004"
-    ucBINdps1(18).setIDX 18, "192.168.0.52", "7005"
-    ucBINdps1(19).setIDX 19, "192.168.0.52", "7006"
+    ucBINdps1(14).setIDX 14, "192.168.0.32", "7001"
+    ucBINdps1(15).setIDX 15, "192.168.0.32", "7002"
+    ucBINdps1(16).setIDX 16, "192.168.0.32", "7003"
+    ucBINdps1(17).setIDX 17, "192.168.0.32", "7004"
+    ucBINdps1(18).setIDX 18, "192.168.0.32", "7005"
+    ucBINdps1(19).setIDX 19, "192.168.0.32", "7006"
     
     
     
@@ -1161,8 +1161,8 @@ Dim aaD(33) As Integer
         
 
         ''BINLog vbCrLf, "12소결"
-        BINLog str1, "3소결"
-        BINLog str2, "4소결"
+        BINLog str1, "1소결"
+        BINLog str2, "2소결"
         
 
     On Error GoTo wsErrADS
@@ -1173,19 +1173,14 @@ Dim aaD(33) As Integer
 ''''        '''''''
 ''''        AdsOcx1.AdsSyncWriteReq &HF020&, &H64&, 64, AOdata  ''ioD
 
-        '''AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0"  ''''''''''12소결!!
-        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.1.1"  ''34소결!!
-        ''
-        AdsOcx1.AdsAmsServerPort = 301  ''800  ''1,3-소결!!동일!
+        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0"
+        AdsOcx1.AdsAmsServerPort = 301  ''800  ''1소결!!
         AdsOcx1.EnableErrorHandling = True
         ''''
         AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata
         
-        
-        '''AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0"  ''''''''''12소결!!
-        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.1.1"  ''34소결!!
-        ''
-        AdsOcx1.AdsAmsServerPort = 302  ''800  ''2,4-소결!!동일!
+        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0"
+        AdsOcx1.AdsAmsServerPort = 302  ''800  ''2소결!!
         AdsOcx1.EnableErrorHandling = True
         ''''
         AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata2
@@ -1198,10 +1193,10 @@ wsErrADS:
 
         If wsPcs.State = sckConnected Then
             '''''''''''''
-            EditPcsData 3 ''''1//3소결
+            EditPcsData 1
             ''DoEvents
             '''''''''''''
-            EditPcsData 4 ''''2//4소결
+            EditPcsData 2
             ''DoEvents
             '''''''''''''
             txtWSpcs.BackColor = vbGreen
@@ -1221,7 +1216,7 @@ Dim sendbuf(2087) As Byte  ''Variant  <--1,2소결 '''2088
 Dim i As Integer
 Dim j As Integer
 Dim cnt1 As Integer
-Dim ret1 As Integer
+Dim ret1 As Long
 Dim str1 As String
 Dim L8 As Byte
 Dim H8 As Byte
@@ -1246,7 +1241,7 @@ Dim posUCidx As Integer
 ''0x0828 <= 2088 <= 2+2+2+2+20+20+20++2020 ::(1234)
 '''''''''''''''''''''''''''''''''''''''''
 ''0x08f8 <= 2296 <= 2+2+2+2+22+22+22++2222 ::(5)
-
+On Error GoTo wsErrPcs
 
 '   sendbuf.head = 0x1122;
 '   sendbuf.size = sizeof(sendbuf);
@@ -1257,17 +1252,18 @@ Dim posUCidx As Integer
     sendbuf(4) = &H1:     sendbuf(5) = &H0      ''Plant-No
     sendbuf(6) = &H0:     sendbuf(7) = &H0      ''spare
 
-    '''sendbuf(4) = Pno '''<---(34소결)
-    '''''''''''''''''''''''''''''''''''(2017-12-26)
-    If Pno = 4 Then
-        sendbuf(4) = &H4  ''Plant-No
+
+
+    If Pno = 2 Then
+        sendbuf(4) = &H2  ''Plant-No
         posUCidx = 10
-    ElseIf Pno = 3 Then
-        sendbuf(4) = &H3  ''Plant-No
+    ElseIf Pno = 1 Then
+        sendbuf(4) = &H1  ''Plant-No
         posUCidx = 0
     Else
         Exit Sub  ''===>>>
     End If
+
 
 
     For i = 0 To 9
@@ -1308,7 +1304,7 @@ Dim posUCidx As Integer
       End If
     Next j
 
-On Error GoTo wsErrPcs
+''On Error GoTo wsErrPcs
 
     txtWSpcs = wsPcs.State
     

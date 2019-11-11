@@ -1169,8 +1169,8 @@ Public Function ret_VV() As Integer
     End If
 End Function
 
-Public Function GETscanD(ang As Integer) As Integer
-    GETscanD = CInt(scanDfilt(ang))   '' / 10)
+Public Function GETscanD(ang As Integer) As Long
+    GETscanD = CLng(scanDfilt(ang))   '' / 10)
 End Function
 
 Public Sub set_maxHH(hh As Long)
@@ -1497,13 +1497,13 @@ End Sub
 
 Public Sub setBinID()
     If UCindex < 6 Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "3소결BIN-" & (UCindex + 1)  ''0~5::1소결
+        cmdCONN.Caption = UCindex + 1 & ") " & "1소결BIN-" & (UCindex + 1)  ''0~5::1소결
     ElseIf UCindex < 10 Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "3소결BIN-" & (UCindex + 2)  ''6~9::1소결
+        cmdCONN.Caption = UCindex + 1 & ") " & "1소결BIN-" & (UCindex + 2)  ''6~9::1소결
     ElseIf (UCindex > 9) And (UCindex < 16) Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "4소결BIN-" & (UCindex - 10 + 1) ''10~15::2소결
+        cmdCONN.Caption = UCindex + 1 & ") " & "2소결BIN-" & (UCindex - 10 + 1) ''10~15::2소결
     ElseIf (UCindex > 15) And (UCindex < 20) Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "4소결BIN-" & (UCindex - 10 + 2) ''16~19::2소결
+        cmdCONN.Caption = UCindex + 1 & ") " & "2소결BIN-" & (UCindex - 10 + 2) ''16~19::2소결
     End If
     
     If UCindex = 20 Then
@@ -2302,168 +2302,187 @@ Private Sub scanD_filt()
 
 Dim i, j As Integer
 
-
 Dim Dcnt As Integer
 Dim Dsum As Double
 Dim DsumL As Long
 Dim DsumM As Long
 Dim DsumR As Long
 
+''''''--------------------------------------------------------<201808>
+    DsumM = 0  ''
+    Dcnt = 0
+    For i = 0 To 15 '''
+        If (scanD(i) > 999) And (scanD(i) > DsumM) Then
+                DsumM = scanD(i)        ''~~~~~~~~~~~~~=>;"인접-큰값"!
+                Dcnt = Dcnt + 1
+        End If
+    Next i
+    If Dcnt > 0 Then
+        For i = 0 To 10 '''
+            If scanD(i) < 1000 Then  '''0.6미만,30M초과~(wsock1.Data~RX)
+                scanD(i) = DsumM        ''~~~~~~~~~~~~~<=;"인접-큰값"!!
+            End If
+        Next i
+    End If
+''''''-------
+    DsumM = 0  ''
+    Dcnt = 0
+    For i = 10 To 40 '''
+        If (scanD(i) > 999) And (scanD(i) > DsumM) Then
+                DsumM = scanD(i)
+                Dcnt = Dcnt + 1
+        End If
+    Next i
+    If Dcnt > 0 Then
+        For i = 11 To 35 '''
+            If scanD(i) < 1000 Then
+                scanD(i) = DsumM
+            End If
+        Next i
+    End If
+''''''-------
+    DsumM = 0  ''
+    Dcnt = 0
+    For i = 30 To 70 '''
+        If (scanD(i) > 999) And (scanD(i) > DsumM) Then
+                DsumM = scanD(i)
+                Dcnt = Dcnt + 1
+        End If
+    Next i
+    If Dcnt > 0 Then
+        For i = 36 To 65 '''
+            If scanD(i) < 1000 Then
+                scanD(i) = DsumM
+            End If
+        Next i
+    End If
+''''''-------
+    DsumM = 0  ''
+    Dcnt = 0
+    For i = 63 To 92 '''
+        If (scanD(i) > 999) And (scanD(i) > DsumM) Then
+                DsumM = scanD(i)
+                Dcnt = Dcnt + 1
+        End If
+    Next i
+    If Dcnt > 0 Then
+        For i = 66 To 90 '''
+            If scanD(i) < 1000 Then
+                scanD(i) = DsumM
+            End If
+        Next i
+    End If
+''''''-------
+    DsumM = 0  ''
+    Dcnt = 0
+    For i = 86 To 100 '''
+        If (scanD(i) > 999) And (scanD(i) > DsumM) Then
+                DsumM = scanD(i)
+                Dcnt = Dcnt + 1
+        End If
+    Next i
+    If Dcnt > 0 Then
+        For i = 91 To 100 '''
+            If scanD(i) < 1000 Then
+                scanD(i) = DsumM
+            End If
+        Next i
+    End If
+''''''-------
+''''''--------------------------------------------------------<201808>
 
-''------------------------------------------------------(Filter_ok1)''
-''    For i = 0 To 100
-''
-''        Dsum = 0
-''        If i < 50 Then
-''            For j = 4 To 6  ''3ea
-''                Dsum = Dsum + scanD(i + j)
-''            Next j
-''        Else
-''            For j = 4 To 6  ''3ea
-''                Dsum = Dsum + scanD(i - j)
-''            Next j
+''==(old)==''
+''''''''------------------------------------------------------(201706)
+''    Dsum = 0
+''    Dcnt = 0
+''    For i = 0 To 15
+''        If scanD(i) > 999 Then
+''            Dsum = Dsum + scanD(i)
+''            Dcnt = Dcnt + 1
 ''        End If
-''        Dsum = Dsum / 3
-''
-''        If Abs((Dsum - scanD(i))) > (scanD(i) * 0.7) Then
-''            scanD(i) = Dsum * 0.95
-''            '''''''''''''''
-''        End If
-''
 ''    Next i
-''------------------------------------------------------(Filter_ok1)''
-
-
-''''''------------------------------------------------------
-''''    For i = 50 To 0 Step -1    '''(mid--to--Right)''
-''''
-''''        Dsum = 0
-''''
-''''        For j = 2 To 4  ''3ea
-''''            Dsum = Dsum + scanD(i + j)
-''''        Next j
-''''
-''''        Dsum = Dsum / 3
-''''
-''''        If Abs((Dsum - scanD(i))) > (scanD(i) * 0.7) Then
-''''            scanD(i) = Dsum * 0.95
-''''            '''''''''''''''
-''''        End If
-''''
-''''    Next i
-''''
-''''    For i = 51 To 100 Step 1    '''(mid--to--Left)''
-''''
-''''        Dsum = 0
-''''
-''''        For j = 2 To 4  ''3ea
-''''            Dsum = Dsum + scanD(i - j)
-''''        Next j
-''''
-''''        Dsum = Dsum / 3
-''''
-''''        If Abs((Dsum - scanD(i))) > (scanD(i) * 0.7) Then
-''''            scanD(i) = Dsum * 0.95
-''''            '''''''''''''''
-''''        End If
-''''
-''''    Next i
-''''''------------------------------------------------------
-    
-    
-''''''------------------------------------------------------(201706)
-    Dsum = 0
-    Dcnt = 0
-    For i = 0 To 15
-        If scanD(i) > 999 Then
-            Dsum = Dsum + scanD(i)
-            Dcnt = Dcnt + 1
-        End If
-    Next i
-    If Dcnt > 0 Then
-        DsumL = Dsum / Dcnt
-        '''''
-        For i = 0 To 10
-            If scanD(i) < 1000 Then
-                scanD(i) = DsumL * 0.8
-            End If
-        Next i
-    End If
-''''''-------
-    Dsum = 0
-    Dcnt = 0
-    For i = 10 To 40
-        If scanD(i) > 999 Then
-            Dsum = Dsum + scanD(i)
-            Dcnt = Dcnt + 1
-        End If
-    Next i
-    If Dcnt > 0 Then
-        DsumL = Dsum / Dcnt
-        ''
-        For i = 11 To 35
-            If scanD(i) < 1000 Then
-                scanD(i) = DsumL * 0.8
-            End If
-        Next i
-    End If
-''''''-------
-    Dsum = 0
-    Dcnt = 0
-    For i = 30 To 70
-        If scanD(i) > 999 Then
-            Dsum = Dsum + scanD(i)
-            Dcnt = Dcnt + 1
-        End If
-    Next i
-    If Dcnt > 0 Then
-        DsumL = Dsum / Dcnt
-        ''
-        For i = 36 To 65
-            If scanD(i) < 1000 Then
-                scanD(i) = DsumL * 0.8
-            End If
-        Next i
-    End If
-''''''-------
-    Dsum = 0
-    Dcnt = 0
-    For i = 63 To 92
-        If scanD(i) > 999 Then
-            Dsum = Dsum + scanD(i)
-            Dcnt = Dcnt + 1
-        End If
-    Next i
-    If Dcnt > 0 Then
-        DsumL = Dsum / Dcnt
-        ''
-        For i = 66 To 90
-            If scanD(i) < 1000 Then
-                scanD(i) = DsumL * 0.8
-            End If
-        Next i
-    End If
-''''''-------
-    Dsum = 0
-    Dcnt = 0
-    For i = 86 To 100
-        If scanD(i) > 999 Then
-            Dsum = Dsum + scanD(i)
-            Dcnt = Dcnt + 1
-        End If
-    Next i
-    If Dcnt > 0 Then
-        DsumL = Dsum / Dcnt
-        ''
-        For i = 91 To 100
-            If scanD(i) < 1000 Then
-                scanD(i) = DsumL * 0.8
-            End If
-        Next i
-    End If
-''''''------------------------------------------------------
-    
-    
+''    If Dcnt > 0 Then
+''        DsumL = Dsum / Dcnt
+''        '''''
+''        For i = 0 To 10
+''            If scanD(i) < 1000 Then
+''                scanD(i) = DsumL * 0.8  ''<--[1.0]
+''            End If
+''        Next i
+''    End If
+''''''''-------
+''    Dsum = 0
+''    Dcnt = 0
+''    For i = 10 To 40
+''        If scanD(i) > 999 Then
+''            Dsum = Dsum + scanD(i)
+''            Dcnt = Dcnt + 1
+''        End If
+''    Next i
+''    If Dcnt > 0 Then
+''        DsumL = Dsum / Dcnt
+''        ''
+''        For i = 11 To 35
+''            If scanD(i) < 1000 Then
+''                scanD(i) = DsumL * 0.8  ''<--[1.0]
+''            End If
+''        Next i
+''    End If
+''''''''-------
+''    Dsum = 0
+''    Dcnt = 0
+''    For i = 30 To 70
+''        If scanD(i) > 999 Then
+''            Dsum = Dsum + scanD(i)
+''            Dcnt = Dcnt + 1
+''        End If
+''    Next i
+''    If Dcnt > 0 Then
+''        DsumL = Dsum / Dcnt
+''        ''
+''        For i = 36 To 65
+''            If scanD(i) < 1000 Then
+''                scanD(i) = DsumL * 0.8  ''<--[1.0]
+''            End If
+''        Next i
+''    End If
+''''''''-------
+''    Dsum = 0
+''    Dcnt = 0
+''    For i = 63 To 92
+''        If scanD(i) > 999 Then
+''            Dsum = Dsum + scanD(i)
+''            Dcnt = Dcnt + 1
+''        End If
+''    Next i
+''    If Dcnt > 0 Then
+''        DsumL = Dsum / Dcnt
+''        ''
+''        For i = 66 To 90
+''            If scanD(i) < 1000 Then
+''                scanD(i) = DsumL * 0.8  ''<--[1.0]
+''            End If
+''        Next i
+''    End If
+''''''''-------
+''    Dsum = 0
+''    Dcnt = 0
+''    For i = 86 To 100
+''        If scanD(i) > 999 Then
+''            Dsum = Dsum + scanD(i)
+''            Dcnt = Dcnt + 1
+''        End If
+''    Next i
+''    If Dcnt > 0 Then
+''        DsumL = Dsum / Dcnt
+''        ''
+''        For i = 91 To 100
+''            If scanD(i) < 1000 Then
+''                scanD(i) = DsumL * 0.8  ''<--[1.0]
+''            End If
+''        Next i
+''    End If
+''''''''------------------------------------------------------
     
     
     '''201705 : Reverse!!! 1,2 Sinter!!!
@@ -2482,11 +2501,9 @@ Dim DsumR As Long
     '''''''''''''''''''''''''''''''''!!!
 
     For i = 0 To 100
-        ''scanDfilt(i) = scanD(i)
-        '''''''''''''''''''''''''(Law-Data!!)
-        
+        ''scanDfilt(i) = scanD(i)  ''(Law-Data!!)
+        '''''''''''''''''''''''
         scanDfilt(i) = (scanD(i) * Sin(((i) + 40) * (3.14159 / 180)))
-        
     Next i
     
 End Sub
