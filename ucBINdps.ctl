@@ -1497,13 +1497,13 @@ End Sub
 
 Public Sub setBinID()
     If UCindex < 6 Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "1家搬BIN-" & (UCindex + 1)  ''0~5::1家搬
+        cmdCONN.Caption = UCindex + 1 & ") " & "3家搬BIN-" & (UCindex + 1)  ''0~5::1家搬
     ElseIf UCindex < 10 Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "1家搬BIN-" & (UCindex + 2)  ''6~9::1家搬
+        cmdCONN.Caption = UCindex + 1 & ") " & "3家搬BIN-" & (UCindex + 2)  ''6~9::1家搬
     ElseIf (UCindex > 9) And (UCindex < 16) Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "2家搬BIN-" & (UCindex - 10 + 1) ''10~15::2家搬
+        cmdCONN.Caption = UCindex + 1 & ") " & "4家搬BIN-" & (UCindex - 10 + 1) ''10~15::2家搬
     ElseIf (UCindex > 15) And (UCindex < 20) Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "2家搬BIN-" & (UCindex - 10 + 2) ''16~19::2家搬
+        cmdCONN.Caption = UCindex + 1 & ") " & "4家搬BIN-" & (UCindex - 10 + 2) ''16~19::2家搬
     End If
     
     If UCindex = 20 Then
