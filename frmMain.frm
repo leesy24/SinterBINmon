@@ -31,7 +31,7 @@ Begin VB.Form frmMain
       AdsClientAdsState=   ""
       AdsClientAdsControl=   ""
    End
-   Begin prjBIN5mon.ucBINmon ucBINmon1 
+   Begin prjSinterBINmon.ucBINmon ucBINmon1 
       Height          =   10215
       Index           =   0
       Left            =   120
@@ -41,7 +41,7 @@ Begin VB.Form frmMain
       _ExtentX        =   2990
       _ExtentY        =   18018
    End
-   Begin prjBIN5mon.ucBINdps ucBINdps1 
+   Begin prjSinterBINmon.ucBINdps ucBINdps1 
       Height          =   7815
       Index           =   0
       Left            =   2040
