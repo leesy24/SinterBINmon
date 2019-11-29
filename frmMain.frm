@@ -153,6 +153,22 @@ Begin VB.Form frmMain
       TabIndex        =   0
       Top             =   120
       Width           =   13335
+      Begin MSWinsockLib.Winsock wsPLC2 
+         Left            =   5640
+         Top             =   360
+         _ExtentX        =   741
+         _ExtentY        =   741
+         _Version        =   393216
+         Protocol        =   1
+      End
+      Begin MSWinsockLib.Winsock wsPLC1 
+         Left            =   5520
+         Top             =   360
+         _ExtentX        =   741
+         _ExtentY        =   741
+         _Version        =   393216
+         Protocol        =   1
+      End
       Begin VB.CommandButton adsTest1 
          Caption         =   "adsTest1"
          Height          =   255
@@ -348,6 +364,9 @@ Attribute VB_Exposed = False
 
 
 Option Explicit
+
+Private Declare Function inet_addr Lib "wsock32.dll" (ByVal cp As String) As Long
+Private Declare Function ntohl Lib "wsock32.dll" (ByVal netlong As Long) As Long
 
 Private Const relVersion = "v2.00.00"
 Private Const relDate = "2019-11-29"
@@ -890,6 +909,23 @@ Dim i As Integer
     ucBINdps1(19).setIDX 19, "192.168.0.32", "7006"
     
     
+        With wsPLC1
+            .Close
+            .RemoteHost = "192.168.56.1"
+            .RemotePort = "4001"
+            .LocalPort = "4001"
+            
+            .Bind .LocalPort
+        End With
+
+        With wsPLC2
+            .Close
+            .RemoteHost = "192.168.56.1"
+            .RemotePort = "4001"
+            .LocalPort = "4002"
+            
+            .Bind .LocalPort
+        End With
     
 ''    ucBINdps1(0).setOptionD "0", "0.53", "0.5"
 ''    ucBINdps1(1).setOptionD "0", "0.53", "0.5"
@@ -1191,6 +1227,10 @@ Dim aaD(33) As Integer
         BINLog str1, "1소결"
         BINLog str2, "2소결"
         
+        '' wsPLC1.SendData AOdata
+        wsPLC1.SendData str1
+        '' wsPLC2.SendData AOdata2
+        wsPLC2.SendData str2
 
     On Error GoTo wsErrADS
 
