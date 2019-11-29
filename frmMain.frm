@@ -703,10 +703,10 @@ Dim i As Integer
         cmdRunStop.Left = picTop.Width - 4000
     
         lbRelVersion.Top = 200
-        lbRelVersion.Left = picTop.Width - 6050
+        lbRelVersion.Left = picTop.Width - 5050
         lbRelVersion = relVersion
         lbRelDate.Top = 400
-        lbRelDate.Left = picTop.Width - 6050
+        lbRelDate.Left = picTop.Width - 5050
         lbRelDate = relDate
         
     For i = 0 To 32
