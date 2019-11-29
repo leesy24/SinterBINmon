@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
-Object = "{40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0"; "AdsOcx.ocx"
+Object = "{40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0"; "Adsocx.ocx"
 Begin VB.Form frmMain 
    AutoRedraw      =   -1  'True
    BackColor       =   &H00404000&
@@ -220,6 +220,26 @@ Begin VB.Form frmMain
          Top             =   360
          Width           =   1335
       End
+      Begin VB.Label lbRelDate 
+         BackStyle       =   0  '투명
+         Caption         =   "Release date"
+         ForeColor       =   &H00E0E0E0&
+         Height          =   255
+         Left            =   0
+         TabIndex        =   24
+         Top             =   0
+         Width           =   3015
+      End
+      Begin VB.Label lbRelVersion 
+         BackStyle       =   0  '투명
+         Caption         =   "Release version"
+         ForeColor       =   &H00E0E0E0&
+         Height          =   255
+         Left            =   1800
+         TabIndex        =   23
+         Top             =   0
+         Width           =   1815
+      End
       Begin VB.Label lbTitle 
          Appearance      =   0  '평면
          BackColor       =   &H80000005&
@@ -329,7 +349,8 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-
+Private Const relVersion = "v2.00.00"
+Private Const relDate = "2019-11-29"
 
 Dim d1 As Single
 
@@ -681,6 +702,12 @@ Dim i As Integer
         cmdRunStop.Top = 200
         cmdRunStop.Left = picTop.Width - 4000
     
+        lbRelVersion.Top = 200
+        lbRelVersion.Left = picTop.Width - 6050
+        lbRelVersion = relVersion
+        lbRelDate.Top = 400
+        lbRelDate.Left = picTop.Width - 6050
+        lbRelDate = relDate
         
     For i = 0 To 32
         AOdata(i) = 0
