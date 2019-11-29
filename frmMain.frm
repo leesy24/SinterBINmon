@@ -365,9 +365,6 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Private Declare Function inet_addr Lib "wsock32.dll" (ByVal cp As String) As Long
-Private Declare Function ntohl Lib "wsock32.dll" (ByVal netlong As Long) As Long
-
 Private Const relVersion = "v2.00.00"
 Private Const relDate = "2019-11-29"
 
