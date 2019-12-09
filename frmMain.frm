@@ -5,7 +5,7 @@ Begin VB.Form frmMain
    AutoRedraw      =   -1  'True
    BackColor       =   &H00404000&
    BorderStyle     =   1  '단일 고정
-   Caption         =   "BIN5_Monitor_180719"
+   Caption         =   "Sinter BIN Monitor"
    ClientHeight    =   12885
    ClientLeft      =   45
    ClientTop       =   330
