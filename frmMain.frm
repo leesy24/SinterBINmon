@@ -153,6 +153,22 @@ Begin VB.Form frmMain
       TabIndex        =   0
       Top             =   120
       Width           =   13335
+      Begin MSWinsockLib.Winsock wsPLC2 
+         Left            =   5880
+         Top             =   360
+         _ExtentX        =   741
+         _ExtentY        =   741
+         _Version        =   393216
+         Protocol        =   1
+      End
+      Begin MSWinsockLib.Winsock wsPLC1 
+         Left            =   5760
+         Top             =   360
+         _ExtentX        =   741
+         _ExtentY        =   741
+         _Version        =   393216
+         Protocol        =   1
+      End
       Begin VB.CommandButton cmdCFG 
          BackColor       =   &H00008000&
          Caption         =   "설 정"
@@ -359,6 +375,11 @@ Attribute VB_Exposed = False
 
 
 Option Explicit
+
+Private Declare Sub CopyMemory Lib "KERNEL32" _
+                    Alias "RtlMoveMemory" (hpvDest As Any, _
+                                           hpvSource As Any, _
+                                           ByVal cbCopy As Long)
 
 Private Const relVersion = "v2.00.01"
 Private Const relDate = "2019-12-10"
@@ -938,7 +959,23 @@ Dim i As Integer
     ucBINdps1(18).setIDX 18, "192.168.0.32", "7005"
     ucBINdps1(19).setIDX 19, "192.168.0.32", "7006"
     
+    With wsPLC1
+        .Close
+        .RemoteHost = "192.168.0.2"
+        .RemotePort = "12001"
+        .LocalPort = "12001"
+        
+        .Bind .LocalPort
+    End With
     
+    With wsPLC2
+        .Close
+        .RemoteHost = "192.168.0.2"
+        .RemotePort = "12002"
+        .LocalPort = "12002"
+        
+        .Bind .LocalPort
+    End With
     
 ''    ucBINdps1(0).setOptionD "0", "0.53", "0.5"
 ''    ucBINdps1(1).setOptionD "0", "0.53", "0.5"
@@ -1129,11 +1166,29 @@ Dim str2 As String
 
 Dim aaD(33) As Integer
 
+Dim UDPiV_1(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
+Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
+    
     lbTimeNow.Caption = "RunTime: " & Format(Now, "YYYY-MM-DD h:m:s")
 
-    For i = 0 To 19
-        aaD(i) = ucBINdps1(i).ret_AOd
-        '''''''''''''''''''''''''''''
+    ''For i = 0 To 19
+    ''    aaD(i) = ucBINdps1(i).ret_AOd
+    ''    '''''''''''''''''''''''''''''
+    ''Next i
+    
+    For i = 0 To 29
+         UDPiV_1(i) = 0
+         UDPiV_2(i) = 0
+    Next i
+    
+    For i = 0 To 9
+        aaD(i) = ucBINdps1(i).ret_AOd   '''' (1~32767)
+        UDPiV_1(i) = aaD(i)
+    Next i
+    ''
+    For i = 10 To 19
+        aaD(i) = ucBINdps1(i).ret_AOd   '''' (1~32767)
+        UDPiV_2(i - 10) = aaD(i)
     Next i
     
     ''SAVE--First!!
@@ -1264,6 +1319,21 @@ Dim aaD(33) As Integer
         BINLog str1, "1소결"
         BINLog str2, "2소결"
         
+        ''Dim buffer(59) As Byte
+        
+        ''CopyMemory buffer(0), UDPiV_1(0), 30 * 2
+        ''''' Change little-endian to big-endian
+        ''For i = 0 To 29
+        ''    swap buffer(i * 2), buffer(i * 2 + 1)
+        ''Next i
+        ''wsPLC1.SendData buffer
+        
+        ''CopyMemory buffer(0), UDPiV_2(0), 30 * 2
+        ''''' Change little-endian to big-endian
+        ''For i = 0 To 29
+        ''    swap buffer(i * 2), buffer(i * 2 + 1)
+        ''Next i
+        ''wsPLC2.SendData buffer
 
     On Error GoTo wsErrADS
 
@@ -1304,6 +1374,15 @@ wsErrADS:
             txtWSpcs.BackColor = vbRed  ''&HFF00FF
         End If
 ''''
+End Sub
+
+
+Private Sub swap(b1 As Byte, b2 As Byte)
+ 
+  b1 = b1 Xor b2
+  b2 = b1 Xor b2
+  b1 = b1 Xor b2
+ 
 End Sub
 
 
