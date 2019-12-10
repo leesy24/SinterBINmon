@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
-Object = "{40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0"; "Adsocx.ocx"
+Object = "{40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0"; "AdsOcx.ocx"
 Begin VB.Form frmMain 
    AutoRedraw      =   -1  'True
    BackColor       =   &H00404000&
@@ -26,7 +26,7 @@ Begin VB.Form frmMain
       _StockProps     =   0
       AdsAmsServerNetId=   "172.16.21.20.1.1"
       AdsAmsServerPort=   800
-      AdsAmsClientPort=   32893
+      AdsAmsClientPort=   32908
       AdsClientType   =   ""
       AdsClientAdsState=   ""
       AdsClientAdsControl=   ""
@@ -38,8 +38,8 @@ Begin VB.Form frmMain
       TabIndex        =   20
       Top             =   1440
       Width           =   1695
-      _ExtentX        =   2990
-      _ExtentY        =   18018
+      _extentx        =   2990
+      _extenty        =   18018
    End
    Begin prjSinterBINmon.ucBINdps ucBINdps1 
       Height          =   7815
@@ -48,8 +48,8 @@ Begin VB.Form frmMain
       TabIndex        =   19
       Top             =   1440
       Width           =   1695
-      _ExtentX        =   2990
-      _ExtentY        =   13785
+      _extentx        =   2990
+      _extenty        =   13785
    End
    Begin VB.TextBox txtMaxHH 
       Alignment       =   1  '¿À¸¥ÂÊ ¸ÂÃã
@@ -260,7 +260,7 @@ Begin VB.Form frmMain
             Name            =   "Arial Black"
             Size            =   21.75
             Charset         =   0
-            Weight          =   900
+            Weight          =   700
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
@@ -360,8 +360,8 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Private Const relVersion = "v2.00.00"
-Private Const relDate = "2019-11-29"
+Private Const relVersion = "v2.00.01"
+Private Const relDate = "2019-12-10"
 
 Dim d1 As Single
 
@@ -736,7 +736,7 @@ Dim i As Integer
     ''''
         imgLogo1.Left = 100
         imgLogo1.Top = 100 ''100
-        lbTitle.Left = (Width * 0.32)    ''+ 200  ''frTop.Width * 0.3
+        lbTitle.Left = (Width * 0.22)    ''+ 200  ''frTop.Width * 0.3
         lbTitle.Top = 50
         lbTitle.Height = 600
         lbTitle.Width = (Width * 0.5) - 500
