@@ -468,6 +468,7 @@ Private picPASScnt As Integer
 
 '''
 Private ScanTYPE As Integer  '''DPS-2590 LMS-211 //  LD-LRS-3100,,
+Public BinAngle%, SensorAngle%
 
 Private inBUF2590 As String   '''inBUF2590(100000) As Byte
 
@@ -501,6 +502,14 @@ Public Sub setScanTYPE(iScan As Integer)  '''LD-LRS-3100,, DPS-2590
 ''''            txtRxS.Visible = False
 ''''    End If
     
+End Sub
+
+
+Public Sub setBinSettings(BinAngle_I%, SensorAngle_I%)
+'
+    BinAngle = BinAngle_I
+    SensorAngle = SensorAngle_I
+'
 End Sub
 
 
@@ -1213,6 +1222,9 @@ End Function
 
 Private Sub tmrRun_Timer()
 
+    Dim strA As String
+    Dim data() As Byte
+    
     txtTime1.Text = Format(Now, "ss")  ''' "hh:mm:ss")  ''' "YYYYMMDD h:m:s")
 
     If wsock1.State = sckConnected Then
@@ -1268,6 +1280,16 @@ Private Sub tmrRun_Timer()
         If ScanTYPE = 211 Then
             ''''''''''''''''''''''''''''''''''''
             DoProcPIC   ''<===DPS-2590 !!!
+            ''''''''''''''''''''''''''''''''''''
+        End If
+        
+        If ScanTYPE = 2590 Then
+            ''''''''''''''''''''''''''''''''''''
+            strA = "SetAngle[" & SensorAngle & "]"
+            
+            data = StrConv(strA, vbFromUnicode)
+            ''
+            wsock1.SendData data
             ''''''''''''''''''''''''''''''''''''
         End If
         

@@ -1026,6 +1026,30 @@ Dim i As Integer
         '''''''''''''''''''''''
         ''ucBINmon1(i).runCONN
     Next i
+
+    Dim BinAngleTmp$, SensorAngleTmp$
+
+    For i = 0 To 19
+        BinAngleTmp = _
+            GetSetting(App.Title, "Settings", "BinAngle_" & i, "Fail")
+        SensorAngleTmp = _
+            GetSetting(App.Title, "Settings", "SensorAngle_" & i, "Fail")
+        If IsNumeric(BinAngleTmp) = False _
+            Or CSng(CInt(Val(BinAngleTmp))) <> CSng(Val(BinAngleTmp)) _
+            Or CInt(Val(BinAngleTmp)) > 48! Or CInt(Val(BinAngleTmp)) < -48! _
+            Then
+            BinAngleTmp = "0"
+            SaveSetting App.Title, "Settings", "BinAngle_" & i, BinAngleTmp
+        End If
+        If IsNumeric(SensorAngleTmp) = False _
+            Or CSng(CInt(Val(SensorAngleTmp))) <> CSng(Val(SensorAngleTmp)) _
+            Or CInt(Val(SensorAngleTmp)) > 48! Or CInt(Val(SensorAngleTmp)) < -48! _
+            Then
+            SensorAngleTmp = "0"
+            SaveSetting App.Title, "Settings", "SensorAngle_" & i, SensorAngleTmp
+        End If
+        ucBINdps1(i).setBinSettings CInt(BinAngleTmp), CInt(SensorAngleTmp)
+    Next i
 '''''''''''
 
 

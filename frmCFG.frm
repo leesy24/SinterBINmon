@@ -72,7 +72,7 @@ Option Explicit
 
 
 Private Sub cmdCFGexit_Click()
-    ''frmSettings.Visible = False
+    frmSettings.Visible = False
     frmCFG.Visible = False
 End Sub
 
@@ -123,6 +123,23 @@ Private Sub Form_Load()
     tmrCFG.Enabled = False
     tmrCFG.Interval = 60000 '' 60secs
     tmrCFG.Enabled = True
+End Sub
+
+
+Private Sub lbBinNO2_Click(Index As Integer)
+'
+    If frmSettings.Visible = True Then
+        frmSettings.Show
+    End If
+'
+    frmSettings.Init _
+        Index _
+        , lbBinNO2(Index).Caption _
+        , frmMain.ucBINdps1(Index).BinAngle _
+        , frmMain.ucBINdps1(Index).SensorAngle
+'
+    frmSettings.Visible = True
+'
 End Sub
 
 
