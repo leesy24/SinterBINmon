@@ -252,19 +252,19 @@ Begin VB.Form frmMain
          Caption         =   "Release date"
          ForeColor       =   &H00E0E0E0&
          Height          =   255
-         Left            =   0
+         Left            =   1920
          TabIndex        =   24
-         Top             =   0
-         Width           =   3015
+         Top             =   540
+         Width           =   1695
       End
       Begin VB.Label lbRelVersion 
          BackStyle       =   0  '≈ı∏Ì
          Caption         =   "Release version"
          ForeColor       =   &H00E0E0E0&
          Height          =   255
-         Left            =   1800
+         Left            =   1920
          TabIndex        =   23
-         Top             =   0
+         Top             =   360
          Width           =   1815
       End
       Begin VB.Label lbTitle 
@@ -313,7 +313,7 @@ Begin VB.Form frmMain
          Height          =   255
          Left            =   1920
          TabIndex        =   3
-         Top             =   360
+         Top             =   120
          Width           =   1935
       End
    End
@@ -376,13 +376,13 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Private Declare Sub CopyMemory Lib "KERNEL32" _
+Private Declare Sub CopyMemory Lib "kernel32" _
                     Alias "RtlMoveMemory" (hpvDest As Any, _
                                            hpvSource As Any, _
                                            ByVal cbCopy As Long)
 
-Private Const relVersion = "v2.00.01"
-Private Const relDate = "2019-12-10"
+Private Const relVersion = "v2.00.02"
+Private Const relDate = "2019-12-11"
 
 Dim d1 As Single
 
@@ -757,7 +757,7 @@ Dim i As Integer
     ''''
         imgLogo1.Left = 100
         imgLogo1.Top = 100 ''100
-        lbTitle.Left = (Width * 0.22)    ''+ 200  ''frTop.Width * 0.3
+        lbTitle.Left = (Width * 0.27)    ''+ 200  ''frTop.Width * 0.3
         lbTitle.Top = 50
         lbTitle.Height = 600
         lbTitle.Width = (Width * 0.5) - 500
@@ -772,11 +772,11 @@ Dim i As Integer
         cmdCFG.Top = 200
         cmdCFG.Left = picTop.Width - 5000
         
-        lbRelVersion.Top = 200
-        lbRelVersion.Left = picTop.Width - 6050
+        ''lbRelVersion.Top = 200
+        ''lbRelVersion.Left = picTop.Width - 6050
         lbRelVersion = relVersion
-        lbRelDate.Top = 400
-        lbRelDate.Left = picTop.Width - 6050
+        ''lbRelDate.Top = 400
+        ''lbRelDate.Left = picTop.Width - 6050
         lbRelDate = relDate
         
     For i = 0 To 32
