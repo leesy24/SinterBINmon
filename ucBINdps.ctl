@@ -475,6 +475,10 @@ Private inBUF2590 As String   '''inBUF2590(100000) As Byte
 Private Declare Function Polygon Lib "gdi32" (ByVal hdc As Long, lpPoint As POINTAPI, ByVal nCount As Long) As Long
 
 
+Public Function getScanTYPE() As Integer
+    getScanTYPE = ScanTYPE
+End Function
+
 
 Public Sub setScanTYPE(iScan As Integer)  '''LD-LRS-3100,, DPS-2590
     ScanTYPE = iScan
@@ -1511,6 +1515,11 @@ Public Sub setBinID()
     End If
     
 End Sub
+
+
+Public Function getBinCaption() As String
+    getBinCaption = cmdCONN.Caption
+End Function
 
 
 Public Sub setOptionD(dX As String, dM As String, dB As String)

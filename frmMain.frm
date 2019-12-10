@@ -26,7 +26,7 @@ Begin VB.Form frmMain
       _StockProps     =   0
       AdsAmsServerNetId=   "172.16.21.20.1.1"
       AdsAmsServerPort=   800
-      AdsAmsClientPort=   32807
+      AdsAmsClientPort=   32893
       AdsClientType   =   ""
       AdsClientAdsState=   ""
       AdsClientAdsControl=   ""
@@ -153,6 +153,17 @@ Begin VB.Form frmMain
       TabIndex        =   0
       Top             =   120
       Width           =   13335
+      Begin VB.CommandButton cmdCFG 
+         BackColor       =   &H00008000&
+         Caption         =   "설 정"
+         Height          =   375
+         Left            =   9720
+         MaskColor       =   &H00E0E0E0&
+         Style           =   1  '그래픽
+         TabIndex        =   25
+         Top             =   360
+         Width           =   915
+      End
       Begin VB.CommandButton adsTest1 
          Caption         =   "adsTest1"
          Height          =   255
@@ -177,14 +188,14 @@ Begin VB.Form frmMain
       Begin VB.Timer tmrAoDo 
          Enabled         =   0   'False
          Interval        =   1000
-         Left            =   7440
+         Left            =   6960
          Top             =   360
       End
       Begin VB.CommandButton cmdRunStop 
          BackColor       =   &H00008000&
          Caption         =   "RUN/STOP"
          Height          =   375
-         Left            =   9360
+         Left            =   8160
          MaskColor       =   &H00E0E0E0&
          Style           =   1  '그래픽
          TabIndex        =   11
@@ -194,7 +205,7 @@ Begin VB.Form frmMain
       Begin VB.Timer tmrINIT 
          Enabled         =   0   'False
          Interval        =   30000
-         Left            =   8040
+         Left            =   7320
          Top             =   360
       End
       Begin VB.CommandButton cmdExit 
@@ -249,7 +260,7 @@ Begin VB.Form frmMain
             Name            =   "Arial Black"
             Size            =   21.75
             Charset         =   0
-            Weight          =   700
+            Weight          =   900
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
@@ -581,6 +592,41 @@ Dim d As Integer
 End Sub
 
 
+Private Sub cmdCFG_Click()
+
+''    frmCFG.txtMaxHH = frmMain.txtMaxHH
+''    frmCFG.txtBaseHH = frmMain.txtBaseHH
+
+    If frmCFG.Visible = True Then
+        frmCFG.Show
+    Else
+        frmCFG.Visible = True
+    End If
+    
+''    frmCFG.tmrCFG.Interval = 5000
+''    frmCFG.tmrCFG.Enabled = True
+
+End Sub
+
+
+Private Sub Form_Click()
+    If frmCFG.Visible = True Then
+        frmCFG.tmrCFG.Enabled = False
+        frmCFG.tmrCFG.Interval = 5000
+        frmCFG.tmrCFG.Enabled = True
+    End If
+End Sub
+
+
+Private Sub Form_DblClick()
+    If frmCFG.Visible = True Then
+        frmCFG.tmrCFG.Enabled = False
+        frmCFG.tmrCFG.Interval = 5000
+        frmCFG.tmrCFG.Enabled = True
+    End If
+End Sub
+
+
 ''Private Sub cmdDmon_Click()
 ''    ''' txtSD1 = ucBINmon1(cboIDX.ListIndex).ret_SDXY
 ''End Sub
@@ -701,12 +747,15 @@ Dim i As Integer
         cmdHide.Left = picTop.Width - 2600
         cmdRunStop.Top = 200
         cmdRunStop.Left = picTop.Width - 4000
-    
+        
+        cmdCFG.Top = 200
+        cmdCFG.Left = picTop.Width - 5000
+        
         lbRelVersion.Top = 200
-        lbRelVersion.Left = picTop.Width - 5050
+        lbRelVersion.Left = picTop.Width - 6050
         lbRelVersion = relVersion
         lbRelDate.Top = 400
-        lbRelDate.Left = picTop.Width - 5050
+        lbRelDate.Left = picTop.Width - 6050
         lbRelDate = relDate
         
     For i = 0 To 32
@@ -1395,7 +1444,6 @@ Private Sub tmrPcs_Timer()
     txtWSpcs = wsPcs.State
     
 End Sub
-
 
 ''Private Sub ucBINmon1_upDXY(Index As Integer)
 ''    ''ucBINmon1(Index).ret_SDXY
