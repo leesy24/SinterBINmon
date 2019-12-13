@@ -63,44 +63,37 @@ errFile1:
     
 End Sub
 
+Public Function IsValidIPAddress(ByVal strIPAddress As String) As Boolean
+    On Error GoTo Handler
+    Dim varAddress As Variant, n As Long, lCount As Long
+    
+    IsValidIPAddress = False
+    varAddress = Split(strIPAddress, ".", , vbTextCompare)
+    '//
+    If IsArray(varAddress) Then
+        For n = LBound(varAddress) To UBound(varAddress)
+            lCount = lCount + 1
+            varAddress(n) = CByte(varAddress(n))
+        Next
+        '//
+        IsValidIPAddress = (lCount = 4)
+    End If
+    '//
+Handler:
+End Function
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Public Function IsValidIPPort(ByVal strIPPort As String) As Boolean
+    On Error GoTo Handler
+    
+    IsValidIPPort = False
+    '//
+    If IsNumeric(strIPPort) = True _
+        And CSng(CInt(Val(strIPPort))) = CSng(Val(strIPPort)) _
+        And CInt(Val(strIPPort)) <= 65535! And CInt(Val(strIPPort)) >= 1024! _
+        Then
+        IsValidIPPort = True
+    End If
+    '//
+Handler:
+End Function
 

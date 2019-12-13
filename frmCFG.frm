@@ -70,12 +70,10 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-
 Private Sub cmdCFGexit_Click()
     frmSettings.Visible = False
     frmCFG.Visible = False
 End Sub
-
 
 Private Sub cmdSetTYPE_Click()
     Dim i
@@ -88,7 +86,6 @@ Private Sub cmdSetTYPE_Click()
     tmrCFG.Interval = 5000
     tmrCFG.Enabled = True
 End Sub
-
 
 Private Sub Form_Load()
     Dim i As Integer
@@ -125,7 +122,6 @@ Private Sub Form_Load()
     tmrCFG.Enabled = True
 End Sub
 
-
 Private Sub lbBinNO2_Click(Index As Integer)
 '
     tmrCFG.Enabled = False
@@ -139,13 +135,14 @@ Private Sub lbBinNO2_Click(Index As Integer)
     frmSettings.Init _
         Index _
         , lbBinNO2(Index).Caption _
+        , frmMain.ucBINdps1(Index).ipAddr _
+        , frmMain.ucBINdps1(Index).ipPort _
         , frmMain.ucBINdps1(Index).BinAngle _
         , frmMain.ucBINdps1(Index).SensorAngle
 '
     frmSettings.Visible = True
 '
 End Sub
-
 
 Private Sub tmrCFG_Timer()
 

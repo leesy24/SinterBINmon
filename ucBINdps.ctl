@@ -411,8 +411,8 @@ Private wsACT As Boolean
 Private wsPause As Boolean
 
 
-Private ipAddr As String
-Private ipPort As String
+Public ipAddr As String
+Public ipPort As String
 
 
 Private Type POINTAPI

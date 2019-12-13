@@ -12,12 +12,28 @@ Begin VB.Form frmSettings
    ScaleHeight     =   3090
    ScaleWidth      =   4680
    StartUpPosition =   3  'Windows 기본값
+   Begin VB.TextBox txtBinIPAddr 
+      Height          =   270
+      Left            =   1320
+      TabIndex        =   1
+      Text            =   "255.255.255.255"
+      Top             =   195
+      Width           =   1455
+   End
+   Begin VB.TextBox txtBinIPPort 
+      Height          =   270
+      Left            =   1320
+      TabIndex        =   2
+      Text            =   "99999"
+      Top             =   555
+      Width           =   735
+   End
    Begin VB.CommandButton cmdSettingsExit 
       Caption         =   "닫 기"
       Height          =   495
       Left            =   3600
       Style           =   1  '그래픽
-      TabIndex        =   5
+      TabIndex        =   6
       Top             =   2400
       Width           =   855
    End
@@ -26,46 +42,78 @@ Begin VB.Form frmSettings
       Height          =   375
       Left            =   3600
       Style           =   1  '그래픽
-      TabIndex        =   4
+      TabIndex        =   5
       Top             =   1920
       Width           =   855
    End
    Begin VB.TextBox txtSensorAngle 
       Height          =   270
-      Left            =   1440
-      TabIndex        =   3
-      Top             =   550
+      Left            =   1320
+      TabIndex        =   4
+      Top             =   1275
       Width           =   735
    End
    Begin VB.TextBox txtBinAngle 
       Height          =   270
-      Left            =   1440
-      TabIndex        =   1
-      Top             =   190
+      Left            =   1320
+      TabIndex        =   3
+      Top             =   915
       Width           =   735
+   End
+   Begin VB.Label lbBinIPAddr 
+      Caption         =   "Bin IP addr"
+      Height          =   255
+      Left            =   240
+      TabIndex        =   8
+      Top             =   240
+      Width           =   975
+   End
+   Begin VB.Label lbBinIPPort 
+      Caption         =   "Bin IP port"
+      Height          =   255
+      Left            =   240
+      TabIndex        =   7
+      Top             =   600
+      Width           =   975
+   End
+   Begin VB.Label Label4 
+      Caption         =   "Serial2Net 의 IP"
+      Height          =   255
+      Left            =   2880
+      TabIndex        =   13
+      Top             =   240
+      Width           =   1575
+   End
+   Begin VB.Label Label3 
+      Caption         =   "Serial2Net 의 port"
+      Height          =   255
+      Left            =   2160
+      TabIndex        =   12
+      Top             =   600
+      Width           =   2295
    End
    Begin VB.Label Label2 
       Caption         =   "°, 48~-48"
       Height          =   255
-      Left            =   2280
-      TabIndex        =   7
-      Top             =   600
-      Width           =   1575
+      Left            =   2160
+      TabIndex        =   11
+      Top             =   1320
+      Width           =   975
    End
    Begin VB.Label Label1 
       Caption         =   "°, 48~-48"
       Height          =   255
-      Left            =   2280
-      TabIndex        =   6
-      Top             =   240
-      Width           =   1575
+      Left            =   2160
+      TabIndex        =   10
+      Top             =   960
+      Width           =   975
    End
    Begin VB.Label lbSensorAngle 
       Caption         =   "센서 기울기"
       Height          =   255
       Left            =   240
-      TabIndex        =   2
-      Top             =   600
+      TabIndex        =   9
+      Top             =   1320
       Width           =   975
    End
    Begin VB.Label lbBinAngle 
@@ -73,7 +121,7 @@ Begin VB.Form frmSettings
       Height          =   255
       Left            =   240
       TabIndex        =   0
-      Top             =   240
+      Top             =   960
       Width           =   975
    End
 End
@@ -85,39 +133,91 @@ Attribute VB_Exposed = False
 Option Explicit
 '
 Dim Index%
+Dim orgBinIPAddr$, orgBinIPPort$, orgBinAngle$, orgSensorAngle$
 
-Public Sub Init(Index_I%, Title_I$, BinAngle_I%, SeosorAngle_I%)
+Public Sub Init(Index_I%, Title_I$, BinIPAddr_I$, BinIPPort_I$, BinAngle_I%, SensorAngle_I%)
 '
     Index = Index_I
 '
     frmSettings.Caption = Title_I$ & " 설정"
 '
+    orgBinIPAddr = BinIPAddr_I
+    txtBinIPAddr = BinIPAddr_I
+'
+    orgBinIPPort = BinIPPort_I
+    txtBinIPPort = BinIPPort_I
+'
+    orgBinAngle = BinAngle_I
     txtBinAngle = BinAngle_I
-    txtSensorAngle = SeosorAngle_I
+'
+    orgSensorAngle = SensorAngle_I
+    txtSensorAngle = SensorAngle_I
 '
 End Sub
 
 Private Sub cmdSettingsApply_Click()
 '
-    If IsNumeric(txtBinAngle) = False _
-        Or CSng(CInt(Val(txtBinAngle))) <> CSng(Val(txtBinAngle)) _
-        Or CInt(Val(txtBinAngle)) > 48! Or CInt(Val(txtBinAngle)) < -48! _
-        Then
-        MsgBox lbBinAngle & "는 48 ~ -48 사이의 정수 값 이어야 합니다.", vbOKOnly
-        Exit Sub
+    'Dim IsApplied As Boolean
+    Dim IsValid As Boolean
+'
+    'IsApplied = False
+    IsValid = False
+'
+    If txtBinIPAddr <> orgBinIPAddr Then
+        If IsValidIPAddress(txtBinIPAddr) = False Then
+            MsgBox lbBinIPAddr & "는 192.168.0.1 형태의 값 이어야 합니다.", vbOKOnly
+        Else
+            SaveSetting App.Title, "Settings", "BinIPAddr_" & Index, txtBinIPAddr
+            IsValid = True
+        End If
     End If
-    If IsNumeric(txtSensorAngle) = False _
-        Or CSng(CInt(Val(txtSensorAngle))) <> CSng(Val(txtSensorAngle)) _
-        Or CInt(Val(txtSensorAngle)) > 48! Or CInt(Val(txtSensorAngle)) < -48! _
-        Then
-        MsgBox lbSensorAngle & "는 48 ~ -48 사이의 정수 값 이어야 합니다.", vbOKOnly
-        Exit Sub
+    If txtBinIPPort <> orgBinIPPort Then
+        If IsValidIPPort(txtBinIPPort) = False Then
+            MsgBox lbBinIPPort & "는 1024 ~ 65535 사이의 정수 값 이어야 합니다.", vbOKOnly
+        Else
+            SaveSetting App.Title, "Settings", "BinIPPort_" & Index, txtBinIPPort
+            IsValid = True
+        End If
     End If
 '
-    SaveSetting App.Title, "Settings", "BinAngle_" & Index, txtBinAngle
-    SaveSetting App.Title, "Settings", "SensorAngle_" & Index, txtSensorAngle
+    If (IsValid = True) Then
+        frmMain.ucBINdps1(Index).setIDX Index, txtBinIPAddr, txtBinIPPort
+        'IsApplied = True
+    End If
 '
-    frmMain.ucBINdps1(Index).setBinSettings txtBinAngle, txtSensorAngle
+    IsValid = False
+'
+    If txtBinAngle <> orgBinAngle Then
+        If IsNumeric(txtBinAngle) = False _
+            Or CSng(CInt(Val(txtBinAngle))) <> CSng(Val(txtBinAngle)) _
+            Or CInt(Val(txtBinAngle)) > 10! Or CInt(Val(txtBinAngle)) < -10! _
+            Then
+            MsgBox lbBinAngle & "는 10 ~ -10 사이의 정수 값 이어야 합니다.", vbOKOnly
+        Else
+            SaveSetting App.Title, "Settings", "BinAngle_" & Index, txtBinAngle
+            IsValid = True
+        End If
+    End If
+    If txtSensorAngle <> orgSensorAngle Then
+        If IsNumeric(txtSensorAngle) = False _
+            Or CSng(CInt(Val(txtSensorAngle))) <> CSng(Val(txtSensorAngle)) _
+            Or CInt(Val(txtSensorAngle)) > 48! Or CInt(Val(txtSensorAngle)) < -48! _
+            Then
+            MsgBox lbSensorAngle & "는 48 ~ -48 사이의 정수 값 이어야 합니다.", vbOKOnly
+        Else
+            SaveSetting App.Title, "Settings", "SensorAngle_" & Index, txtSensorAngle
+            IsValid = True
+        End If
+    End If
+'
+    If (IsValid = True) Then
+        frmMain.ucBINdps1(Index).setBinSettings txtBinAngle, txtSensorAngle
+        'IsApplied = True
+    End If
+'
+    'If (IsApplied = True) Then
+    '    MsgBox "적용되었습니다.", vbOKOnly
+    'End If
 '
 End Sub
 
@@ -126,6 +226,3 @@ Private Sub cmdSettingsExit_Click()
     frmSettings.Visible = False
 '
 End Sub
-
-
-

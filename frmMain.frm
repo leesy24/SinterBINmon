@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
-Object = "{40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0"; "AdsOcx.ocx"
+Object = "{40DD8EA0-284B-11D0-A7B0-0020AFF929F4}#2.3#0"; "Adsocx.ocx"
 Begin VB.Form frmMain 
    AutoRedraw      =   -1  'True
    BackColor       =   &H00404000&
@@ -26,7 +26,7 @@ Begin VB.Form frmMain
       _StockProps     =   0
       AdsAmsServerNetId=   "172.16.21.20.1.1"
       AdsAmsServerPort=   800
-      AdsAmsClientPort=   32908
+      AdsAmsClientPort=   32807
       AdsClientType   =   ""
       AdsClientAdsState=   ""
       AdsClientAdsControl=   ""
@@ -38,8 +38,8 @@ Begin VB.Form frmMain
       TabIndex        =   20
       Top             =   1440
       Width           =   1695
-      _extentx        =   2990
-      _extenty        =   18018
+      _ExtentX        =   2990
+      _ExtentY        =   18018
    End
    Begin prjSinterBINmon.ucBINdps ucBINdps1 
       Height          =   7815
@@ -48,8 +48,8 @@ Begin VB.Form frmMain
       TabIndex        =   19
       Top             =   1440
       Width           =   1695
-      _extentx        =   2990
-      _extenty        =   13785
+      _ExtentX        =   2990
+      _ExtentY        =   13785
    End
    Begin VB.TextBox txtMaxHH 
       Alignment       =   1  '¿À¸¥ÂÊ ¸ÂÃã
@@ -276,7 +276,7 @@ Begin VB.Form frmMain
             Name            =   "Arial Black"
             Size            =   21.75
             Charset         =   0
-            Weight          =   700
+            Weight          =   900
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
@@ -388,8 +388,8 @@ Dim d1 As Single
 
 
 
-Dim ipAddr(11) As String
-Dim ipPort(11) As String
+Dim ipAddr(19) As String
+Dim ipPort(19) As String
 
 Dim AOdata(33) As Integer
 Dim AOdata2(33) As Integer
@@ -908,17 +908,79 @@ Dim i As Integer
 ''    ipPort(0) = Trim(Str(7003))
 ''    ucBINdps1(0).setIDX 0, ipAddr(0), ipPort(0)
     ''
-    ucBINdps1(0).setIDX 0, "192.168.0.21", "7001"
-    ucBINdps1(1).setIDX 1, "192.168.0.21", "7002"
-    ucBINdps1(2).setIDX 2, "192.168.0.21", "7003"
-    ucBINdps1(3).setIDX 3, "192.168.0.21", "7004"
+    
+    ''' Set default IP addr/port
+    ipAddr(0) = "192.168.0.21"
+    ipPort(0) = "7001"
+    ipAddr(1) = "192.168.0.21"
+    ipPort(1) = "7002"
+    ipAddr(2) = "192.168.0.21"
+    ipPort(2) = "7003"
+    ipAddr(3) = "192.168.0.21"
+    ipPort(3) = "7004"
     '''
-    ucBINdps1(4).setIDX 4, "192.168.0.22", "7001"
-    ucBINdps1(5).setIDX 5, "192.168.0.22", "7002"
-    ucBINdps1(6).setIDX 6, "192.168.0.22", "7003"
-    ucBINdps1(7).setIDX 7, "192.168.0.22", "7004"
-    ucBINdps1(8).setIDX 8, "192.168.0.22", "7005"
-    ucBINdps1(9).setIDX 9, "192.168.0.22", "7006"
+    ipAddr(4) = "192.168.0.22"
+    ipPort(4) = "7001"
+    ipAddr(5) = "192.168.0.22"
+    ipPort(5) = "7002"
+    ipAddr(6) = "192.168.0.22"
+    ipPort(6) = "7003"
+    ipAddr(7) = "192.168.0.22"
+    ipPort(7) = "7004"
+    ipAddr(8) = "192.168.0.22"
+    ipPort(8) = "7005"
+    ipAddr(9) = "192.168.0.22"
+    ipPort(9) = "7006"
+    '''
+    ipAddr(10) = "192.168.0.31"
+    ipPort(10) = "7001"
+    ipAddr(11) = "192.168.0.31"
+    ipPort(11) = "7002"
+    ipAddr(12) = "192.168.0.31"
+    ipPort(12) = "7003"
+    ipAddr(13) = "192.168.0.31"
+    ipPort(13) = "7004"
+    '''
+    ipAddr(14) = "192.168.0.32"
+    ipPort(14) = "7001"
+    ipAddr(15) = "192.168.0.32"
+    ipPort(15) = "7002"
+    ipAddr(16) = "192.168.0.32"
+    ipPort(16) = "7003"
+    ipAddr(17) = "192.168.0.32"
+    ipPort(17) = "7004"
+    ipAddr(18) = "192.168.0.32"
+    ipPort(18) = "7005"
+    ipAddr(19) = "192.168.0.32"
+    ipPort(19) = "7006"
+    
+    Dim ipAddr_tmp As String
+    Dim ipPort_tmp As String
+    For i = 0 To 19
+        ipAddr_tmp = GetSetting(App.Title, "Settings", "BinIPAddr_" & i, "Fail")
+        ipPort_tmp = GetSetting(App.Title, "Settings", "BinIPPort_" & i, "Fail")
+        If IsValidIPAddress(ipAddr_tmp) = False Then
+            ipAddr_tmp = ipAddr(i)
+            SaveSetting App.Title, "Settings", "BinIPAddr_" & i, ipAddr_tmp
+        End If
+        If IsValidIPPort(ipPort_tmp) = False Then
+            ipPort_tmp = ipPort(i)
+            SaveSetting App.Title, "Settings", "BinIPPort_" & i, ipPort_tmp
+        End If
+        ucBINdps1(i).setIDX i, ipAddr_tmp, ipPort_tmp
+    Next i
+    
+    'ucBINdps1(0).setIDX 0, "192.168.0.21", "7001"
+    'ucBINdps1(1).setIDX 1, "192.168.0.21", "7002"
+    'ucBINdps1(2).setIDX 2, "192.168.0.21", "7003"
+    'ucBINdps1(3).setIDX 3, "192.168.0.21", "7004"
+    '''
+    'ucBINdps1(4).setIDX 4, "192.168.0.22", "7001"
+    'ucBINdps1(5).setIDX 5, "192.168.0.22", "7002"
+    'ucBINdps1(6).setIDX 6, "192.168.0.22", "7003"
+    'ucBINdps1(7).setIDX 7, "192.168.0.22", "7004"
+    'ucBINdps1(8).setIDX 8, "192.168.0.22", "7005"
+    'ucBINdps1(9).setIDX 9, "192.168.0.22", "7006"
     
     
     
@@ -947,17 +1009,17 @@ Dim i As Integer
     ''''    Copyright 2005 Sena Technologies, Inc. All rights reserved.
     
     
-    ucBINdps1(10).setIDX 10, "192.168.0.31", "7001"
-    ucBINdps1(11).setIDX 11, "192.168.0.31", "7002"
-    ucBINdps1(12).setIDX 12, "192.168.0.31", "7003"
-    ucBINdps1(13).setIDX 13, "192.168.0.31", "7004"
+    'ucBINdps1(10).setIDX 10, "192.168.0.31", "7001"
+    'ucBINdps1(11).setIDX 11, "192.168.0.31", "7002"
+    'ucBINdps1(12).setIDX 12, "192.168.0.31", "7003"
+    'ucBINdps1(13).setIDX 13, "192.168.0.31", "7004"
     '''
-    ucBINdps1(14).setIDX 14, "192.168.0.32", "7001"
-    ucBINdps1(15).setIDX 15, "192.168.0.32", "7002"
-    ucBINdps1(16).setIDX 16, "192.168.0.32", "7003"
-    ucBINdps1(17).setIDX 17, "192.168.0.32", "7004"
-    ucBINdps1(18).setIDX 18, "192.168.0.32", "7005"
-    ucBINdps1(19).setIDX 19, "192.168.0.32", "7006"
+    'ucBINdps1(14).setIDX 14, "192.168.0.32", "7001"
+    'ucBINdps1(15).setIDX 15, "192.168.0.32", "7002"
+    'ucBINdps1(16).setIDX 16, "192.168.0.32", "7003"
+    'ucBINdps1(17).setIDX 17, "192.168.0.32", "7004"
+    'ucBINdps1(18).setIDX 18, "192.168.0.32", "7005"
+    'ucBINdps1(19).setIDX 19, "192.168.0.32", "7006"
     
     With wsPLC1
         .Close
@@ -1073,7 +1135,7 @@ Dim i As Integer
             GetSetting(App.Title, "Settings", "SensorAngle_" & i, "Fail")
         If IsNumeric(BinAngleTmp) = False _
             Or CSng(CInt(Val(BinAngleTmp))) <> CSng(Val(BinAngleTmp)) _
-            Or CInt(Val(BinAngleTmp)) > 48! Or CInt(Val(BinAngleTmp)) < -48! _
+            Or CInt(Val(BinAngleTmp)) > 10! Or CInt(Val(BinAngleTmp)) < -10! _
             Then
             BinAngleTmp = "0"
             SaveSetting App.Title, "Settings", "BinAngle_" & i, BinAngleTmp
