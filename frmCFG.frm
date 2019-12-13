@@ -128,6 +128,10 @@ End Sub
 
 Private Sub lbBinNO2_Click(Index As Integer)
 '
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Enabled = True
+'
     If frmSettings.Visible = True Then
         frmSettings.Show
     End If
@@ -147,6 +151,7 @@ Private Sub tmrCFG_Timer()
 
     tmrCFG.Enabled = False
     
+    frmSettings.Visible = False
     frmCFG.Visible = False
     
 End Sub
