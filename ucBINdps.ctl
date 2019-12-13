@@ -1283,7 +1283,7 @@ Private Sub tmrRun_Timer()
             ''''''''''''''''''''''''''''''''''''
         End If
         
-        If ScanTYPE = 2590 Then
+        If (ScanTYPE = 2590) And (wsock1.State = sckConnected) Then
             ''''''''''''''''''''''''''''''''''''
             strA = "SetAngle[" & SensorAngle & "]"
             
