@@ -138,7 +138,9 @@ Private Sub lbBinNO2_Click(Index As Integer)
         , frmMain.ucBINdps1(Index).ipAddr _
         , frmMain.ucBINdps1(Index).ipPort _
         , frmMain.ucBINdps1(Index).BinAngle _
-        , frmMain.ucBINdps1(Index).SensorAngle
+        , frmMain.ucBINdps1(Index).SensorAngle _
+        , frmMain.ucBINdps1(Index).maxHH _
+        , frmMain.ucBINdps1(Index).minLH
 '
     frmSettings.Visible = True
 '

@@ -13,6 +13,17 @@ Begin VB.UserControl ucBINdps
    FillStyle       =   0  '단색
    ScaleHeight     =   9555
    ScaleWidth      =   1890
+   Begin VB.TextBox txtHmin 
+      Alignment       =   2  '가운데 맞춤
+      BackColor       =   &H00FFFFC0&
+      Enabled         =   0   'False
+      Height          =   270
+      Left            =   0
+      TabIndex        =   26
+      Text            =   "0"
+      Top             =   4560
+      Width           =   615
+   End
    Begin VB.TextBox txtTypes 
       Alignment       =   2  '가운데 맞춤
       Appearance      =   0  '평면
@@ -31,10 +42,10 @@ Begin VB.UserControl ucBINdps
       BackColor       =   &H00FFFFC0&
       Enabled         =   0   'False
       Height          =   270
-      Left            =   1080
+      Left            =   1200
       TabIndex        =   24
       Text            =   "0"
-      Top             =   4800
+      Top             =   4560
       Width           =   615
    End
    Begin VB.CommandButton cmdHmax 
@@ -454,6 +465,7 @@ Public avrSUM As Double
 Public avrCNT As Integer
 Public avrHeight As Long
 Public maxHH As Long
+Public minLH As Long
 
 Private setAngle As Integer
 
@@ -518,13 +530,19 @@ Private Sub cmdHmax_Click()
     If cmdHmax.BackColor = vbGreen Then   ''&H00C0C000&
         cmdHmax.BackColor = &HC0C000
         txtHmax.Enabled = False
+        txtHmin.Enabled = False
         txtTypes.Enabled = False
         
-        If (txtHmax >= 1700) And (txtHmax <= 2000) Then
-            maxHH = txtHmax
-            set_maxHH maxHH  '''(CLng(maxHH))
-        Else
+        If (txtHmax <> maxHH) And ((txtHmax < 1700) Or (txtHmax > 2000)) Then
             txtHmax = maxHH
+        End If
+        
+        If (txtHmin <> minLH) And ((txtHmin < 0) Or (txtHmin > 1000)) Then
+            txtHmin = minLH
+        End If
+        
+        If (txtHmax <> maxHH) Or (txtHmin <> minLH) Then
+            set_maxHHLH txtHmax, txtHmin
         End If
         
         If (txtTypes = 211) Or (txtTypes = 2590) Then
@@ -537,6 +555,7 @@ Private Sub cmdHmax_Click()
     Else
         cmdHmax.BackColor = vbGreen
         txtHmax.Enabled = True
+        txtHmin.Enabled = True
         txtTypes.Enabled = True
     End If
     
@@ -1096,25 +1115,28 @@ Dim avr1 As Long
     txtAVRheight.Text = CLng((avrHeight * 90.9) / 10)  ''<===""[0.011]""
     '''''''''''''''''''''''''''''''''''''''''''''''
     txtAsum.Text = CLng(2000 - txtAVRheight.Text)   ''CLng(avrSUM)
+    ''txtAsum.Text = 1900
+    ''txtAsum.Text = 500
     
     ''txtVV.Text = CLng((txtAsum / maxHH) * txtAsum)            ''(0.10~1.0):until__042
-    txtVV.Text = CLng(((txtAsum / maxHH) + 1#) / 2# * txtAsum)  ''(0.55~1.0):after__043
-    ''************************************************************************''
-    
-    If Val(txtVV) > Val(txtAsum) Then
-        txtVV = txtAsum
+    ''txtVV.Text = CLng(((txtAsum / maxHH) + 1#) / 2# * txtAsum)  ''(0.55~1.0):after__043
+    If txtAsum > maxHH Then
+        txtVV.Text = maxHH '' 100%
+    ElseIf txtAsum < minLH Then
+        txtVV.Text = minLH '' 0%
+    Else
+        txtVV.Text = txtAsum
     End If
     
+    ''************************************************************************''
     lbHH.Caption = "H:" & Format((txtAsum / 100), "#0.00")
     
-    If txtVV > maxHH Then
-    
-        txtVV = maxHH '''201705---Max!!
-        '''''''''''''
-    
+    If txtVV >= maxHH Then
         lbHP.Caption = "V:" & "100"
+    ElseIf txtVV <= minLH Then
+        lbHP.Caption = "V:" & "0"
     Else
-        lbHP.Caption = "V:" & Format((txtVV / maxHH) * 100, "#0.0")
+        lbHP.Caption = "V:" & Format(((txtVV - minLH) / (maxHH - minLH)) * 100, "#0.0")
     End If
     
 '''    ''lbAO.Caption = "I:" & Format(((txtVV / 2000) * 16 + 4), "#0.00") ''32768)
@@ -1123,10 +1145,10 @@ Dim avr1 As Long
     ''lbVVV.Caption = "V:" & Format((txtVV / 2000) * 600, "####0")
     If txtOpMid >= 0.5 Then
         ''체적,중량:1~12:: 400[m*m*m]--520Ton
-        lbVVV.Caption = "V:" & Format((txtVV / maxHH) * 300, "###0")   '''BIN5::400
+        lbVVV.Caption = "V:" & Format(((txtVV - minLH) / (maxHH - minLH)) * 300, "###0")   '''BIN5::400
     Else
         ''체적,중량: 8,9:: 150[m*m*m]--195Ton
-        lbVVV.Caption = "V:" & Format((txtVV / maxHH) * 200, "###0")  '''BIN5::150
+        lbVVV.Caption = "V:" & Format(((txtVV - minLH) / (maxHH - minLH)) * 200, "###0")  '''BIN5::150
     End If
 
 ''''===============================================================
@@ -1134,7 +1156,7 @@ Dim avr1 As Long
     ''체적,중량: 8,9:: 150[m*m*m]--195Ton
 
 
-    txtAOd = CLng((txtVV / maxHH) * 32767)
+    txtAOd = CLng(((txtVV - minLH) / (maxHH - minLH)) * 32767)
 
     If txtAOd < 1 Then
         txtAOd = 1          '''v044~
@@ -1186,13 +1208,16 @@ Public Function GETscanD(ang As Integer) As Long
     GETscanD = CLng(scanDfilt(ang))   '' / 10)
 End Function
 
-Public Sub set_maxHH(hh As Long)
+Public Sub set_maxHHLH(hh As Long, lh As Long)
     maxHH = hh
+    minLH = lh
     ''''''''''
     txtHmax = hh
+    txtHmin = lh
     
     
         SaveSetting App.Title, "Settings", "MaxH_" & Trim(UCindex), CInt(maxHH)
+        SaveSetting App.Title, "Settings", "MinH_" & Trim(UCindex), CInt(minLH)
         ''SaveSetting
     
     

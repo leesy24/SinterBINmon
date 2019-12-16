@@ -397,6 +397,7 @@ Dim AOdata2(33) As Integer
 Dim BinWidth As Integer
 ''
 Dim BinMaxH(33) As Integer
+Dim BinMinH(33) As Integer
 ''
 Dim BinTYPE(33) As Integer
 
@@ -1114,12 +1115,11 @@ Dim i As Integer
 
     For i = 0 To 19
         BinMaxH(i) = GetSetting(App.Title, "Settings", "MaxH_" & Trim(i), 1850)
-        '''''''
-        SaveSetting App.Title, "Settings", "MaxH_" & Trim(i), BinMaxH(i)
+        BinMinH(i) = GetSetting(App.Title, "Settings", "MinH_" & Trim(i), 550)
     Next i
     
     For i = 0 To 19  ''12¼Ò°á  '''9 '''10
-        ucBINdps1(i).set_maxHH CLng(BinMaxH(i))  '''CLng(txtMaxHH)
+        ucBINdps1(i).set_maxHHLH CLng(BinMaxH(i)), CLng(BinMinH(i))  '''CLng(txtMaxHH)
         '''''''''''''''''''''''
         ucBINdps1(i).rxMode = 0  ''7
         '''''''''''''''''''''''

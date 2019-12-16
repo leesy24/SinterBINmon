@@ -12,6 +12,22 @@ Begin VB.Form frmSettings
    ScaleHeight     =   3090
    ScaleWidth      =   4680
    StartUpPosition =   3  'Windows 기본값
+   Begin VB.TextBox txtBinMinLH 
+      Height          =   270
+      Left            =   1320
+      TabIndex        =   19
+      Text            =   "1000"
+      Top             =   1980
+      Width           =   615
+   End
+   Begin VB.TextBox txtBinMaxHH 
+      Height          =   270
+      Left            =   1320
+      TabIndex        =   16
+      Text            =   "2000"
+      Top             =   1620
+      Width           =   615
+   End
    Begin VB.TextBox txtBinIPAddr 
       Height          =   270
       Left            =   1320
@@ -26,7 +42,7 @@ Begin VB.Form frmSettings
       TabIndex        =   2
       Text            =   "99999"
       Top             =   555
-      Width           =   735
+      Width           =   615
    End
    Begin VB.CommandButton cmdSettingsExit 
       Caption         =   "닫 기"
@@ -50,15 +66,49 @@ Begin VB.Form frmSettings
       Height          =   270
       Left            =   1320
       TabIndex        =   4
+      Text            =   "-48"
       Top             =   1275
-      Width           =   735
+      Width           =   615
    End
    Begin VB.TextBox txtBinAngle 
       Height          =   270
       Left            =   1320
       TabIndex        =   3
+      Text            =   "-10"
       Top             =   915
-      Width           =   735
+      Width           =   615
+   End
+   Begin VB.Label lbBinMinLH 
+      Caption         =   "높이 최소"
+      Height          =   255
+      Left            =   240
+      TabIndex        =   18
+      Top             =   2040
+      Width           =   975
+   End
+   Begin VB.Label Label7 
+      Caption         =   "cm, 0~1000"
+      Height          =   255
+      Left            =   2040
+      TabIndex        =   17
+      Top             =   2040
+      Width           =   1455
+   End
+   Begin VB.Label lbBinMaxHH 
+      Caption         =   "높이 최대"
+      Height          =   255
+      Left            =   240
+      TabIndex        =   15
+      Top             =   1680
+      Width           =   975
+   End
+   Begin VB.Label Label5 
+      Caption         =   "cm, 1700~2000"
+      Height          =   255
+      Left            =   2040
+      TabIndex        =   14
+      Top             =   1680
+      Width           =   1455
    End
    Begin VB.Label lbBinIPAddr 
       Caption         =   "Bin IP addr"
@@ -77,7 +127,7 @@ Begin VB.Form frmSettings
       Width           =   975
    End
    Begin VB.Label Label4 
-      Caption         =   "Serial2Net 의 IP"
+      Caption         =   "Serial2Net의 IP"
       Height          =   255
       Left            =   2880
       TabIndex        =   13
@@ -85,9 +135,9 @@ Begin VB.Form frmSettings
       Width           =   1575
    End
    Begin VB.Label Label3 
-      Caption         =   "Serial2Net 의 port"
+      Caption         =   "Serial2Net의 port"
       Height          =   255
-      Left            =   2160
+      Left            =   2040
       TabIndex        =   12
       Top             =   600
       Width           =   2295
@@ -95,15 +145,15 @@ Begin VB.Form frmSettings
    Begin VB.Label Label2 
       Caption         =   "°, 48~-48"
       Height          =   255
-      Left            =   2160
+      Left            =   2040
       TabIndex        =   11
       Top             =   1320
       Width           =   975
    End
    Begin VB.Label Label1 
-      Caption         =   "°, 48~-48"
+      Caption         =   "°, 10~-10"
       Height          =   255
-      Left            =   2160
+      Left            =   2040
       TabIndex        =   10
       Top             =   960
       Width           =   975
@@ -134,8 +184,9 @@ Option Explicit
 '
 Dim Index%
 Dim orgBinIPAddr$, orgBinIPPort$, orgBinAngle$, orgSensorAngle$
+Dim orgBinMaxHH$, orgBinMinLH$
 
-Public Sub Init(Index_I%, Title_I$, BinIPAddr_I$, BinIPPort_I$, BinAngle_I%, SensorAngle_I%)
+Public Sub Init(Index_I%, Title_I$, BinIPAddr_I$, BinIPPort_I$, BinAngle_I%, SensorAngle_I%, BinMaxHH_I%, BinMinLH_I%)
 '
     Index = Index_I
 '
@@ -152,6 +203,12 @@ Public Sub Init(Index_I%, Title_I$, BinIPAddr_I$, BinIPPort_I$, BinAngle_I%, Sen
 '
     orgSensorAngle = SensorAngle_I
     txtSensorAngle = SensorAngle_I
+'
+    orgBinMaxHH = BinMaxHH_I
+    txtBinMaxHH = BinMaxHH_I
+'
+    orgBinMinLH = BinMinLH_I
+    txtBinMinLH = BinMinLH_I
 '
 End Sub
 
@@ -212,6 +269,34 @@ Private Sub cmdSettingsApply_Click()
 '
     If (IsValid = True) Then
         frmMain.ucBINdps1(Index).setBinSettings txtBinAngle, txtSensorAngle
+        'IsApplied = True
+    End If
+'
+    IsValid = False
+'
+    If txtBinMaxHH <> orgBinMaxHH Then
+        If IsNumeric(txtBinMaxHH) = False _
+            Or CSng(CInt(Val(txtBinMaxHH))) <> CSng(Val(txtBinMaxHH)) _
+            Or CInt(Val(txtBinMaxHH)) > 2000! Or CInt(Val(txtBinMaxHH)) < 1700! _
+            Then
+            MsgBox lbBinMaxHH & "는 1700 ~ 2000 사이의 cm단위의 정수 값 이어야 합니다.", vbOKOnly
+        Else
+            IsValid = True
+        End If
+    End If
+    If txtBinMinLH <> orgBinMinLH Then
+        If IsNumeric(txtBinMinLH) = False _
+            Or CSng(CInt(Val(txtBinMinLH))) <> CSng(Val(txtBinMinLH)) _
+            Or CInt(Val(txtBinMinLH)) > 1000! Or CInt(Val(txtBinMinLH)) < 0! _
+            Then
+            MsgBox lbBinMinLH & "는 0 ~ 1000 사이의 cm단위의 정수 값 이어야 합니다.", vbOKOnly
+        Else
+            IsValid = True
+        End If
+    End If
+'
+    If (IsValid = True) Then
+        frmMain.ucBINdps1(Index).set_maxHHLH txtBinMaxHH, txtBinMinLH
         'IsApplied = True
     End If
 '
