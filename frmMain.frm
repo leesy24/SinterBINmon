@@ -1115,7 +1115,7 @@ Dim i As Integer
 
     For i = 0 To 19
         BinMaxH(i) = GetSetting(App.Title, "Settings", "MaxH_" & Trim(i), 1850)
-        BinMinH(i) = GetSetting(App.Title, "Settings", "MinH_" & Trim(i), 550)
+        BinMinH(i) = GetSetting(App.Title, "Settings", "MinH_" & Trim(i), 300)
     Next i
     
     For i = 0 To 19  ''12¼Ò°á  '''9 '''10

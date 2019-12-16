@@ -537,7 +537,7 @@ Private Sub cmdHmax_Click()
             txtHmax = maxHH
         End If
         
-        If (txtHmin <> minLH) And ((txtHmin < 0) Or (txtHmin > 1000)) Then
+        If (txtHmin <> minLH) And ((txtHmin < 0) Or (txtHmin > 500)) Then
             txtHmin = minLH
         End If
         
@@ -1121,22 +1121,22 @@ Dim avr1 As Long
     ''txtVV.Text = CLng((txtAsum / maxHH) * txtAsum)            ''(0.10~1.0):until__042
     ''txtVV.Text = CLng(((txtAsum / maxHH) + 1#) / 2# * txtAsum)  ''(0.55~1.0):after__043
     If txtAsum > maxHH Then
-        txtVV.Text = maxHH '' 100%
+        txtVV.Text = maxHH - minLH '' 100%
     ElseIf txtAsum < minLH Then
-        txtVV.Text = minLH '' 0%
+        txtVV.Text = 0 '' 0%
     Else
-        txtVV.Text = txtAsum
+        txtVV.Text = txtAsum - minLH
     End If
     
     ''************************************************************************''
     lbHH.Caption = "H:" & Format((txtAsum / 100), "#0.00")
     
-    If txtVV >= maxHH Then
+    If txtVV >= maxHH - minLH Then
         lbHP.Caption = "V:" & "100"
-    ElseIf txtVV <= minLH Then
+    ElseIf txtVV <= 0 Then
         lbHP.Caption = "V:" & "0"
     Else
-        lbHP.Caption = "V:" & Format(((txtVV - minLH) / (maxHH - minLH)) * 100, "#0.0")
+        lbHP.Caption = "V:" & Format((txtVV / (maxHH - minLH)) * 100, "#0.0")
     End If
     
 '''    ''lbAO.Caption = "I:" & Format(((txtVV / 2000) * 16 + 4), "#0.00") ''32768)
@@ -1145,10 +1145,10 @@ Dim avr1 As Long
     ''lbVVV.Caption = "V:" & Format((txtVV / 2000) * 600, "####0")
     If txtOpMid >= 0.5 Then
         ''체적,중량:1~12:: 400[m*m*m]--520Ton
-        lbVVV.Caption = "V:" & Format(((txtVV - minLH) / (maxHH - minLH)) * 300, "###0")   '''BIN5::400
+        lbVVV.Caption = "V:" & Format((txtVV / (maxHH - minLH)) * 300, "###0")   '''BIN5::400
     Else
         ''체적,중량: 8,9:: 150[m*m*m]--195Ton
-        lbVVV.Caption = "V:" & Format(((txtVV - minLH) / (maxHH - minLH)) * 200, "###0")  '''BIN5::150
+        lbVVV.Caption = "V:" & Format((txtVV / (maxHH - minLH)) * 200, "###0")  '''BIN5::150
     End If
 
 ''''===============================================================
@@ -1156,7 +1156,7 @@ Dim avr1 As Long
     ''체적,중량: 8,9:: 150[m*m*m]--195Ton
 
 
-    txtAOd = CLng(((txtVV - minLH) / (maxHH - minLH)) * 32767)
+    txtAOd = CLng((txtVV / (maxHH - minLH)) * 32767)
 
     If txtAOd < 1 Then
         txtAOd = 1          '''v044~

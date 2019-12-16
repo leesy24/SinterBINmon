@@ -16,7 +16,7 @@ Begin VB.Form frmSettings
       Height          =   270
       Left            =   1320
       TabIndex        =   19
-      Text            =   "1000"
+      Text            =   "500"
       Top             =   1980
       Width           =   615
    End
@@ -87,7 +87,7 @@ Begin VB.Form frmSettings
       Width           =   975
    End
    Begin VB.Label Label7 
-      Caption         =   "cm, 0~1000"
+      Caption         =   "cm, 0~500"
       Height          =   255
       Left            =   2040
       TabIndex        =   17
@@ -224,6 +224,7 @@ Private Sub cmdSettingsApply_Click()
         If IsValidIPAddress(txtBinIPAddr) = False Then
             MsgBox lbBinIPAddr & "는 192.168.0.1 형태의 값 이어야 합니다.", vbOKOnly
         Else
+            orgBinIPAddr = txtBinIPAddr
             SaveSetting App.Title, "Settings", "BinIPAddr_" & Index, txtBinIPAddr
             IsValid = True
         End If
@@ -232,6 +233,7 @@ Private Sub cmdSettingsApply_Click()
         If IsValidIPPort(txtBinIPPort) = False Then
             MsgBox lbBinIPPort & "는 1024 ~ 65535 사이의 정수 값 이어야 합니다.", vbOKOnly
         Else
+            orgBinIPPort = txtBinIPPort
             SaveSetting App.Title, "Settings", "BinIPPort_" & Index, txtBinIPPort
             IsValid = True
         End If
@@ -251,6 +253,7 @@ Private Sub cmdSettingsApply_Click()
             Then
             MsgBox lbBinAngle & "는 10 ~ -10 사이의 정수 값 이어야 합니다.", vbOKOnly
         Else
+            orgBinAngle = txtBinAngle
             SaveSetting App.Title, "Settings", "BinAngle_" & Index, txtBinAngle
             IsValid = True
         End If
@@ -262,6 +265,7 @@ Private Sub cmdSettingsApply_Click()
             Then
             MsgBox lbSensorAngle & "는 48 ~ -48 사이의 정수 값 이어야 합니다.", vbOKOnly
         Else
+            orgSensorAngle = txtSensorAngle
             SaveSetting App.Title, "Settings", "SensorAngle_" & Index, txtSensorAngle
             IsValid = True
         End If
@@ -281,16 +285,18 @@ Private Sub cmdSettingsApply_Click()
             Then
             MsgBox lbBinMaxHH & "는 1700 ~ 2000 사이의 cm단위의 정수 값 이어야 합니다.", vbOKOnly
         Else
+            orgBinMaxHH = txtBinMaxHH
             IsValid = True
         End If
     End If
     If txtBinMinLH <> orgBinMinLH Then
         If IsNumeric(txtBinMinLH) = False _
             Or CSng(CInt(Val(txtBinMinLH))) <> CSng(Val(txtBinMinLH)) _
-            Or CInt(Val(txtBinMinLH)) > 1000! Or CInt(Val(txtBinMinLH)) < 0! _
+            Or CInt(Val(txtBinMinLH)) > 500! Or CInt(Val(txtBinMinLH)) < 0! _
             Then
-            MsgBox lbBinMinLH & "는 0 ~ 1000 사이의 cm단위의 정수 값 이어야 합니다.", vbOKOnly
+            MsgBox lbBinMinLH & "는 0 ~ 500 사이의 cm단위의 정수 값 이어야 합니다.", vbOKOnly
         Else
+            orgBinMinLH = txtBinMinLH
             IsValid = True
         End If
     End If
