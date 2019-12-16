@@ -381,8 +381,8 @@ Private Declare Sub CopyMemory Lib "kernel32" _
                                            hpvSource As Any, _
                                            ByVal cbCopy As Long)
 
-Private Const relVersion = "v2.00.02"
-Private Const relDate = "2019-12-11"
+Private Const relVersion = "v2.00.03"
+Private Const relDate = "2019-12-16"
 
 Dim d1 As Single
 
