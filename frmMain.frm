@@ -51,12 +51,13 @@ Begin VB.Form frmMain
       _ExtentX        =   2990
       _ExtentY        =   13785
    End
-   Begin VB.TextBox txtMaxHH 
-      Alignment       =   1  '오른쪽 맞춤
+   Begin VB.TextBox txtAVRcnt 
+      Alignment       =   2  '가운데 맞춤
+      Enabled         =   0   'False
       Height          =   270
       Left            =   10440
       TabIndex        =   17
-      Text            =   "1850"
+      Text            =   "0/0"
       Top             =   960
       Width           =   615
    End
@@ -329,12 +330,12 @@ Begin VB.Form frmMain
    End
    Begin VB.Label Label1 
       BackStyle       =   0  '투명
-      Caption         =   "MaxHigh:"
+      Caption         =   "누적횟수:"
       ForeColor       =   &H00FFC0FF&
       Height          =   255
       Left            =   9600
       TabIndex        =   18
-      Top             =   960
+      Top             =   1010
       Width           =   975
    End
    Begin VB.Label lbUpTime 
@@ -387,12 +388,19 @@ Private Const relDate = "2019-12-16"
 Dim d1 As Single
 
 
+Public SinterNumber1 As Integer
+Public SinterNumber2 As Integer
 
-Dim ipAddr(19) As String
-Dim ipPort(19) As String
+Dim ipAddr(20) As String
+Dim ipPort(20) As String
 
 Dim AOdata(33) As Integer
 Dim AOdata2(33) As Integer
+
+Dim AOdeep(20, 100) As Integer
+Public AOdeepCNT As Integer
+Public AOdeepMAX As Integer        ''<=MAX:99
+Public AOdeepFull As Boolean
 
 Dim BinWidth As Integer
 ''
@@ -730,6 +738,7 @@ End Sub
 Private Sub Form_Load()
 
 Dim i As Integer
+Dim j As Integer
 
     If App.PrevInstance Then
        MsgBox "프로그램이 이미 실행되었습니다."
@@ -751,6 +760,22 @@ Dim i As Integer
     
     frmMain.Move 0, 0, Screen.Width, Screen.Height
     
+    SinterNumber1 = GetSetting(App.Title, "Settings", "SinterNumber1", 1)
+    SinterNumber2 = GetSetting(App.Title, "Settings", "SinterNumber2", 2)
+    
+    lbTitle.Caption = "[" & SinterNumber1 & "," & SinterNumber2 & "소결] BIN LEVEL MONITORING"
+    
+    AOdeepMAX = GetSetting(App.Title, "Settings", "DeepMax", 60)
+    If AOdeepMAX < 10 Then AOdeepMAX = 10
+    If AOdeepMAX > 99 Then AOdeepMAX = 99
+    AOdeepFull = False
+    AOdeepCNT = 0
+    For i = 0 To 19
+        For j = 0 To 99  ''AOdeepMAX
+            AOdeep(i, j) = 0
+        Next j
+    Next i
+
     picTop.Left = 100
     picTop.Top = 100
     picTop.Height = 800   '''Height * 0.05 + 100
@@ -910,50 +935,102 @@ Dim i As Integer
 ''    ucBINdps1(0).setIDX 0, ipAddr(0), ipPort(0)
     ''
     
-    ''' Set default IP addr/port
-    ipAddr(0) = "192.168.0.21"
-    ipPort(0) = "7001"
-    ipAddr(1) = "192.168.0.21"
-    ipPort(1) = "7002"
-    ipAddr(2) = "192.168.0.21"
-    ipPort(2) = "7003"
-    ipAddr(3) = "192.168.0.21"
-    ipPort(3) = "7004"
-    '''
-    ipAddr(4) = "192.168.0.22"
-    ipPort(4) = "7001"
-    ipAddr(5) = "192.168.0.22"
-    ipPort(5) = "7002"
-    ipAddr(6) = "192.168.0.22"
-    ipPort(6) = "7003"
-    ipAddr(7) = "192.168.0.22"
-    ipPort(7) = "7004"
-    ipAddr(8) = "192.168.0.22"
-    ipPort(8) = "7005"
-    ipAddr(9) = "192.168.0.22"
-    ipPort(9) = "7006"
-    '''
-    ipAddr(10) = "192.168.0.31"
-    ipPort(10) = "7001"
-    ipAddr(11) = "192.168.0.31"
-    ipPort(11) = "7002"
-    ipAddr(12) = "192.168.0.31"
-    ipPort(12) = "7003"
-    ipAddr(13) = "192.168.0.31"
-    ipPort(13) = "7004"
-    '''
-    ipAddr(14) = "192.168.0.32"
-    ipPort(14) = "7001"
-    ipAddr(15) = "192.168.0.32"
-    ipPort(15) = "7002"
-    ipAddr(16) = "192.168.0.32"
-    ipPort(16) = "7003"
-    ipAddr(17) = "192.168.0.32"
-    ipPort(17) = "7004"
-    ipAddr(18) = "192.168.0.32"
-    ipPort(18) = "7005"
-    ipAddr(19) = "192.168.0.32"
-    ipPort(19) = "7006"
+    If (SinterNumber1 = 3) And (SinterNumber2 = 4) Then
+        txtPcsIP.Text = "172.24.55.27"
+        txtPcsPort.Text = "8002"
+        
+        ''' Set default IP addr/port for sinter 1 and 2
+        ipAddr(0) = "192.168.0.41"
+        ipPort(0) = "7001"
+        ipAddr(1) = "192.168.0.41"
+        ipPort(1) = "7002"
+        ipAddr(2) = "192.168.0.41"
+        ipPort(2) = "7003"
+        ipAddr(3) = "192.168.0.41"
+        ipPort(3) = "7004"
+        '''
+        ipAddr(4) = "192.168.0.42"
+        ipPort(4) = "7001"
+        ipAddr(5) = "192.168.0.42"
+        ipPort(5) = "7002"
+        ipAddr(6) = "192.168.0.42"
+        ipPort(6) = "7003"
+        ipAddr(7) = "192.168.0.42"
+        ipPort(7) = "7004"
+        ipAddr(8) = "192.168.0.42"
+        ipPort(8) = "7005"
+        ipAddr(9) = "192.168.0.42"
+        ipPort(9) = "7006"
+        '''
+        ipAddr(10) = "192.168.0.51"
+        ipPort(10) = "7001"
+        ipAddr(11) = "192.168.0.51"
+        ipPort(11) = "7002"
+        ipAddr(12) = "192.168.0.51"
+        ipPort(12) = "7003"
+        ipAddr(13) = "192.168.0.51"
+        ipPort(13) = "7004"
+        '''
+        ipAddr(14) = "192.168.0.52"
+        ipPort(14) = "7001"
+        ipAddr(15) = "192.168.0.52"
+        ipPort(15) = "7002"
+        ipAddr(16) = "192.168.0.52"
+        ipPort(16) = "7003"
+        ipAddr(17) = "192.168.0.52"
+        ipPort(17) = "7004"
+        ipAddr(18) = "192.168.0.52"
+        ipPort(18) = "7005"
+        ipAddr(19) = "192.168.0.52"
+        ipPort(19) = "7006"
+    Else ' If (SinterNumber1 = 1) And (SinterNumber2 = 2) Then
+        txtPcsIP.Text = "172.24.55.27"
+        txtPcsPort.Text = "8001"
+        ''' Set default IP addr/port for sinter 1 and 2
+        ipAddr(0) = "192.168.0.21"
+        ipPort(0) = "7001"
+        ipAddr(1) = "192.168.0.21"
+        ipPort(1) = "7002"
+        ipAddr(2) = "192.168.0.21"
+        ipPort(2) = "7003"
+        ipAddr(3) = "192.168.0.21"
+        ipPort(3) = "7004"
+        '''
+        ipAddr(4) = "192.168.0.22"
+        ipPort(4) = "7001"
+        ipAddr(5) = "192.168.0.22"
+        ipPort(5) = "7002"
+        ipAddr(6) = "192.168.0.22"
+        ipPort(6) = "7003"
+        ipAddr(7) = "192.168.0.22"
+        ipPort(7) = "7004"
+        ipAddr(8) = "192.168.0.22"
+        ipPort(8) = "7005"
+        ipAddr(9) = "192.168.0.22"
+        ipPort(9) = "7006"
+        '''
+        ipAddr(10) = "192.168.0.31"
+        ipPort(10) = "7001"
+        ipAddr(11) = "192.168.0.31"
+        ipPort(11) = "7002"
+        ipAddr(12) = "192.168.0.31"
+        ipPort(12) = "7003"
+        ipAddr(13) = "192.168.0.31"
+        ipPort(13) = "7004"
+        '''
+        ipAddr(14) = "192.168.0.32"
+        ipPort(14) = "7001"
+        ipAddr(15) = "192.168.0.32"
+        ipPort(15) = "7002"
+        ipAddr(16) = "192.168.0.32"
+        ipPort(16) = "7003"
+        ipAddr(17) = "192.168.0.32"
+        ipPort(17) = "7004"
+        ipAddr(18) = "192.168.0.32"
+        ipPort(18) = "7005"
+        ipAddr(19) = "192.168.0.32"
+        ipPort(19) = "7006"
+    End If
     
     Dim ipAddr_tmp As String
     Dim ipPort_tmp As String
@@ -962,65 +1039,14 @@ Dim i As Integer
         ipPort_tmp = GetSetting(App.Title, "Settings", "BinIPPort_" & i, "Fail")
         If IsValidIPAddress(ipAddr_tmp) = False Then
             ipAddr_tmp = ipAddr(i)
-            SaveSetting App.Title, "Settings", "BinIPAddr_" & i, ipAddr_tmp
+            ''SaveSetting App.Title, "Settings", "BinIPAddr_" & i, ipAddr_tmp
         End If
         If IsValidIPPort(ipPort_tmp) = False Then
             ipPort_tmp = ipPort(i)
-            SaveSetting App.Title, "Settings", "BinIPPort_" & i, ipPort_tmp
+            ''SaveSetting App.Title, "Settings", "BinIPPort_" & i, ipPort_tmp
         End If
         ucBINdps1(i).setIDX i, ipAddr_tmp, ipPort_tmp
     Next i
-    
-    'ucBINdps1(0).setIDX 0, "192.168.0.21", "7001"
-    'ucBINdps1(1).setIDX 1, "192.168.0.21", "7002"
-    'ucBINdps1(2).setIDX 2, "192.168.0.21", "7003"
-    'ucBINdps1(3).setIDX 3, "192.168.0.21", "7004"
-    '''
-    'ucBINdps1(4).setIDX 4, "192.168.0.22", "7001"
-    'ucBINdps1(5).setIDX 5, "192.168.0.22", "7002"
-    'ucBINdps1(6).setIDX 6, "192.168.0.22", "7003"
-    'ucBINdps1(7).setIDX 7, "192.168.0.22", "7004"
-    'ucBINdps1(8).setIDX 8, "192.168.0.22", "7005"
-    'ucBINdps1(9).setIDX 9, "192.168.0.22", "7006"
-    
-    
-    
-    ''''    Serial port configuration : /serial/
-    ''''     No. Title Mode Port# Serial-Settings
-    ''''    1 Port #1 TCP 7001 RS_422 9600 N 8 1 None
-    ''''    2 Port #2 TCP 7002 RS_422 9600 N 8 1 None
-    ''''    3 Port #3 TCP 7003 RS_422 9600 N 8 1 None
-    ''''    4 Port #4 TCP 7004 RS_422 9600 N 8 1 None
-    ''''    5 Port #5 TCP 7005 RS_422 9600 N 8 1 None
-    ''''    6 Port #7 TCP 7007 RS_422 9600 N 8 1 None
-    ''''    7 Port #6 TCP 7006 RS_422 9600 N 8 1 None
-    ''''    8 Port #8 TCP 7008 RS_422 9600 N 8 1 None
-    ''''    Copyright 2005 Sena Technologies, Inc. All rights reserved.
-
-    ''''    Serial ports statistics
-    ''''    Port Baud Rate Tx Rx RTS CTS DTR DSR CD
-    ''''    1 9600 324 268760032
-    ''''    2 9600 276 268753348
-    ''''    3 9600 450 268758379
-    ''''    4 9600 359 268746696
-    ''''    5 9600 375 268768898
-    ''''    6 9600 0 0
-    ''''    7 9600 233 268745615
-    ''''    8 9600 0 0
-    ''''    Copyright 2005 Sena Technologies, Inc. All rights reserved.
-    
-    
-    'ucBINdps1(10).setIDX 10, "192.168.0.31", "7001"
-    'ucBINdps1(11).setIDX 11, "192.168.0.31", "7002"
-    'ucBINdps1(12).setIDX 12, "192.168.0.31", "7003"
-    'ucBINdps1(13).setIDX 13, "192.168.0.31", "7004"
-    '''
-    'ucBINdps1(14).setIDX 14, "192.168.0.32", "7001"
-    'ucBINdps1(15).setIDX 15, "192.168.0.32", "7002"
-    'ucBINdps1(16).setIDX 16, "192.168.0.32", "7003"
-    'ucBINdps1(17).setIDX 17, "192.168.0.32", "7004"
-    'ucBINdps1(18).setIDX 18, "192.168.0.32", "7005"
-    'ucBINdps1(19).setIDX 19, "192.168.0.32", "7006"
     
     With wsPLC1
         .Close
@@ -1195,15 +1221,15 @@ Dim i As Integer
 ''                    & ", " & ucBINmon1(0).picGET_width & "x" & ucBINmon1(0).picGET_height
 
 
-    BINLog vbCrLf & vbCrLf & Format(Now, "YYYYMMDD-hh:mm:ss") & " ====[SILO BIN-LEVEL START]===" & vbCrLf, "1소결"
-    BINLog vbCrLf & vbCrLf & Format(Now, "YYYYMMDD-hh:mm:ss") & " ====[SILO BIN-LEVEL START]===" & vbCrLf, "2소결"
+    BINLog vbCrLf & vbCrLf & Format(Now, "YYYYMMDD-hh:mm:ss") & " ====[SILO BIN-LEVEL START]===" & vbCrLf, SinterNumber1 & "소결"
+    BINLog vbCrLf & vbCrLf & Format(Now, "YYYYMMDD-hh:mm:ss") & " ====[SILO BIN-LEVEL START]===" & vbCrLf, SinterNumber2 & "소결"
 
 
 
     tmrINIT.Interval = 5000
     tmrINIT.Enabled = True
     
-    txtMaxHH.Enabled = False
+    ''txtMaxHH.Enabled = False
     
 
 ''        cmdRunStop.BackColor = &H80&    ''stop
@@ -1221,6 +1247,7 @@ End Sub
 Private Sub tmrAoDo_Timer()
 
 Dim i As Integer
+Dim j As Integer
 Dim ioD(33) As Integer
 Dim str1 As String
 Dim str2 As String
@@ -1228,32 +1255,100 @@ Dim str2 As String
 
 Dim aaD(33) As Integer
 
+Dim avrD(20) As Integer
+Dim avrDsum(20) As Long
+
 Dim UDPiV_1(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
 Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
     
     lbTimeNow.Caption = "RunTime: " & Format(Now, "YYYY-MM-DD h:m:s")
 
-    ''For i = 0 To 19
-    ''    aaD(i) = ucBINdps1(i).ret_AOd
-    ''    '''''''''''''''''''''''''''''
-    ''Next i
+    For i = 0 To 19
+        aaD(i) = ucBINdps1(i).ret_AOd   '''' (1~32767)
+        '''''''''''''''''''''''''''''
+    Next i
     
+    ''Get--First!!
+    For i = 0 To 19
+        If (aaD(i) <= 0) Or (aaD(i) >= 32768) Then
+            aaD(i) = GetSetting(App.Title, "Settings", "AV_" & Trim(i), 0)
+        End If
+    Next i
+
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''<AVR)
+    For i = 0 To 19
+        AOdeep(i, AOdeepCNT) = aaD(i)
+    Next i
+    ''
+    AOdeepCNT = AOdeepCNT + 1
+    ''
+    If AOdeepCNT >= AOdeepMAX Then  ''99
+        If AOdeepFull = False Then
+            txtAVRcnt = AOdeepCNT & "/" & AOdeepMAX
+            AOdeepFull = True
+        End If
+        AOdeepCNT = 0       ''''Loop!
+    End If
+
+
+    For i = 0 To 19
+        avrDsum(i) = 0
+    Next i
+    
+    ''//??????????
+    If AOdeepFull = True Then
+    ''
+        For i = 0 To 19
+            For j = 0 To AOdeepMAX - 1
+                avrDsum(i) = avrDsum(i) + AOdeep(i, j)
+            Next j
+            avrD(i) = CInt(avrDsum(i) / AOdeepMAX)
+        Next i
+    ''
+    ElseIf AOdeepCNT > 1 Then
+    ''
+        txtAVRcnt = AOdeepCNT & "/" & AOdeepMAX
+        For i = 0 To 19
+            For j = 0 To AOdeepCNT - 1
+                avrDsum(i) = avrDsum(i) + AOdeep(i, j)
+            Next j
+            avrD(i) = CInt(avrDsum(i) / AOdeepCNT)
+        Next i
+    ''
+    Else
+        txtAVRcnt = AOdeepCNT & "/" & AOdeepMAX
+        For i = 0 To 19
+            avrD(i) = aaD(i)
+        Next i
+    End If
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''>AVR)
+
+    ''set_avrHH for View
+    For i = 0 To 19
+        ucBINdps1(i).avrAOd = avrD(i)
+    Next i
+
+    
+    ''Replace!!
+    For i = 0 To 19
+        aaD(i) = avrD(i)
+    Next i
+
+    ''Ready for PLC direct
     For i = 0 To 29
          UDPiV_1(i) = 0
          UDPiV_2(i) = 0
     Next i
-    
+    '''
     For i = 0 To 9
-        aaD(i) = ucBINdps1(i).ret_AOd   '''' (1~32767)
         UDPiV_1(i) = aaD(i)
     Next i
     ''
     For i = 10 To 19
-        aaD(i) = ucBINdps1(i).ret_AOd   '''' (1~32767)
         UDPiV_2(i - 10) = aaD(i)
     Next i
     
-    ''SAVE--First!!
+    ''SAVE--Replace!!
     For i = 0 To 19
         If (aaD(i) > 0) And (aaD(i) < 32768) Then
             SaveSetting App.Title, "Settings", "AV_" & Trim(i), aaD(i)
@@ -1378,8 +1473,8 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
         
 
         ''BINLog vbCrLf, "12소결"
-        BINLog str1, "1소결"
-        BINLog str2, "2소결"
+        BINLog str1, SinterNumber1 & "소결"
+        BINLog str2, SinterNumber2 & "소결"
         
         ''Dim buffer(59) As Byte
         
@@ -1405,18 +1500,31 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
 ''''        '''''''
 ''''        AdsOcx1.AdsSyncWriteReq &HF020&, &H64&, 64, AOdata  ''ioD
 
-        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0"
+    If (SinterNumber1 = 3) And (SinterNumber2 = 4) Then
+        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.1.1" ''34소결!!
+        AdsOcx1.AdsAmsServerPort = 301  ''800  ''3소결!!
+        AdsOcx1.EnableErrorHandling = True
+        ''''
+        AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata
+        
+        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.1.1" ''34소결!!
+        AdsOcx1.AdsAmsServerPort = 302  ''800  ''4소결!!
+        AdsOcx1.EnableErrorHandling = True
+        ''''
+        AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata2
+    Else 'If (SinterNumber1 = 1) And (SinterNumber2 = 2) Then
+        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0" ''12소결!!
         AdsOcx1.AdsAmsServerPort = 301  ''800  ''1소결!!
         AdsOcx1.EnableErrorHandling = True
         ''''
         AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata
         
-        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0"
+        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0" ''12소결!!
         AdsOcx1.AdsAmsServerPort = 302  ''800  ''2소결!!
         AdsOcx1.EnableErrorHandling = True
         ''''
         AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata2
-
+    End If
 
 wsErrADS:
         '''''Just-Cancle...for next
@@ -1425,10 +1533,10 @@ wsErrADS:
 
         If wsPcs.State = sckConnected Then
             '''''''''''''
-            EditPcsData 1
+            EditPcsData SinterNumber1
             ''DoEvents
             '''''''''''''
-            EditPcsData 2
+            EditPcsData SinterNumber2
             ''DoEvents
             '''''''''''''
             txtWSpcs.BackColor = vbGreen
@@ -1495,7 +1603,13 @@ On Error GoTo wsErrPcs
 
 
 
-    If Pno = 2 Then
+    If Pno = 4 Then
+        sendbuf(4) = &H4  ''Plant-No
+        posUCidx = 10
+    ElseIf Pno = 3 Then
+        sendbuf(4) = &H3  ''Plant-No
+        posUCidx = 0
+    ElseIf Pno = 2 Then
         sendbuf(4) = &H2  ''Plant-No
         posUCidx = 10
     ElseIf Pno = 1 Then

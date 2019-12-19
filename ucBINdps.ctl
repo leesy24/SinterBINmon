@@ -42,7 +42,7 @@ Begin VB.UserControl ucBINdps
       BackColor       =   &H00FFFFC0&
       Enabled         =   0   'False
       Height          =   270
-      Left            =   1200
+      Left            =   1140
       TabIndex        =   24
       Text            =   "0"
       Top             =   4560
@@ -466,6 +466,7 @@ Public avrCNT As Integer
 Public avrHeight As Long
 Public maxHH As Long
 Public minLH As Long
+Public avrAOd As Integer
 
 Private setAngle As Integer
 
@@ -1128,34 +1129,6 @@ Dim avr1 As Long
         txtVV.Text = txtAsum - minLH
     End If
     
-    ''************************************************************************''
-    lbHH.Caption = "H:" & Format((txtAsum / 100), "#0.00")
-    
-    If txtVV >= maxHH - minLH Then
-        lbHP.Caption = "V:" & "100"
-    ElseIf txtVV <= 0 Then
-        lbHP.Caption = "V:" & "0"
-    Else
-        lbHP.Caption = "V:" & Format((txtVV / (maxHH - minLH)) * 100, "#0.0")
-    End If
-    
-'''    ''lbAO.Caption = "I:" & Format(((txtVV / 2000) * 16 + 4), "#0.00") ''32768)
-'''    lbAO.Caption = "I:" & Format(((txtVV / maxHH) * 16 + 4), "#0.00")  ''32768)
-    
-    ''lbVVV.Caption = "V:" & Format((txtVV / 2000) * 600, "####0")
-    If txtOpMid >= 0.5 Then
-        ''체적,중량:1~12:: 400[m*m*m]--520Ton
-        lbVVV.Caption = "V:" & Format((txtVV / (maxHH - minLH)) * 300, "###0")   '''BIN5::400
-    Else
-        ''체적,중량: 8,9:: 150[m*m*m]--195Ton
-        lbVVV.Caption = "V:" & Format((txtVV / (maxHH - minLH)) * 200, "###0")  '''BIN5::150
-    End If
-
-''''===============================================================
-    ''체적,중량:1~12:: 400[m*m*m]--520Ton
-    ''체적,중량: 8,9:: 150[m*m*m]--195Ton
-
-
     txtAOd = CLng((txtVV / (maxHH - minLH)) * 32767)
 
     If txtAOd < 1 Then
@@ -1165,8 +1138,23 @@ Dim avr1 As Long
         txtAOd = 32767
     End If
     
-    lbAO.Caption = "I:" & Format(((txtAOd / 32768) * 16 + 4), "#0.00")  ''32768)
-    
+    ''''''''''''''''''''''''''''''''''''''
+    lbAO.Caption = "I:" & Format(((avrAOd / 32768) * 16 + 4), "#0.00")  ''32768)
+    lbHH.Caption = "H:" & Format((((avrAOd * (maxHH - minLH) / 32767) + minLH) / 100), "#0.00")
+    If avrAOd * (maxHH - minLH) / 32767 >= maxHH - minLH Then
+        lbHP.Caption = "V:" & "100"
+    ElseIf avrAOd * (maxHH - minLH) / 32767 <= 0 Then
+        lbHP.Caption = "V:" & "0"
+    Else
+        lbHP.Caption = "V:" & Format(avrAOd / 32767 * 100, "#0.0")
+    End If
+    If txtOpMid >= 0.5 Then
+        ''체적,중량:1~12:: 400[m*m*m]--520Ton
+        lbVVV.Caption = "V:" & Format(avrAOd / 32767 * 300, "###0")   '''BIN5::400
+    Else
+        ''체적,중량: 8,9:: 150[m*m*m]--195Ton
+        lbVVV.Caption = "V:" & Format(avrAOd / 32767 * 200, "###0")  '''BIN5::150
+    End If
 
 
     RaiseEvent upDXY
@@ -1548,13 +1536,13 @@ End Sub
 
 Public Sub setBinID()
     If UCindex < 6 Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "1소결BIN-" & (UCindex + 1)  ''0~5::1소결
+        cmdCONN.Caption = UCindex + 1 & ") " & frmMain.SinterNumber1 & "소결BIN-" & (UCindex + 1)  ''0~5::1소결
     ElseIf UCindex < 10 Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "1소결BIN-" & (UCindex + 2)  ''6~9::1소결
+        cmdCONN.Caption = UCindex + 1 & ") " & frmMain.SinterNumber1 & "소결BIN-" & (UCindex + 2)  ''6~9::1소결
     ElseIf (UCindex > 9) And (UCindex < 16) Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "2소결BIN-" & (UCindex - 10 + 1) ''10~15::2소결
+        cmdCONN.Caption = UCindex + 1 & ") " & frmMain.SinterNumber2 & "소결BIN-" & (UCindex - 10 + 1) ''10~15::2소결
     ElseIf (UCindex > 15) And (UCindex < 20) Then
-        cmdCONN.Caption = UCindex + 1 & ") " & "2소결BIN-" & (UCindex - 10 + 2) ''16~19::2소결
+        cmdCONN.Caption = UCindex + 1 & ") " & frmMain.SinterNumber2 & "소결BIN-" & (UCindex - 10 + 2) ''16~19::2소결
     End If
     
     If UCindex = 20 Then
