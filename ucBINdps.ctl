@@ -13,6 +13,11 @@ Begin VB.UserControl ucBINdps
    FillStyle       =   0  '단색
    ScaleHeight     =   9555
    ScaleWidth      =   1890
+   Begin VB.Timer tmrHmax 
+      Enabled         =   0   'False
+      Left            =   1440
+      Top             =   600
+   End
    Begin VB.TextBox txtHmin 
       Alignment       =   2  '가운데 맞춤
       BackColor       =   &H00FFFFC0&
@@ -20,9 +25,9 @@ Begin VB.UserControl ucBINdps
       Height          =   270
       Left            =   0
       TabIndex        =   26
-      Text            =   "0"
+      Text            =   "500"
       Top             =   4560
-      Width           =   615
+      Width           =   495
    End
    Begin VB.TextBox txtTypes 
       Alignment       =   2  '가운데 맞춤
@@ -42,11 +47,11 @@ Begin VB.UserControl ucBINdps
       BackColor       =   &H00FFFFC0&
       Enabled         =   0   'False
       Height          =   270
-      Left            =   1140
+      Left            =   1260
       TabIndex        =   24
-      Text            =   "0"
+      Text            =   "2000"
       Top             =   4560
-      Width           =   615
+      Width           =   495
    End
    Begin VB.CommandButton cmdHmax 
       BackColor       =   &H00C0C000&
@@ -534,6 +539,8 @@ Private Sub cmdHmax_Click()
         txtHmin.Enabled = False
         txtTypes.Enabled = False
         
+        tmrHmax.Enabled = False
+        
         If (txtHmax <> maxHH) And ((txtHmax < 1700) Or (txtHmax > 2000)) Then
             txtHmax = maxHH
         End If
@@ -558,6 +565,11 @@ Private Sub cmdHmax_Click()
         txtHmax.Enabled = True
         txtHmin.Enabled = True
         txtTypes.Enabled = True
+
+        tmrHmax.Enabled = False
+        tmrHmax.Interval = 30000 '' 30secs
+        tmrHmax.Enabled = True
+
     End If
     
     If (txtTypes = 2590) Then
@@ -1428,7 +1440,6 @@ Private Sub tmrScan1_Timer()  '''Resend~~~
     
 End Sub
 
-
 Private Sub tmrWDT_Timer()
 '''
 '''    If tmrRun.Enabled = True Then  '''RUN-MODE'''
@@ -1442,6 +1453,13 @@ Private Sub tmrWDT_Timer()
 '''
 End Sub
 
+Private Sub tmrHmax_Timer()
+'''
+    tmrHmax.Enabled = False
+    
+    cmdHmax_Click
+'''
+End Sub
 
 
 Private Sub UserControl_Initialize()
@@ -1936,6 +1954,9 @@ Private Sub wsock1_DataArrival(ByVal bytesTotal As Long)
             Exit Sub  ''===============>>
         End If
         
+        If (cmdHmax.BackColor = vbGreen) Then
+            SaveStr2File UCindex & "_raw_", inBUF2590
+        End If
 
         Dim strD1 As String
         n1 = 0
