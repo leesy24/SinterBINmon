@@ -633,7 +633,7 @@ Private Sub cmdCFG_Click()
         frmCFG.Visible = True
     End If
     
-''    frmCFG.tmrCFG.Interval = 5000
+''    frmCFG.tmrCFG.Interval = 60000 '' 60secs
 ''    frmCFG.tmrCFG.Enabled = True
 
 End Sub
@@ -642,7 +642,7 @@ End Sub
 Private Sub Form_Click()
     If frmCFG.Visible = True Then
         frmCFG.tmrCFG.Enabled = False
-        frmCFG.tmrCFG.Interval = 5000
+        frmCFG.tmrCFG.Interval = 60000 '' 60secs
         frmCFG.tmrCFG.Enabled = True
     End If
 End Sub
@@ -651,7 +651,7 @@ End Sub
 Private Sub Form_DblClick()
     If frmCFG.Visible = True Then
         frmCFG.tmrCFG.Enabled = False
-        frmCFG.tmrCFG.Interval = 5000
+        frmCFG.tmrCFG.Interval = 60000 '' 60secs
         frmCFG.tmrCFG.Enabled = True
     End If
 End Sub

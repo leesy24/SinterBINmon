@@ -136,12 +136,20 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdCFGexit_Click()
+'
+    tmrCFG.Enabled = False
+'
     frmSettings.Visible = False
     frmCFG.Visible = False
+'
 End Sub
 
 Private Sub cmdSetSYSTEM_Click()
     Dim i
+    
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Enabled = True
     
     If (Val(txtSinterNumber1) < 1) Or (Val(txtSinterNumber1) > 9) Then
             txtSinterNumber1 = frmMain.SinterNumber1
@@ -186,22 +194,18 @@ Private Sub cmdSetSYSTEM_Click()
     frmMain.AOdeepFull = False
     frmMain.AOdeepCNT = 0
     frmMain.AOdeepMAX = Val(txtAVRcnt)
-
-    tmrCFG.Enabled = False
-    tmrCFG.Interval = 5000
-    tmrCFG.Enabled = True
 End Sub
 
 Private Sub cmdSetTYPE_Click()
     Dim i
     
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Enabled = True
+    
     For i = 0 To 19
         frmMain.ucBINdps1(i).setScanTYPE CInt(txtCtypes(i))
     Next i
-    
-    tmrCFG.Enabled = False
-    tmrCFG.Interval = 5000
-    tmrCFG.Enabled = True
 End Sub
 
 Private Sub Form_Load()
@@ -277,3 +281,34 @@ Private Sub tmrCFG_Timer()
     
 End Sub
 
+Private Sub txtAVRcnt_GotFocus()
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub txtCtypes_GotFocus(Index As Integer)
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub txtSinterNumber1_GotFocus()
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub txtSinterNumber2_GotFocus()
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Enabled = True
+'
+End Sub

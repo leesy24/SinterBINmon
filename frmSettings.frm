@@ -217,6 +217,10 @@ Private Sub cmdSettingsApply_Click()
     'Dim IsApplied As Boolean
     Dim IsValid As Boolean
 '
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Enabled = True
+'
     'IsApplied = False
     IsValid = False
 '
@@ -314,6 +318,58 @@ End Sub
 
 Private Sub cmdSettingsExit_Click()
 '
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Enabled = True
+'
     frmSettings.Visible = False
+'
+End Sub
+
+Private Sub txtBinAngle_GotFocus()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub txtBinIPAddr_GotFocus()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub txtBinIPPort_GotFocus()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub txtBinMaxHH_GotFocus()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub txtBinMinLH_GotFocus()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub txtSensorAngle_GotFocus()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Enabled = True
 '
 End Sub
