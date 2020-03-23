@@ -594,7 +594,7 @@ Private Sub cmdHmax_Click()
         txtTypes.Enabled = True
 
         tmrHmax.Enabled = False
-        tmrHmax.Interval = 30000 '' 30secs
+        tmrHmax.Interval = 60000 '' 60secs
         tmrHmax.Enabled = True
 
     End If
