@@ -302,6 +302,28 @@ Begin VB.UserControl ucBINdps
       Top             =   1200
       Width           =   1575
    End
+   Begin VB.TextBox txtBinAngle 
+      Alignment       =   1  '오른쪽 맞춤
+      BackColor       =   &H00808080&
+      Enabled         =   0   'False
+      Height          =   270
+      Left            =   960
+      TabIndex        =   27
+      Text            =   "-10"
+      Top             =   4920
+      Width           =   375
+   End
+   Begin VB.TextBox txtSensorAngle 
+      Alignment       =   1  '오른쪽 맞춤
+      BackColor       =   &H00808080&
+      Enabled         =   0   'False
+      Height          =   270
+      Left            =   1320
+      TabIndex        =   28
+      Text            =   "-48"
+      Top             =   4920
+      Width           =   375
+   End
    Begin VB.Label Label1 
       Appearance      =   0  '평면
       BackColor       =   &H0000FFFF&
@@ -449,6 +471,8 @@ Private inCNT As Long
 ''Private rxMode As Integer
 Public rxMode As Integer
 
+Const PI = 3.14159265359   '''3.14159265358979  ''3.1415926535897932384626433832795
+
 Private tmrRunWDTcnt As Integer
 
 
@@ -526,7 +550,10 @@ End Sub
 Public Sub setBinSettings(BinAngle_I%, SensorAngle_I%)
 '
     BinAngle = BinAngle_I
+    txtBinAngle.Text = BinAngle
+'
     SensorAngle = SensorAngle_I
+    txtSensorAngle.Text = SensorAngle
 '
 End Sub
 
@@ -690,12 +717,12 @@ Private Sub picGET_Click()
     
     For k = 0 To n
         
-        x(k) = scanD(k) * Cos(((k) + 40) * (3.14159 / 180))  ''180
+        x(k) = scanD(k) * Cos(((k) + 40 + BinAngle) * (PI / 180))  ''180
         ''x(k) = -x(k)
         x(k) = x(k) + Val(txtOpX.Text)
         
-        ''y(k) = r(k) * Sin((angle(k) + 40) * (3.14159 / 180)) ''180
-        y(k) = maxyrange - (scanD(k) * Sin(((k) + 40) * (3.14159 / 180)))  ''180
+        ''y(k) = r(k) * Sin((angle(k) + 40 + BinAngle) * (PI / 180)) ''180
+        y(k) = maxyrange - (scanD(k) * Sin(((k) + 40 + BinAngle) * (PI / 180)))  ''180
         
         
         If (x(k) > minxrange) And (minXL > x(k)) Then
@@ -798,7 +825,7 @@ Dim X1, Y1, X2, Y2 As Double
 ''        Input #2, angle(k), r(k)
 ''
 ''        pnt(k).x = k + 10
-''        pnt(k).y = (r(k) * Sin((angle(k) + 40) * (3.14159 / 180))) * 245 / 17850 + 50
+''        pnt(k).y = (r(k) * Sin((angle(k) + 40 + BinAngle) * (PI / 180))) * 245 / 17850 + 50
 ''    Next k
 
     n = 100  ''361
@@ -810,13 +837,13 @@ Dim X1, Y1, X2, Y2 As Double
        
     For k = 0 To n
         
-        x(k) = scanD(k) * Cos(((k) + 40) * (3.14159 / 180))  ''180
+        x(k) = scanD(k) * Cos(((k) + 40 + BinAngle) * (PI / 180))  ''180
         ''x(k) = -x(k)
         x(k) = x(k) + Val(txtOpX.Text)
         
-        ''y(k) = r(k) * Sin((angle(k) + 40) * (3.14159 / 180)) ''180
-        ''y(k) = maxyrange - (scanD(k) * Sin(((k) + 40) * (3.14159 / 180)))  ''180
-        y(k) = (scanD(k) * Sin(((k) + 40) * (3.14159 / 180)))   ''180
+        ''y(k) = r(k) * Sin((angle(k) + 40 + BinAngle) * (PI / 180)) ''180
+        ''y(k) = maxyrange - (scanD(k) * Sin(((k) + 40 + BinAngle) * (PI / 180)))  ''180
+        y(k) = (scanD(k) * Sin(((k) + 40 + BinAngle) * (PI / 180)))   ''180
         
         x(k) = x(k) + 5000   '''BIN5::~3000
         ''''''''''''''''''
@@ -1699,9 +1726,6 @@ Private Sub LMSsendData(sd As String)
     End If
 End Sub
 
-
-
-
 Public Function picGET_width() As Integer
     picGET_width = picGET.Width
 End Function
@@ -1709,7 +1733,6 @@ End Function
 Public Function picGET_height() As Integer
     picGET_height = picGET.Height
 End Function
-
 
 Public Sub picCON_Cir1()
 
@@ -2631,7 +2654,7 @@ Dim DsumR As Long
         ''scanDfilt(i) = scanD(i)
         '''''''''''''''''''''''''(Law-Data!!)
         
-        scanDfilt(i) = (scanD(i) * Sin(((i) + 40) * (3.14159 / 180)))
+        scanDfilt(i) = (scanD(i) * Sin(((i) + 40 + BinAngle) * (PI / 180)))
         
     Next i
     
