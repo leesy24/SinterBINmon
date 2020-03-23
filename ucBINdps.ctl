@@ -514,6 +514,8 @@ Public BinAngle%, SensorAngle%
 
 Private inBUF2590 As String   '''inBUF2590(100000) As Byte
 
+Private centerXsum As Double
+Private centerXcnt As Integer
 
 Private Declare Function Polygon Lib "gdi32" (ByVal hdc As Long, lpPoint As POINTAPI, ByVal nCount As Long) As Long
 
@@ -653,7 +655,6 @@ Private Sub picGET_Click()
     Dim minXL As Double
     Dim minXR As Double
     
-        
     'Clears the previous scan plot
     picGET.Cls
     'Set the scale for the plot in mm (starting upper left - lower right)
@@ -716,7 +717,6 @@ Private Sub picGET_Click()
     minXR = 0
     
     For k = 0 To n
-        
         x(k) = scanD(k) * Cos(((k) + 40 + BinAngle) * (PI / 180))  ''180
         ''x(k) = -x(k)
         x(k) = x(k) + Val(txtOpX.Text)
@@ -724,29 +724,40 @@ Private Sub picGET_Click()
         ''y(k) = r(k) * Sin((angle(k) + 40 + BinAngle) * (PI / 180)) ''180
         y(k) = maxyrange - (scanD(k) * Sin(((k) + 40 + BinAngle) * (PI / 180)))  ''180
         
-        
         If (x(k) > minxrange) And (minXL > x(k)) Then
             minXL = x(k)
         End If
         If (x(k) < maxxrange) And (minXR < x(k)) Then
             minXR = x(k)
         End If
-        
+    Next k
+    
+    centerXcnt = centerXcnt + 1
+    If centerXcnt > frmMain.AOdeepMAX Then
+        centerXsum = centerXsum - (centerXsum / centerXcnt)
+        centerXcnt = frmMain.AOdeepMAX
+    End If
+    centerXsum = centerXsum + (minXR + minXL) / 2
+    
+    For k = 0 To n
+        x(k) = x(k) - (centerXsum / centerXcnt)
+    Next k
+
+    For k = 0 To n
         'Draw lines between data points
-        picGET.ForeColor = vbBlue  ''vbRed  ''vbCyan  ''vbBlack
         If k > 0 Then
+            picGET.ForeColor = vbBlue  ''vbRed  ''vbCyan  ''vbBlack
             picGET.Line (x(k - 1), y(k - 1))-(x(k), y(k))
         End If
         
         'Plot the data points as circles
-        picGET.ForeColor = vbCyan  ''vbYellow  ''vbMagenta  ''vbBlack
-        picGET.Circle (x(k), y(k)), 100
-        
-        picGET.ForeColor = vbRed
         If k < 2 Then
+            picGET.ForeColor = vbRed
             picGET.Circle (x(k), y(k)), 150
+        Else
+            picGET.ForeColor = vbCyan  ''vbYellow  ''vbMagenta  ''vbBlack
+            picGET.Circle (x(k), y(k)), 100
         End If
-        
     Next k
 
     '''''''''''''''''''''''''''''''''''''''
@@ -1285,6 +1296,8 @@ Private Sub tmrRun_Timer()
     Else
         wsACT = False
         cmdCONN.BackColor = vbRed
+        centerXsum = 0
+        centerXcnt = 0
     End If
     
     If txtMode = 7 Then
@@ -1524,6 +1537,8 @@ Dim i As Integer
     wsPause = False
 
     cmdCONN.BackColor = vbRed
+    centerXsum = 0
+    centerXcnt = 0
 
     ''''Sick:LMS-211''''
     startString = Chr(2) + Chr(0) + Chr(2) + Chr(0) + Chr(32) + Chr(36) + Chr(52) + Chr(8)
