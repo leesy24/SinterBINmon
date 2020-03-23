@@ -1616,6 +1616,8 @@ Public Sub setIDX(id As Integer, ip As String, port As String)
     ipAddr = ip
     ipPort = port
     
+    wsock1.Close
+
     tmrRun.Enabled = True
     '''''''''''''''''''''
 End Sub
