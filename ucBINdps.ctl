@@ -2011,14 +2011,21 @@ Private Sub wsock1_DataArrival(ByVal bytesTotal As Long)
             End If
             
         
-            If (n1 = 100) And (Len(inBUF2590) > 1) And (InStr(inBUF2590, ",") = 0) Then
-            
-                 strD1 = inBUF2590
-                 ''''''''''''''''''''''''''''''''''''''''''''''''''
-                 scanN1 = Val("&H" & strD1) * 10
-                 scanD(n1) = scanN1
-                 
-                 Exit For  ''===>
+            If (n1 = 100) And (Len(inBUF2590) >= 1) And (InStr(inBUF2590, ",") = 0) Then
+                strD1 = inBUF2590
+                ''''''''''''''''''''''''''''''''''''''''''''''''''
+                scanN1 = Val("&H" & strD1) * 10
+                scanD(n1) = scanN1
+                
+                If scanD(n1) < 600 Then
+                    scanD(n1) = 499
+                End If
+                
+                If scanD(n1) > 30000 Then  '''50000 ''Err~32767~~
+                    scanD(n1) = 999
+                End If
+                
+                Exit For  ''===>
             End If
         
             On Error GoTo exit1
