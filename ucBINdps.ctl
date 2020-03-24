@@ -1984,7 +1984,8 @@ Private Sub wsock1_DataArrival(ByVal bytesTotal As Long)
         If (inCNT < 210) Then
             Exit Sub  ''===============>>
         End If
-
+        
+        ''' Check trailed CrLf and remove it
         If InStr(inBUF2590, vbCrLf) > 210 Then
             inBUF2590 = Left(inBUF2590, InStr(inBUF2590, vbCrLf) - 1)
             inCNT = Len(inBUF2590)  ''InStr(inBUF2590, vbCrLf)  ''Len(inBUF2590)
@@ -1992,6 +1993,18 @@ Private Sub wsock1_DataArrival(ByVal bytesTotal As Long)
             ''//''DoEvents
         Else
             Exit Sub  ''===============>>
+        End If
+        
+        ''' Remove LF or CR if exist
+        If InStr(inBUF2590, vbLf) > 210 Then
+            inBUF2590 = Left(inBUF2590, InStr(inBUF2590, vbLf) - 1)
+            inCNT = Len(inBUF2590)
+            txtRXn.Text = inCNT
+        End If
+        If InStr(inBUF2590, vbCr) > 210 Then
+            inBUF2590 = Left(inBUF2590, InStr(inBUF2590, vbCr) - 1)
+            inCNT = Len(inBUF2590)
+            txtRXn.Text = inCNT
         End If
         
         If (cmdHmax.BackColor = vbGreen) Then
@@ -2019,9 +2032,7 @@ Private Sub wsock1_DataArrival(ByVal bytesTotal As Long)
                 
                 If scanD(n1) < 600 Then
                     scanD(n1) = 499
-                End If
-                
-                If scanD(n1) > 30000 Then  '''50000 ''Err~32767~~
+                ElseIf scanD(n1) > 30000 Then  '''50000 ''Err~32767~~
                     scanD(n1) = 999
                 End If
                 
