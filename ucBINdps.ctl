@@ -24,7 +24,7 @@ Begin VB.UserControl ucBINdps
       Enabled         =   0   'False
       Height          =   270
       Left            =   0
-      TabIndex        =   26
+      TabIndex        =   25
       Text            =   "500"
       Top             =   4560
       Width           =   495
@@ -37,7 +37,7 @@ Begin VB.UserControl ucBINdps
       Enabled         =   0   'False
       Height          =   255
       Left            =   480
-      TabIndex        =   25
+      TabIndex        =   24
       Text            =   "0"
       Top             =   720
       Width           =   495
@@ -48,7 +48,7 @@ Begin VB.UserControl ucBINdps
       Enabled         =   0   'False
       Height          =   270
       Left            =   1260
-      TabIndex        =   24
+      TabIndex        =   23
       Text            =   "2000"
       Top             =   4560
       Width           =   495
@@ -59,7 +59,7 @@ Begin VB.UserControl ucBINdps
       Height          =   255
       Left            =   1080
       Style           =   1  '그래픽
-      TabIndex        =   23
+      TabIndex        =   22
       Top             =   720
       Width           =   615
    End
@@ -75,7 +75,7 @@ Begin VB.UserControl ucBINdps
       Enabled         =   0   'False
       Height          =   270
       Left            =   960
-      TabIndex        =   22
+      TabIndex        =   21
       Text            =   "0"
       Top             =   5160
       Width           =   735
@@ -85,10 +85,10 @@ Begin VB.UserControl ucBINdps
       BackColor       =   &H00808080&
       Enabled         =   0   'False
       Height          =   270
-      Left            =   480
+      Left            =   450
       TabIndex        =   17
       Top             =   5160
-      Width           =   495
+      Width           =   525
    End
    Begin VB.TextBox txtAsum 
       Alignment       =   1  '오른쪽 맞춤
@@ -98,17 +98,17 @@ Begin VB.UserControl ucBINdps
       Left            =   0
       TabIndex        =   15
       Top             =   5160
-      Width           =   495
+      Width           =   465
    End
    Begin VB.TextBox txtAcnt 
       Alignment       =   1  '오른쪽 맞춤
       BackColor       =   &H00808080&
       Enabled         =   0   'False
       Height          =   270
-      Left            =   480
+      Left            =   450
       TabIndex        =   14
       Top             =   4920
-      Width           =   495
+      Width           =   525
    End
    Begin VB.TextBox txtRDmon 
       BackColor       =   &H00C0C0C0&
@@ -184,7 +184,7 @@ Begin VB.UserControl ucBINdps
       Left            =   0
       TabIndex        =   8
       Top             =   4920
-      Width           =   495
+      Width           =   465
    End
    Begin VB.Timer tmrScan1 
       Enabled         =   0   'False
@@ -308,7 +308,7 @@ Begin VB.UserControl ucBINdps
       Enabled         =   0   'False
       Height          =   270
       Left            =   960
-      TabIndex        =   27
+      TabIndex        =   26
       Text            =   "-10"
       Top             =   4920
       Width           =   375
@@ -319,38 +319,17 @@ Begin VB.UserControl ucBINdps
       Enabled         =   0   'False
       Height          =   270
       Left            =   1320
-      TabIndex        =   28
+      TabIndex        =   27
       Text            =   "-48"
       Top             =   4920
       Width           =   375
-   End
-   Begin VB.Label Label1 
-      Appearance      =   0  '평면
-      BackColor       =   &H0000FFFF&
-      BorderStyle     =   1  '단일 고정
-      Caption         =   "%"
-      BeginProperty Font 
-         Name            =   "굴림"
-         Size            =   9.75
-         Charset         =   129
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H80000008&
-      Height          =   255
-      Left            =   1440
-      TabIndex        =   21
-      Top             =   5520
-      Width           =   255
    End
    Begin VB.Label lbHH 
       Appearance      =   0  '평면
       BackColor       =   &H0000FF00&
       BorderStyle     =   1  '단일 고정
       BeginProperty Font 
-         Name            =   "굴림"
+         Name            =   "바탕"
          Size            =   9.75
          Charset         =   129
          Weight          =   700
@@ -363,14 +342,14 @@ Begin VB.UserControl ucBINdps
       Left            =   0
       TabIndex        =   20
       Top             =   5520
-      Width           =   735
+      Width           =   825
    End
    Begin VB.Label lbVVV 
       Appearance      =   0  '평면
       BackColor       =   &H0000C0C0&
       BorderStyle     =   1  '단일 고정
       BeginProperty Font 
-         Name            =   "굴림"
+         Name            =   "바탕"
          Size            =   9.75
          Charset         =   129
          Weight          =   700
@@ -380,18 +359,18 @@ Begin VB.UserControl ucBINdps
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   255
-      Left            =   720
+      Left            =   810
       TabIndex        =   19
       Top             =   5760
-      Width           =   975
+      Width           =   885
    End
    Begin VB.Label lbAO 
       Appearance      =   0  '평면
       BackColor       =   &H0000FF00&
       BorderStyle     =   1  '단일 고정
       BeginProperty Font 
-         Name            =   "바탕체"
-         Size            =   9
+         Name            =   "바탕"
+         Size            =   9.75
          Charset         =   129
          Weight          =   700
          Underline       =   0   'False
@@ -403,15 +382,15 @@ Begin VB.UserControl ucBINdps
       Left            =   0
       TabIndex        =   18
       Top             =   5760
-      Width           =   735
+      Width           =   825
    End
    Begin VB.Label lbHP 
       Appearance      =   0  '평면
       BackColor       =   &H0000FFFF&
       BorderStyle     =   1  '단일 고정
-      Caption         =   "0"
+      Caption         =   "V:0.0%"
       BeginProperty Font 
-         Name            =   "굴림"
+         Name            =   "바탕"
          Size            =   9.75
          Charset         =   129
          Weight          =   700
@@ -421,10 +400,10 @@ Begin VB.UserControl ucBINdps
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   255
-      Left            =   720
+      Left            =   810
       TabIndex        =   16
       Top             =   5520
-      Width           =   735
+      Width           =   885
    End
 End
 Attribute VB_Name = "ucBINdps"
@@ -487,15 +466,16 @@ Private scanDY(101) As Long
 Private scanDXmin As Long
 Private scanDXmax As Long
 Private scanDYmin As Long
-Private scanDYmax As Long
 
 
 Public avrSUM As Double
 Public avrCNT As Integer
-Public avrHeight As Long
+Public avrMAX As Double
+Public avrMIN As Double
 Public maxHH As Long
 Public minLH As Long
 Public avrAOd As Integer
+Public avrHeight As Integer
 
 Private setAngle As Integer
 
@@ -827,7 +807,8 @@ Dim r(200) As Double                  'radius data
 
 Dim minXL As Double
 Dim minXR As Double
-    
+Dim maxY As Double
+
 Dim X1, Y1, X2, Y2 As Double
     
 
@@ -843,11 +824,11 @@ Dim X1, Y1, X2, Y2 As Double
     'Initialize starting values as zero
     x(1) = 0
     y(1) = 0
-    minXL = 9  ''0
+    minXL = 0
     minXR = 0
-       
+    maxY = 0
+
     For k = 0 To n
-        
         x(k) = scanD(k) * Cos(((k) + 40 + BinAngle) * (PI / 180))  ''180
         ''x(k) = -x(k)
         x(k) = x(k) + Val(txtOpX.Text)
@@ -859,73 +840,28 @@ Dim X1, Y1, X2, Y2 As Double
         x(k) = x(k) + 5000   '''BIN5::~3000
         ''''''''''''''''''
         
-        pnt(k).x = x(k) * 0.011  ''about~(100 / 10000)
-        pnt(k).y = y(k) * 0.011  ''about~(200 / 20000)
+        pnt(k).x = x(k) / 100  ''about~(100 / 10000 = 1/100 = 0.01)
+        pnt(k).y = y(k) / 100  ''about~(200 / 20000 = 2/200 = 0.01)
         
-        If (minXL > pnt(k).x) Then
-            minXL = pnt(k).x
+        If (minXL > x(k)) Then
+            minXL = x(k)
         End If
-        If (minXR < pnt(k).x) Then
-            minXR = pnt(k).x
+        If (minXR < x(k)) Then
+            minXR = x(k)
         End If
-        
+        If (y(k) > maxY) Then
+            maxY = y(k)
+        End If
     Next k
     
     For k = 0 To n
         scanDX(k) = pnt(k).x  ''x(k)
         scanDY(k) = pnt(k).y  ''y(k)
     Next k
+    minXL = minXL / 100
+    minXR = minXR / 100
     scanDXmin = minXL
     scanDXmax = minXR
-
-''===============================================================
-'''    pnt(101).x = minXL ''- 1 ''6
-'''    pnt(101).y = pnt(100).y  ''15
-'''
-'''    pnt(102).x = minXL ''- 1 ''6
-'''    pnt(102).y = 216 - (216 * txtOpMid)  ''100
-'''
-'''    pnt(103).x = (maxxrange * 0.011) * txtOpBot - 5 ''49
-'''    pnt(103).y = 216
-'''
-'''    pnt(104).x = (maxxrange * 0.011) * txtOpBot + 5 ''59
-'''    pnt(104).y = 216
-'''
-'''    pnt(105).x = minXR ''+ 1 ''102
-'''    pnt(105).y = 216 - (216 * txtOpMid)  ''100
-'''    ''
-'''    pnt(106).x = minXR ''+ 1 ''102
-'''    pnt(106).y = pnt(0).y  ''15
-''===============================================================
-    
-''===============================================================
-'''    pnt(101).x = pnt(100).x  ''99
-'''    pnt(101).y = 15
-'''    ''
-'''    pnt(102).x = minXL ''- 1 ''6
-'''    pnt(102).y = 15
-'''
-'''    pnt(103).x = minXL ''- 1 ''6
-'''    pnt(103).y = 216 - (216 * txtOpMid)  ''100
-'''
-'''    pnt(104).x = (maxxrange * 0.011) * txtOpBot - 5 ''49
-'''    pnt(104).y = 216
-'''
-'''    pnt(105).x = (maxxrange * 0.011) * txtOpBot + 5 ''59
-'''    pnt(105).y = 216
-'''
-'''    pnt(106).x = minXR ''+ 1 ''102
-'''    pnt(106).y = 216 - (216 * txtOpMid)  ''100
-'''    ''
-'''    pnt(107).x = minXR ''+ 1 ''102
-'''    pnt(107).y = 15
-'''    ''
-'''    pnt(108).x = pnt(0).x  ''8
-'''    pnt(108).y = 15
-'''    ''
-'''    pnt(109).x = pnt(0).x
-'''    pnt(109).y = pnt(0).y
-''===============================================================
 
 ''===============================================================<<Fix>>!!
     pnt(101).x = 8  ''minXL ''- 1 ''6
@@ -993,194 +929,119 @@ Dim X1, Y1, X2, Y2 As Double
 ''===============================================================
     
     picMON.ForeColor = vbCyan
-'    For k = 97 To (12 + 1) Step -1 ''(97~12)==(86ea)
-'
-'        X1 = scanDX(k) * (1 / 0.011)
-'        Y1 = maxyrange - (scanDY(k) * (1 / 0.011))
-'        X2 = scanDX(k - 1) * (1 / 0.011)
-'        Y2 = maxyrange - (scanDY(k - 1) * (1 / 0.011))
-'
-'        picMON.Line (X1, Y1)-(X2, Y2)
-'
-'    Next k
-
-''(debug) txtRDmon.Text = Str(frmMain.cboIDX.ListIndex)
-
-
-'''    avrSUM = 0
-'''    avrCNT = 0
     
-''''    For k = 10 To 90
-''''        If (scanDX(k) > 20) And (scanDX(k) < 80) Then
-''''            avrSUM = avrSUM + scanDY(k)
-''''            avrCNT = avrCNT + 1
-''''        End If
-''''    Next k
-    
-    txtRDmon = ""
-    
-''    For k = 10 To 99  ''(100 * Val(txtOpBot))  '''(0.5~0.65)
-''        If (scanDX(k) > 20) And (scanDX(k) < 80) Then
-''
-''            If k < (100 * Val(txtOpBot)) Then  ''-----------------------'((Right-Side))
-''                Y1 = (scanDY(k)) * (k) / 100   ''Val(txtOpBot)
-''            Else ''-----------------------------------------------------'(Left-Side)
-''                Y1 = (scanDY(k)) * (100 - k) / 100  ''Val(txtOpBot)
-''            End If
-''
-''            avrSUM = avrSUM + Y1
-''            avrCNT = avrCNT + 1
-''
-''            txtRDmon = txtRDmon & Y1 & vbCrLf
-''        End If
-''    Next k
-
-
-
-
-
-'''''===============================================================
-'''    avrSUM = 0
-'''    avrCNT = 0
-'''    txtRDmon = ""
-'''    For k = 5 To 98   ''(100 * Val(txtOpBot))  '''(0.5~0.65)
-'''        ''If (scanDX(k) > 40) And (scanDX(k) < 60) Then
-'''        If (scanDX(k) > (Val(txtOpBot)) * 100 - 10) And _
-'''           (scanDX(k) < (Val(txtOpBot)) * 100 + 10) Then
-'''
-'''            If scanDX(k) > (100 * Val(txtOpBot)) Then  ''----------------------------------'((Right-Side))
-'''                Y1 = (scanDY(k)) - ((scanDY(k) / 2) * (100 - k) / 100) ''Val(txtOpBot)
-'''            Else ''----------------------------------------------------------------------'(Left-Side)
-'''                Y1 = (scanDY(k)) - ((scanDY(k) / 2) * (k) / 100)   ''Val(txtOpBot)
-'''            End If
-'''
-'''            avrSUM = avrSUM + Y1
-'''            avrCNT = avrCNT + 1
-'''
-'''            txtRDmon = txtRDmon & Y1 & vbCrLf
-'''        End If
-'''    Next k
-'''
-'''    ''''''
-'''    If avrCNT > 0 Then
-'''        avrHeight = avrSUM / avrCNT
-'''    Else
-'''        avrHeight = 0
-'''    End If
-'''
-'''    txtAVRheight.Text = avrHeight * 12  ''1.2
-'''    txtAsum.Text = 2000 - txtAVRheight.Text   ''CLng(avrSUM)
-'''    txtAcnt.Text = avrCNT
-'''    lbHP.Caption = CLng((Trim(Str((txtAsum.Text / 2000)))) * (Trim(Str((txtAsum.Text / 2000)))) * 100) & "%"
-'''
-'''''===============================================================
-
-
 ''''=====================================================1
     avrSUM = 0
     avrCNT = 0
-    txtRDmon = ""
+    avrMAX = 0
+    avrMIN = maxY
     For k = 10 To 90
-            avrSUM = avrSUM + scanDY(k)
+        If ((Abs(y(k - 1) - y(k)) <= Abs(x(k - 1) - x(k))) And _
+            (Abs(y(k) - y(k + 1)) <= Abs(x(k) - x(k + 1))) _
+            ) Then
+            avrSUM = avrSUM + y(k)
             avrCNT = avrCNT + 1
-''(debug)   txtRDmon = txtRDmon & scanDY(k) & vbCrLf
-    Next k
-'''=====================================================1
-Dim avr1 As Long
-
-    avr1 = 0
-    ''''''''
-
-    If (avrSUM > 0) And (avrCNT > 0) Then  ''<==((20170707)Error-Debug~~
-        avr1 = avrSUM / avrCNT
-        ''''''''''''''''''''''
-    End If
-    
-    avrSUM = 0
-    avrCNT = 0
-    txtRDmon = ""
-    For k = 10 To 90
-        If avr1 < scanDY(k) Then
-            avrSUM = avrSUM + scanDY(k)
-            avrCNT = avrCNT + 1
-''(debug)   txtRDmon = txtRDmon & scanDY(k) & vbCrLf
-            
-''            If (UCindex = 6) Or (UCindex = 7) Or (UCindex = 16) Or (UCindex = 17) Then
-''                    Debug.Print UCindex, avr1, k, scanDY(k) & vbCrLf
-''            End If
+            If (y(k) > avrMAX) Then
+                avrMAX = y(k)
+            End If
+            If (y(k) < avrMIN) Then
+                avrMIN = y(k)
+            End If
         End If
     Next k
-'''=====================================================1/2
-    If (UCindex = 6) Or (UCindex = 7) Or (UCindex = 16) Or (UCindex = 17) Then
-    
-      If (avrSUM > 0) And (avrCNT > 0) Then  ''<==((20170707)Error-Debug~~
-      
-        avr1 = avrSUM / avrCNT
-        ''''''''''''''''''''''
+    txtAcnt.Text = avrCNT
+    ''''''
+    Dim avr1 As Double
+    Dim avr12H As Double
+    avr1 = 0
+    ''''''
+    avr12H = maxY
+    If avrCNT >= 3 Then
+        avr1 = (avrMAX + avrMIN) / 2 - ((avrMAX + avrMIN) / 2 - avrMIN) * 1 / 100
         avrSUM = 0
         avrCNT = 0
-        txtRDmon = ""
         For k = 10 To 90
-            If avr1 < scanDY(k) Then
-                avrSUM = avrSUM + scanDY(k)
+            If ((y(k) >= avr1) And _
+                (Abs(y(k - 1) - y(k)) <= Abs(x(k - 1) - x(k))) And _
+                (Abs(y(k) - y(k + 1)) <= Abs(x(k) - x(k + 1))) _
+                ) Then
+                avrSUM = avrSUM + y(k)
                 avrCNT = avrCNT + 1
-''(debug)       txtRDmon = txtRDmon & scanDY(k) & vbCrLf
             End If
         Next k
-        
-      End If
-        
-    End If
-
-''    ''''=====================================================1/4
-''        avr1 = avrSUM / avrCNT
-''        ''''''''''''''''''''''
-''        avrSUM = 0
-''        avrCNT = 0
-''        txtRDmon = ""
-''        For k = 10 To 90
-''            If avr1 < scanDY(k) Then
-''                avrSUM = avrSUM + scanDY(k)
-''                avrCNT = avrCNT + 1
-''                txtRDmon = txtRDmon & scanDY(k) & vbCrLf
-''            End If
-''        Next k
-''    ''''=====================================================1/8
-    
-        
-    ''''''
-    If avrCNT > 0 Then
-        avrHeight = avrSUM / avrCNT
-        '''''''''''''''''''''''''''''''''''''''''(~V052~)
-        avrHeight = (avrHeight + avr1) / 2
-        '''''''''''''''''''''''''''''''''''''''''
+        If avrCNT > 0 Then
+            avr12H = avrSUM / avrCNT
+        End If
     Else
-        avrHeight = avr1   '''0 ''<==((20170707)Error-Debug~~
+        avrCNT = 0
     End If
-        
     
     ''maxHH = 1800  ''1800  ''2000
     ''''''''''''''''''''''''''''''''{<={ main:: ucBINmon1(i).set_maxHH CLng(txtMaxHH) }=}
     
-    txtAcnt.Text = avrCNT
-    txtAVRheight.Text = CLng((avrHeight * 90.9) / 10)  ''<===""[0.011]""
+    txtAcnt.Text = txtAcnt.Text & "," & avrCNT
+    txtAVRheight.Text = CLng(avr12H / 10)
     '''''''''''''''''''''''''''''''''''''''''''''''
-    txtAsum.Text = CLng(2000 - txtAVRheight.Text)   ''CLng(avrSUM)
-    ''txtAsum.Text = 1900
-    ''txtAsum.Text = 500
     
-    ''txtVV.Text = CLng((txtAsum / maxHH) * txtAsum)            ''(0.10~1.0):until__042
-    ''txtVV.Text = CLng(((txtAsum / maxHH) + 1#) / 2# * txtAsum)  ''(0.55~1.0):after__043
-    If txtAsum > maxHH Then
+    txtAsum.Text = CLng(2000 - txtAVRheight.Text)   ''CLng(avrSUM)
+    If txtAsum >= maxHH Then
         txtVV.Text = maxHH - minLH '' 100%
-    ElseIf txtAsum < minLH Then
+    ElseIf txtAsum <= minLH Then
         txtVV.Text = 0 '' 0%
     Else
         txtVV.Text = txtAsum - minLH
     End If
     
-    txtAOd = CLng((txtVV / (maxHH - minLH)) * 32767)
-
+    Dim maxA0d As Long
+    
+    If txtOpMid >= 0.5 Then
+        ''' 원뿔 부피 - 최소높이 이하 부피 + 최대높이 이하 원기둥 부피
+        maxA0d = CLng((1200 * 4 / 12 + 60) ^ 2 / 3 * 1200)
+        maxA0d = maxA0d - CLng((minLH * 4 / 12 + 60) ^ 2 / 3 * minLH)
+        maxA0d = maxA0d + CLng(400 ^ 2 * (maxHH - 1200))
+        
+        If txtAsum <= minLH Then
+            txtAOd = 0
+        ElseIf txtAsum <= 1200 Then
+            ''' 원뿔 부피 - 최소높이 이하 부피
+            txtAOd = CLng((txtAsum * 4 / 12 + 60) ^ 2 / 3 * txtAsum)
+            txtAOd = txtAOd - CLng((minLH * 4 / 12 + 60) ^ 2 / 3 * minLH)
+        ElseIf txtAsum >= maxHH Then
+            ''' 원뿔 부피 - 최소높이 이하 부피 + 최대높이 이하 원기둥 부피
+            txtAOd = CLng((1200 * 4 / 12 + 60) ^ 2 / 3 * 1200)
+            txtAOd = txtAOd - CLng((minLH * 4 / 12 + 60) ^ 2 / 3 * minLH)
+            txtAOd = txtAOd + CLng(400 ^ 2 * (maxHH - 1200))
+        Else
+            ''' 원뿔 부피 - 최소높이 이하 부피 + 원기둥 부피
+            txtAOd = CLng((1200 * 4 / 12 + 60) ^ 2 / 3 * 1200)
+            txtAOd = txtAOd - CLng((minLH * 4 / 12 + 60) ^ 2 / 3 * minLH)
+            txtAOd = txtAOd + CLng(400 ^ 2 * (txtAsum - 1200))
+        End If
+    Else
+        ''' 원뿔 부피 - 최소높이 이하 부피 + 최대높이 이하 원기둥 부피
+        maxA0d = CLng((1000 * 2 / 10 + 60) ^ 2 / 3 * 1000)
+        maxA0d = maxA0d - CLng((minLH * 2 / 10 + 60) ^ 2 / 3 * minLH)
+        maxA0d = maxA0d + CLng(200 ^ 2 * (maxHH - 1000))
+        
+        If txtAsum <= minLH Then
+            txtAOd = 0
+        ElseIf txtAsum <= 1000 Then
+            ''' 원뿔 부피 - 최소높이 이하 부피
+            txtAOd = CLng((txtAsum * 2 / 10 + 60) ^ 2 / 3 * txtAsum)
+            txtAOd = txtAOd - CLng((minLH * 2 / 10 + 60) ^ 2 / 3 * minLH)
+        ElseIf txtAsum >= maxHH Then
+            ''' 원뿔 부피 - 최소높이 이하 부피 +  최대높이 이하 원기둥 부피
+            txtAOd = CLng((1000 * 2 / 10 + 60) ^ 2 / 3 * 1000)
+            txtAOd = txtAOd - CLng((minLH * 2 / 10 + 60) ^ 2 / 3 * minLH)
+            txtAOd = txtAOd + CLng(200 ^ 2 * (maxHH - 1000))
+        Else
+            ''' 원뿔 부피 - 최소높이 이하 부피 + 원기둥 부피
+            txtAOd = CLng((1000 * 2 / 10 + 60) ^ 2 / 3 * 1000)
+            txtAOd = txtAOd - CLng((minLH * 2 / 10 + 60) ^ 2 / 3 * minLH)
+            txtAOd = txtAOd + CLng(200 ^ 2 * (txtAsum - 1000))
+        End If
+    End If
+    txtAOd = CLng(txtAOd / maxA0d * 32767)
     If txtAOd < 1 Then
         txtAOd = 1          '''v044~
     End If
@@ -1189,21 +1050,25 @@ Dim avr1 As Long
     End If
     
     ''''''''''''''''''''''''''''''''''''''
+    ''' H is the height of bin
+    lbHH.Caption = "H:" & Format((avrHeight / 100), "#0.00")
+    ''' I is the current in amperes
     lbAO.Caption = "I:" & Format(((avrAOd / 32768) * 16 + 4), "#0.00")  ''32768)
-    lbHH.Caption = "H:" & Format((((avrAOd * (maxHH - minLH) / 32767) + minLH) / 100), "#0.00")
-    If avrAOd * (maxHH - minLH) / 32767 >= maxHH - minLH Then
-        lbHP.Caption = "V:" & "100"
-    ElseIf avrAOd * (maxHH - minLH) / 32767 <= 0 Then
-        lbHP.Caption = "V:" & "0"
+    ''' V is the volumn of bin
+    If avrAOd >= 32767 Then
+        lbHP.Caption = "V:" & "100%"
+    ElseIf avrAOd <= 0 Then
+        lbHP.Caption = "V:" & "0%"
     Else
-        lbHP.Caption = "V:" & Format(avrAOd / 32767 * 100, "#0.0")
+        lbHP.Caption = "V:" & Format(avrAOd / 32767 * 100, "#0.0") & "%"
     End If
+    ''' W is the weight of bin
     If txtOpMid >= 0.5 Then
         ''체적,중량:1~12:: 400[m*m*m]--520Ton
-        lbVVV.Caption = "V:" & Format(avrAOd / 32767 * 300, "###0")   '''BIN5::400
+        lbVVV.Caption = "W:" & Format(avrAOd / 32767 * 300, "###0")   '''BIN5::400
     Else
         ''체적,중량: 8,9:: 150[m*m*m]--195Ton
-        lbVVV.Caption = "V:" & Format(avrAOd / 32767 * 200, "###0")  '''BIN5::150
+        lbVVV.Caption = "W:" & Format(avrAOd / 32767 * 200, "###0")  '''BIN5::150
     End If
 
 
@@ -1216,6 +1081,11 @@ End Sub
 
 Public Function ret_AOd() As Integer
     ret_AOd = Val(txtAOd)
+End Function
+
+Public Function ret_Height() As Integer
+    '''ret_Height = Val(txtAsum)
+    ret_Height = Val(txtVV)
 End Function
 
 Public Function ret_Act() As Integer
@@ -2425,96 +2295,14 @@ Private Sub scanD_filt()
 
 Dim i, j As Integer
 
-
 Dim Dcnt As Integer
 Dim Dsum As Double
 Dim DsumL As Long
 Dim DsumM As Long
 Dim DsumR As Long
 
-
-''------------------------------------------------------(Filter_ok1)''
-''    For i = 0 To 100
-''
-''        Dsum = 0
-''        If i < 50 Then
-''            For j = 4 To 6  ''3ea
-''                Dsum = Dsum + scanD(i + j)
-''            Next j
-''        Else
-''            For j = 4 To 6  ''3ea
-''                Dsum = Dsum + scanD(i - j)
-''            Next j
-''        End If
-''        Dsum = Dsum / 3
-''
-''        If Abs((Dsum - scanD(i))) > (scanD(i) * 0.7) Then
-''            scanD(i) = Dsum * 0.95
-''            '''''''''''''''
-''        End If
-''
-''    Next i
-''------------------------------------------------------(Filter_ok1)''
-
-
-''''''------------------------------------------------------
-''''    For i = 50 To 0 Step -1    '''(mid--to--Right)''
-''''
-''''        Dsum = 0
-''''
-''''        For j = 2 To 4  ''3ea
-''''            Dsum = Dsum + scanD(i + j)
-''''        Next j
-''''
-''''        Dsum = Dsum / 3
-''''
-''''        If Abs((Dsum - scanD(i))) > (scanD(i) * 0.7) Then
-''''            scanD(i) = Dsum * 0.95
-''''            '''''''''''''''
-''''        End If
-''''
-''''    Next i
-''''
-''''    For i = 51 To 100 Step 1    '''(mid--to--Left)''
-''''
-''''        Dsum = 0
-''''
-''''        For j = 2 To 4  ''3ea
-''''            Dsum = Dsum + scanD(i - j)
-''''        Next j
-''''
-''''        Dsum = Dsum / 3
-''''
-''''        If Abs((Dsum - scanD(i))) > (scanD(i) * 0.7) Then
-''''            scanD(i) = Dsum * 0.95
-''''            '''''''''''''''
-''''        End If
-''''
-''''    Next i
-''''''------------------------------------------------------
-    
-    
-''''''------------------------------------------------------(201706)
-    Dsum = 0
+    DsumM = 0
     Dcnt = 0
-''    For i = 0 To 15
-''        If scanD(i) > 999 Then
-''            Dsum = Dsum + scanD(i)
-''            Dcnt = Dcnt + 1
-''        End If
-''    Next i
-''    If Dcnt > 0 Then
-''        DsumL = Dsum / Dcnt
-''        '''''
-''        For i = 0 To 10
-''            If scanD(i) < 1000 Then
-''                ''scanD(i) = DsumL * 0.8
-''                scanD(i) = DsumL * 1
-''            End If
-''        Next i
-''    End If
-''''''------------------------------------------------------(20180808)
-    
     For i = 0 To 15
         If (scanD(i) > 999) And (scanD(i) > DsumM) Then
             DsumM = scanD(i)
@@ -2524,32 +2312,12 @@ Dim DsumR As Long
     If Dcnt > 0 Then
         For i = 0 To 10
             If scanD(i) < 1000 Then
-                ''scanD(i) = DsumL * 0.8
                 scanD(i) = DsumM
             End If
         Next i
     End If
-''''''-------
-    Dsum = 0
+    
     Dcnt = 0
-''    For i = 10 To 40
-''        If scanD(i) > 999 Then
-''            Dsum = Dsum + scanD(i)
-''            Dcnt = Dcnt + 1
-''        End If
-''    Next i
-''    If Dcnt > 0 Then
-''        DsumL = Dsum / Dcnt
-''        ''
-''        For i = 11 To 35
-''            If scanD(i) < 1000 Then
-''                ''scanD(i) = DsumL * 0.8
-''                scanD(i) = DsumL * 1
-''            End If
-''        Next i
-''    End If
-''''''-------
-''''''------------------------------------------------------(20180808)
     For i = 10 To 40
         If (scanD(i) > 999) And (scanD(i) > DsumM) Then
             DsumM = scanD(i)
@@ -2559,14 +2327,11 @@ Dim DsumR As Long
     If Dcnt > 0 Then
         For i = 11 To 35
             If scanD(i) < 1000 Then
-                ''scanD(i) = DsumL * 0.8
                 scanD(i) = DsumM
             End If
         Next i
     End If
     
-    
-    Dsum = 0
     Dcnt = 0
     For i = 30 To 70
         If (scanD(i) > 999) And (scanD(i) > DsumM) Then
@@ -2577,30 +2342,11 @@ Dim DsumR As Long
     If Dcnt > 0 Then
         For i = 36 To 65
             If scanD(i) < 1000 Then
-                ''scanD(i) = DsumL * 0.8
                 scanD(i) = DsumM
             End If
         Next i
     End If
     
-''    For i = 30 To 70
-''        If scanD(i) > 999 Then
-''            Dsum = Dsum + scanD(i)
-''            Dcnt = Dcnt + 1
-''        End If
-''    Next i
-''    If Dcnt > 0 Then
-''        DsumL = Dsum / Dcnt
-''        ''
-''        For i = 36 To 65
-''            If scanD(i) < 1000 Then
-''                ''scanD(i) = DsumL * 0.8
-''                scanD(i) = DsumL * 1
-''            End If
-''        Next i
-''    End If
-''''''-------
-    Dsum = 0
     Dcnt = 0
     For i = 63 To 92
         If (scanD(i) > 999) And (scanD(i) > DsumM) Then
@@ -2611,29 +2357,11 @@ Dim DsumR As Long
     If Dcnt > 0 Then
         For i = 66 To 90
             If scanD(i) < 1000 Then
-                ''scanD(i) = DsumL * 0.8
                 scanD(i) = DsumM
             End If
         Next i
     End If
-''    For i = 63 To 92
-''        If scanD(i) > 999 Then
-''            Dsum = Dsum + scanD(i)
-''            Dcnt = Dcnt + 1
-''        End If
-''    Next i
-''    If Dcnt > 0 Then
-''        DsumL = Dsum / Dcnt
-''        ''
-''        For i = 66 To 90
-''            If scanD(i) < 1000 Then
-''                ''scanD(i) = DsumL * 0.8
-''                scanD(i) = DsumL * 1
-''            End If
-''        Next i
-''    End If
-''''''-------
-    Dsum = 0
+    
     Dcnt = 0
     For i = 86 To 100
         If (scanD(i) > 999) And (scanD(i) > DsumM) Then
@@ -2644,43 +2372,23 @@ Dim DsumR As Long
     If Dcnt > 0 Then
         For i = 91 To 100
             If scanD(i) < 1000 Then
-                ''scanD(i) = DsumL * 0.8
                 scanD(i) = DsumM
             End If
         Next i
     End If
-''    For i = 86 To 100
-''        If scanD(i) > 999 Then
-''            Dsum = Dsum + scanD(i)
-''            Dcnt = Dcnt + 1
-''        End If
-''    Next i
-''    If Dcnt > 0 Then
-''        DsumL = Dsum / Dcnt
-''        ''
-''        For i = 91 To 100
-''            If scanD(i) < 1000 Then
-''                ''scanD(i) = DsumL * 0.8
-''                scanD(i) = DsumL * 1
-''            End If
-''        Next i
-''    End If
-''''''------------------------------------------------------
-    
-    
-    
     
     '''201705 : Reverse!!! 1,2 Sinter!!!
     Dim scanDD(101) As Long
     For i = 0 To 100
-            scanDD(i) = scanD(i)
+        scanDD(i) = scanD(i)
     Next i
+
     ''''
     ''If (UCindex < 10) And (picPASScnt = 0) And (ScanTYPE = 211) Then  ''20170708~
     ''If (UCindex > 0) And (UCindex < 10) And (picPASScnt = 0) Then   ''20170708~
     If (UCindex < 10) And (picPASScnt = 0) Then   ''20170708~
         For i = 0 To 100
-                scanD(i) = scanDD(100 - i)
+            scanD(i) = scanDD(100 - i)
         Next i
     End If
     '''''''''''''''''''''''''''''''''!!!

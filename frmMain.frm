@@ -398,6 +398,7 @@ Dim AOdata(33) As Integer
 Dim AOdata2(33) As Integer
 
 Dim AOdeep(20, 100) As Integer
+Dim Hdeep(20, 100) As Integer
 Public AOdeepCNT As Integer
 Public AOdeepMAX As Integer        ''<=MAX:99
 Public AOdeepFull As Boolean
@@ -773,6 +774,7 @@ Dim j As Integer
     For i = 0 To 19
         For j = 0 To 99  ''AOdeepMAX
             AOdeep(i, j) = 0
+            Hdeep(i, j) = 0
         Next j
     Next i
 
@@ -1258,6 +1260,11 @@ Dim aaD(33) As Integer
 Dim avrD(20) As Integer
 Dim avrDsum(20) As Long
 
+Dim aaH(33) As Integer
+
+Dim avrH(20) As Integer
+Dim avrHsum(20) As Long
+
 Dim UDPiV_1(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
 Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
     
@@ -1266,6 +1273,8 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
     For i = 0 To 19
         aaD(i) = ucBINdps1(i).ret_AOd   '''' (1~32767)
         '''''''''''''''''''''''''''''
+        aaH(i) = ucBINdps1(i).ret_Height
+        ''''''''''''''''''''''''''''''''
     Next i
     
     ''Get--First!!
@@ -1278,6 +1287,7 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''<AVR)
     For i = 0 To 19
         AOdeep(i, AOdeepCNT) = aaD(i)
+        Hdeep(i, AOdeepCNT) = aaH(i)
     Next i
     ''
     AOdeepCNT = AOdeepCNT + 1
@@ -1293,6 +1303,7 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
 
     For i = 0 To 19
         avrDsum(i) = 0
+        avrHsum(i) = 0
     Next i
     
     ''//??????????
@@ -1301,8 +1312,10 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
         For i = 0 To 19
             For j = 0 To AOdeepMAX - 1
                 avrDsum(i) = avrDsum(i) + AOdeep(i, j)
+                avrHsum(i) = avrHsum(i) + Hdeep(i, j)
             Next j
             avrD(i) = CInt(avrDsum(i) / AOdeepMAX)
+            avrH(i) = CInt(avrHsum(i) / AOdeepMAX)
         Next i
     ''
     ElseIf AOdeepCNT > 1 Then
@@ -1311,14 +1324,17 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
         For i = 0 To 19
             For j = 0 To AOdeepCNT - 1
                 avrDsum(i) = avrDsum(i) + AOdeep(i, j)
+                avrHsum(i) = avrHsum(i) + Hdeep(i, j)
             Next j
             avrD(i) = CInt(avrDsum(i) / AOdeepCNT)
+            avrH(i) = CInt(avrHsum(i) / AOdeepCNT)
         Next i
     ''
     Else
         txtAVRcnt = AOdeepCNT & "/" & AOdeepMAX
         For i = 0 To 19
             avrD(i) = aaD(i)
+            avrH(i) = aaH(i)
         Next i
     End If
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''>AVR)
@@ -1326,6 +1342,7 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
     ''set_avrHH for View
     For i = 0 To 19
         ucBINdps1(i).avrAOd = avrD(i)
+        ucBINdps1(i).avrHeight = avrH(i)
     Next i
 
     
