@@ -625,7 +625,6 @@ Dim d As Integer
     
 End Sub
 
-
 Private Sub cmdCFG_Click()
 
 ''    frmCFG.txtMaxHH = frmMain.txtMaxHH
@@ -637,38 +636,43 @@ Private Sub cmdCFG_Click()
         frmCFG.Visible = True
     End If
     
-''    frmCFG.tmrCFG.Interval = 60000 '' 60secs
-''    frmCFG.tmrCFG.Enabled = True
+''    frmCFG.tmrCFG_update
 
 End Sub
 
+Private Sub Form_Unload(Cancel As Integer)
+    Dim ret1
+    
+    ret1 = MsgBox("종료하면 모든 기능이 정지됩니다." & vbCrLf & "정말 종료 하시겠습니까?", vbYesNo)
+
+    If ret1 <> vbYes Then
+        Cancel = 1
+        Exit Sub
+    End If
+
+    Unload frmSettings
+    Unload frmCFG
+End Sub
 
 Private Sub Form_Click()
     If frmCFG.Visible = True Then
-        frmCFG.tmrCFG.Enabled = False
-        frmCFG.tmrCFG.Interval = 60000 '' 60secs
-        frmCFG.tmrCFG.Enabled = True
+        frmCFG.tmrCFG_update
     End If
 End Sub
-
 
 Private Sub Form_DblClick()
     If frmCFG.Visible = True Then
-        frmCFG.tmrCFG.Enabled = False
-        frmCFG.tmrCFG.Interval = 60000 '' 60secs
-        frmCFG.tmrCFG.Enabled = True
+        frmCFG.tmrCFG_update
     End If
 End Sub
-
 
 ''Private Sub cmdDmon_Click()
 ''    ''' txtSD1 = ucBINmon1(cboIDX.ListIndex).ret_SDXY
 ''End Sub
 
-
 Private Sub cmdExit_Click()
-
-Dim ret1
+    Dim ret1
+    
     ret1 = MsgBox("종료하면 모든 기능이 정지됩니다." & vbCrLf & "정말 종료 하시겠습니까?", vbYesNo)
 
     If ret1 <> vbYes Then
@@ -676,7 +680,6 @@ Dim ret1
     End If
 
     End
-
 End Sub
 
 
@@ -1263,11 +1266,9 @@ Dim j As Integer
 
 End Sub
 
-
 Private Sub Form_Terminate()
     ''Return
 End Sub
-
 
 Private Sub tmrAoDo_Timer()
 
