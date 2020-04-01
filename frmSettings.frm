@@ -15,7 +15,7 @@ Begin VB.Form frmSettings
    Begin VB.TextBox txtBinMinLH 
       Height          =   270
       Left            =   1320
-      TabIndex        =   19
+      TabIndex        =   5
       Text            =   "500"
       Top             =   1980
       Width           =   615
@@ -23,7 +23,7 @@ Begin VB.Form frmSettings
    Begin VB.TextBox txtBinMaxHH 
       Height          =   270
       Left            =   1320
-      TabIndex        =   16
+      TabIndex        =   4
       Text            =   "2000"
       Top             =   1620
       Width           =   615
@@ -31,7 +31,7 @@ Begin VB.Form frmSettings
    Begin VB.TextBox txtBinIPAddr 
       Height          =   270
       Left            =   1320
-      TabIndex        =   1
+      TabIndex        =   0
       Text            =   "255.255.255.255"
       Top             =   195
       Width           =   1455
@@ -39,7 +39,7 @@ Begin VB.Form frmSettings
    Begin VB.TextBox txtBinIPPort 
       Height          =   270
       Left            =   1320
-      TabIndex        =   2
+      TabIndex        =   1
       Text            =   "99999"
       Top             =   555
       Width           =   615
@@ -49,7 +49,7 @@ Begin VB.Form frmSettings
       Height          =   495
       Left            =   3600
       Style           =   1  '그래픽
-      TabIndex        =   6
+      TabIndex        =   7
       Top             =   2400
       Width           =   855
    End
@@ -58,14 +58,14 @@ Begin VB.Form frmSettings
       Height          =   375
       Left            =   3600
       Style           =   1  '그래픽
-      TabIndex        =   5
+      TabIndex        =   6
       Top             =   1920
       Width           =   855
    End
    Begin VB.TextBox txtSensorAngle 
       Height          =   270
       Left            =   1320
-      TabIndex        =   4
+      TabIndex        =   3
       Text            =   "-48"
       Top             =   1275
       Width           =   615
@@ -73,7 +73,7 @@ Begin VB.Form frmSettings
    Begin VB.TextBox txtBinAngle 
       Height          =   270
       Left            =   1320
-      TabIndex        =   3
+      TabIndex        =   2
       Text            =   "-10"
       Top             =   915
       Width           =   615
@@ -82,7 +82,7 @@ Begin VB.Form frmSettings
       Caption         =   "높이 최소"
       Height          =   255
       Left            =   240
-      TabIndex        =   18
+      TabIndex        =   19
       Top             =   2040
       Width           =   975
    End
@@ -90,7 +90,7 @@ Begin VB.Form frmSettings
       Caption         =   "cm, 0~500"
       Height          =   255
       Left            =   2040
-      TabIndex        =   17
+      TabIndex        =   18
       Top             =   2040
       Width           =   1455
    End
@@ -98,7 +98,7 @@ Begin VB.Form frmSettings
       Caption         =   "높이 최대"
       Height          =   255
       Left            =   240
-      TabIndex        =   15
+      TabIndex        =   17
       Top             =   1680
       Width           =   975
    End
@@ -106,7 +106,7 @@ Begin VB.Form frmSettings
       Caption         =   "cm, 1700~2000"
       Height          =   255
       Left            =   2040
-      TabIndex        =   14
+      TabIndex        =   16
       Top             =   1680
       Width           =   1455
    End
@@ -114,7 +114,7 @@ Begin VB.Form frmSettings
       Caption         =   "Bin IP addr"
       Height          =   255
       Left            =   240
-      TabIndex        =   8
+      TabIndex        =   10
       Top             =   240
       Width           =   975
    End
@@ -122,7 +122,7 @@ Begin VB.Form frmSettings
       Caption         =   "Bin IP port"
       Height          =   255
       Left            =   240
-      TabIndex        =   7
+      TabIndex        =   9
       Top             =   600
       Width           =   975
    End
@@ -130,7 +130,7 @@ Begin VB.Form frmSettings
       Caption         =   "Serial2Net의 IP"
       Height          =   255
       Left            =   2880
-      TabIndex        =   13
+      TabIndex        =   15
       Top             =   240
       Width           =   1575
    End
@@ -138,7 +138,7 @@ Begin VB.Form frmSettings
       Caption         =   "Serial2Net의 port"
       Height          =   255
       Left            =   2040
-      TabIndex        =   12
+      TabIndex        =   14
       Top             =   600
       Width           =   2295
    End
@@ -146,7 +146,7 @@ Begin VB.Form frmSettings
       Caption         =   "°, 48~-48"
       Height          =   255
       Left            =   2040
-      TabIndex        =   11
+      TabIndex        =   13
       Top             =   1320
       Width           =   975
    End
@@ -154,7 +154,7 @@ Begin VB.Form frmSettings
       Caption         =   "°, 10~-10"
       Height          =   255
       Left            =   2040
-      TabIndex        =   10
+      TabIndex        =   12
       Top             =   960
       Width           =   975
    End
@@ -162,7 +162,7 @@ Begin VB.Form frmSettings
       Caption         =   "센서 기울기"
       Height          =   255
       Left            =   240
-      TabIndex        =   9
+      TabIndex        =   11
       Top             =   1320
       Width           =   975
    End
@@ -170,7 +170,7 @@ Begin VB.Form frmSettings
       Caption         =   "Bin 기울기"
       Height          =   255
       Left            =   240
-      TabIndex        =   0
+      TabIndex        =   8
       Top             =   960
       Width           =   975
    End
@@ -182,7 +182,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Const TIMEOUT = 60000 ' 60secs
+Dim isError_cmdSettingsApply As Boolean
 
 Dim Index%
 Dim orgBinIPAddr$, orgBinIPPort$, orgBinAngle$, orgSensorAngle$
@@ -219,16 +219,16 @@ Private Sub cmdSettingsApply_Click()
     'Dim IsApplied As Boolean
     Dim IsValid As Boolean
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
+    isError_cmdSettingsApply = False
     'IsApplied = False
     IsValid = False
 '
     If txtBinIPAddr <> orgBinIPAddr Then
         If IsValidIPAddress(txtBinIPAddr) = False Then
             MsgBox lbBinIPAddr & "는 192.168.0.1 형태의 값 이어야 합니다.", vbOKOnly
+            isError_cmdSettingsApply = True
         Else
             orgBinIPAddr = txtBinIPAddr
             SaveSetting App.Title, "Settings", "BinIPAddr_" & Index, txtBinIPAddr
@@ -238,6 +238,7 @@ Private Sub cmdSettingsApply_Click()
     If txtBinIPPort <> orgBinIPPort Then
         If IsValidIPPort(txtBinIPPort) = False Then
             MsgBox lbBinIPPort & "는 1024 ~ 65535 사이의 정수 값 이어야 합니다.", vbOKOnly
+            isError_cmdSettingsApply = True
         Else
             orgBinIPPort = txtBinIPPort
             SaveSetting App.Title, "Settings", "BinIPPort_" & Index, txtBinIPPort
@@ -258,6 +259,7 @@ Private Sub cmdSettingsApply_Click()
             Or CInt(Val(txtBinAngle)) > 10! Or CInt(Val(txtBinAngle)) < -10! _
             Then
             MsgBox lbBinAngle & "는 10 ~ -10 사이의 정수 값 이어야 합니다.", vbOKOnly
+            isError_cmdSettingsApply = True
         Else
             orgBinAngle = txtBinAngle
             SaveSetting App.Title, "Settings", "BinAngle_" & Index, txtBinAngle
@@ -270,6 +272,7 @@ Private Sub cmdSettingsApply_Click()
             Or CInt(Val(txtSensorAngle)) > 48! Or CInt(Val(txtSensorAngle)) < -48! _
             Then
             MsgBox lbSensorAngle & "는 48 ~ -48 사이의 정수 값 이어야 합니다.", vbOKOnly
+            isError_cmdSettingsApply = True
         Else
             orgSensorAngle = txtSensorAngle
             SaveSetting App.Title, "Settings", "SensorAngle_" & Index, txtSensorAngle
@@ -290,6 +293,7 @@ Private Sub cmdSettingsApply_Click()
             Or CInt(Val(txtBinMaxHH)) > 2000! Or CInt(Val(txtBinMaxHH)) < 1700! _
             Then
             MsgBox lbBinMaxHH & "는 1700 ~ 2000 사이의 cm단위의 정수 값 이어야 합니다.", vbOKOnly
+            isError_cmdSettingsApply = True
         Else
             orgBinMaxHH = txtBinMaxHH
             IsValid = True
@@ -301,6 +305,7 @@ Private Sub cmdSettingsApply_Click()
             Or CInt(Val(txtBinMinLH)) > 500! Or CInt(Val(txtBinMinLH)) < 0! _
             Then
             MsgBox lbBinMinLH & "는 0 ~ 500 사이의 cm단위의 정수 값 이어야 합니다.", vbOKOnly
+            isError_cmdSettingsApply = True
         Else
             orgBinMinLH = txtBinMinLH
             IsValid = True
@@ -320,9 +325,7 @@ End Sub
 
 Private Sub cmdSettingsExit_Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
     frmSettings.Visible = False
 '
@@ -332,144 +335,165 @@ End Sub
 
 Private Sub lbBinAngle__Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
 
 Private Sub lbBinAngle_Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
 
 Private Sub lbBinIPAddr__Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
 
 Private Sub lbBinIPAddr_Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
 
 Private Sub lbBinIPPort__Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
 
 Private Sub lbBinIPPort_Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
 
 Private Sub lbBinMaxHH__Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
 
 Private Sub lbBinMaxHH_Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
 
 Private Sub lbBinMinLH__Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
 
 Private Sub lbBinMinLH_Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
 
 Private Sub lbSensorAngle__Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
 
 Private Sub lbSensorAngle_Click()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
+'
+End Sub
+
+cmdSettingsApply
+
+Private Sub cmdSettingsApply_Update()
+    cmdSettingsApply_Click
+    If (isError_cmdSettingsApply = False) Then
+        SendKeys "{tab}"    ' Set the focus to the next control.
+    End If
+End Sub
+
+Private Sub txtBinAngle_KeyPress(KeyAscii As Integer)
+'
+    If KeyAscii = 13 Then  ' The ENTER key.
+        cmdSettingsApply_Update
+    End If
 '
 End Sub
 
 Private Sub txtBinAngle_GotFocus()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
+'
+End Sub
+
+Private Sub txtBinIPAddr_KeyPress(KeyAscii As Integer)
+'
+    If KeyAscii = 13 Then  ' The ENTER key.
+        cmdSettingsApply_Update
+    End If
 '
 End Sub
 
 Private Sub txtBinIPAddr_GotFocus()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
+'
+End Sub
+
+Private Sub txtBinIPPort_KeyPress(KeyAscii As Integer)
+'
+    If KeyAscii = 13 Then  ' The ENTER key.
+        cmdSettingsApply_Update
+    End If
 '
 End Sub
 
 Private Sub txtBinIPPort_GotFocus()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
+'
+End Sub
+
+Private Sub txtBinMaxHH_KeyPress(KeyAscii As Integer)
+'
+    If KeyAscii = 13 Then  ' The ENTER key.
+        cmdSettingsApply_Update
+    End If
 '
 End Sub
 
 Private Sub txtBinMaxHH_GotFocus()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
+'
+End Sub
+
+Private Sub txtBinMinLH_KeyPress(KeyAscii As Integer)
+'
+    If KeyAscii = 13 Then  ' The ENTER key.
+        cmdSettingsApply_Update
+    End If
 '
 End Sub
 
 Private Sub txtBinMinLH_GotFocus()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
+'
+End Sub
+
+Private Sub txtSensorAngle_KeyPress(KeyAscii As Integer)
+'
+    If KeyAscii = 13 Then  ' The ENTER key.
+        cmdSettingsApply_Update
+    End If
 '
 End Sub
 
 Private Sub txtSensorAngle_GotFocus()
 '
-    frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = TIMEOUT
-    frmCFG.tmrCFG.Enabled = True
+    frmCFG.tmrCFG_update
 '
 End Sub
