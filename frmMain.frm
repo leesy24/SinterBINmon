@@ -391,6 +391,9 @@ Dim d1 As Single
 Public SinterNumber1 As Integer
 Public SinterNumber2 As Integer
 
+Public chkUseBeckHoof As Integer
+Public chkUsePLC As Integer
+
 Dim ipAddr(20) As String
 Dim ipPort(20) As String
 
@@ -777,7 +780,13 @@ Dim j As Integer
             Hdeep(i, j) = 0
         Next j
     Next i
-
+    
+    chkUseBeckHoof = GetSetting(App.Title, "Settings", "UseBeckHoof", 1)
+    If chkUseBeckHoof < 0 Or chkUseBeckHoof > 1 Then chkUseBeckHoof = 1
+    
+    chkUsePLC = GetSetting(App.Title, "Settings", "UsePLC", 0)
+    If chkUsePLC < 0 Or chkUsePLC > 1 Then chkUsePLC = 0
+    
     picTop.Left = 100
     picTop.Top = 100
     picTop.Height = 800   '''Height * 0.05 + 100
@@ -1035,35 +1044,49 @@ Dim j As Integer
     End If
     
     Dim ipAddr_tmp As String
-    Dim ipPort_tmp As String
+    Dim ipPort1_tmp As String
+    Dim ipPort2_tmp As String
     For i = 0 To 19
         ipAddr_tmp = GetSetting(App.Title, "Settings", "BinIPAddr_" & i, "Fail")
-        ipPort_tmp = GetSetting(App.Title, "Settings", "BinIPPort_" & i, "Fail")
+        ipPort1_tmp = GetSetting(App.Title, "Settings", "BinIPPort_" & i, "Fail")
         If IsValidIPAddress(ipAddr_tmp) = False Then
             ipAddr_tmp = ipAddr(i)
             ''SaveSetting App.Title, "Settings", "BinIPAddr_" & i, ipAddr_tmp
         End If
-        If IsValidIPPort(ipPort_tmp) = False Then
-            ipPort_tmp = ipPort(i)
-            ''SaveSetting App.Title, "Settings", "BinIPPort_" & i, ipPort_tmp
+        If IsValidIPPort(ipPort1_tmp) = False Then
+            ipPort1_tmp = ipPort(i)
+            ''SaveSetting App.Title, "Settings", "BinIPPort_" & i, ipPort1_tmp
         End If
-        ucBINdps1(i).setIDX i, ipAddr_tmp, ipPort_tmp
+        ucBINdps1(i).setIDX i, ipAddr_tmp, ipPort1_tmp
     Next i
+    
+    ipAddr_tmp = GetSetting(App.Title, "Settings", "PLCIPAddr", "Fail")
+    ipPort1_tmp = GetSetting(App.Title, "Settings", "PLCIPPort1", "Fail")
+    ipPort2_tmp = GetSetting(App.Title, "Settings", "PLCIPPort2", "Fail")
+    If IsValidIPAddress(ipAddr_tmp) = False Then
+        ipAddr_tmp = "192.168.0.2"
+    End If
+    If IsValidIPPort(ipPort1_tmp) = False Then
+        ipPort1_tmp = "12001"
+    End If
+    If IsValidIPPort(ipPort2_tmp) = False Then
+        ipPort2_tmp = "12002"
+    End If
     
     With wsPLC1
         .Close
-        .RemoteHost = "192.168.0.2"
-        .RemotePort = "12001"
-        .LocalPort = "12001"
+        .RemoteHost = ipAddr_tmp
+        .RemotePort = ipPort1_tmp
+        .LocalPort = ipPort1_tmp
         
         .Bind .LocalPort
     End With
     
     With wsPLC2
         .Close
-        .RemoteHost = "192.168.0.2"
-        .RemotePort = "12002"
-        .LocalPort = "12002"
+        .RemoteHost = ipAddr_tmp
+        .RemotePort = ipPort2_tmp
+        .LocalPort = ipPort2_tmp
         
         .Bind .LocalPort
     End With
@@ -1493,54 +1516,57 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
         BINLog str1, SinterNumber1 & "家搬"
         BINLog str2, SinterNumber2 & "家搬"
         
-        ''Dim buffer(59) As Byte
+    If (chkUsePLC = 1) Then
+        Dim buffer(59) As Byte
         
-        ''CopyMemory buffer(0), UDPiV_1(0), 30 * 2
-        ''''' Change little-endian to big-endian
-        ''For i = 0 To 29
-        ''    swap buffer(i * 2), buffer(i * 2 + 1)
-        ''Next i
-        ''wsPLC1.SendData buffer
+        CopyMemory buffer(0), UDPiV_1(0), 30 * 2
+        ''' Change little-endian to big-endian
+        For i = 0 To 29
+            swap buffer(i * 2), buffer(i * 2 + 1)
+        Next i
+        wsPLC1.SendData buffer
         
-        ''CopyMemory buffer(0), UDPiV_2(0), 30 * 2
-        ''''' Change little-endian to big-endian
-        ''For i = 0 To 29
-        ''    swap buffer(i * 2), buffer(i * 2 + 1)
-        ''Next i
-        ''wsPLC2.SendData buffer
+        CopyMemory buffer(0), UDPiV_2(0), 30 * 2
+        ''' Change little-endian to big-endian
+        For i = 0 To 29
+            swap buffer(i * 2), buffer(i * 2 + 1)
+        Next i
+        wsPLC2.SendData buffer
+    End If
 
     On Error GoTo wsErrADS
 
+    If (chkUseBeckHoof = 1) Then
 ''''        AdsOcx1.AdsAmsServerNetId = "172.16.21.20.1.1"   '''AdsOcx1.AdsAmsClientNetId
 ''''        AdsOcx1.AdsAmsServerPort = 800
 ''''        AdsOcx1.EnableErrorHandling = True
 ''''        '''''''
 ''''        AdsOcx1.AdsSyncWriteReq &HF020&, &H64&, 64, AOdata  ''ioD
-
-    If (SinterNumber1 = 3) And (SinterNumber2 = 4) Then
-        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.1.1" ''34家搬!!
-        AdsOcx1.AdsAmsServerPort = 301  ''800  ''3家搬!!
-        AdsOcx1.EnableErrorHandling = True
-        ''''
-        AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata
-        
-        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.1.1" ''34家搬!!
-        AdsOcx1.AdsAmsServerPort = 302  ''800  ''4家搬!!
-        AdsOcx1.EnableErrorHandling = True
-        ''''
-        AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata2
-    Else 'If (SinterNumber1 = 1) And (SinterNumber2 = 2) Then
-        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0" ''12家搬!!
-        AdsOcx1.AdsAmsServerPort = 301  ''800  ''1家搬!!
-        AdsOcx1.EnableErrorHandling = True
-        ''''
-        AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata
-        
-        AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0" ''12家搬!!
-        AdsOcx1.AdsAmsServerPort = 302  ''800  ''2家搬!!
-        AdsOcx1.EnableErrorHandling = True
-        ''''
-        AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata2
+        If (SinterNumber1 = 3) And (SinterNumber2 = 4) Then
+            AdsOcx1.AdsAmsServerNetId = "0.0.0.0.1.1" ''34家搬!!
+            AdsOcx1.AdsAmsServerPort = 301  ''800  ''3家搬!!
+            AdsOcx1.EnableErrorHandling = True
+            ''''
+            AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata
+            
+            AdsOcx1.AdsAmsServerNetId = "0.0.0.0.1.1" ''34家搬!!
+            AdsOcx1.AdsAmsServerPort = 302  ''800  ''4家搬!!
+            AdsOcx1.EnableErrorHandling = True
+            ''''
+            AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata2
+        Else 'If (SinterNumber1 = 1) And (SinterNumber2 = 2) Then
+            AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0" ''12家搬!!
+            AdsOcx1.AdsAmsServerPort = 301  ''800  ''1家搬!!
+            AdsOcx1.EnableErrorHandling = True
+            ''''
+            AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata
+            
+            AdsOcx1.AdsAmsServerNetId = "0.0.0.0.0.0" ''12家搬!!
+            AdsOcx1.AdsAmsServerPort = 302  ''800  ''2家搬!!
+            AdsOcx1.EnableErrorHandling = True
+            ''''
+            AdsOcx1.AdsSyncWriteReq &HF030&, &H0&, 56, AOdata2
+        End If
     End If
 
 wsErrADS:

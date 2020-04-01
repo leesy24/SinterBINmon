@@ -12,36 +12,70 @@ Begin VB.Form frmCFG
    ScaleHeight     =   4935
    ScaleWidth      =   11655
    StartUpPosition =   3  'Windows 기본값
-   Visible         =   0   'False
+   Begin VB.Frame Frame2 
+      Caption         =   "센서 종류 설정"
+      Height          =   2415
+      Left            =   240
+      TabIndex        =   14
+      Top             =   1800
+      Width           =   11175
+      Begin VB.TextBox txtCtypes 
+         Height          =   270
+         Index           =   0
+         Left            =   1680
+         TabIndex        =   16
+         Top             =   310
+         Width           =   615
+      End
+      Begin VB.CommandButton cmdSetTYPE 
+         Caption         =   "적 용"
+         Height          =   375
+         Left            =   10080
+         Style           =   1  '그래픽
+         TabIndex        =   15
+         Top             =   1920
+         Width           =   975
+      End
+      Begin VB.Label lbBinNO2 
+         Caption         =   "1) 1소결BIN-01"
+         Height          =   255
+         Index           =   0
+         Left            =   240
+         TabIndex        =   17
+         Top             =   360
+         Width           =   1455
+      End
+   End
    Begin VB.Frame Frame1 
       Caption         =   "시스템 설정"
-      Height          =   1335
+      Height          =   1455
       Left            =   240
-      TabIndex        =   5
+      TabIndex        =   1
       Top             =   240
       Width           =   11175
-      Begin VB.TextBox txtAVRcnt 
-         Height          =   270
-         Left            =   4440
-         TabIndex        =   12
-         Text            =   "99"
-         Top             =   310
-         Width           =   615
+      Begin VB.CheckBox chkUsePLC 
+         Caption         =   "PLC 이용"
+         Height          =   255
+         Left            =   2640
+         TabIndex        =   18
+         Top             =   720
+         Width           =   1575
       End
-      Begin VB.TextBox txtSinterNumber2 
-         Height          =   270
-         Left            =   1680
-         TabIndex        =   10
-         Text            =   "2"
-         Top             =   675
-         Width           =   615
+      Begin VB.CheckBox chkUseBeckHoof 
+         Caption         =   "BeckHoff 이용"
+         Height          =   255
+         Left            =   2640
+         TabIndex        =   19
+         Top             =   360
+         Width           =   1575
       End
-      Begin VB.TextBox txtSinterNumber1 
+      Begin VB.TextBox txtPLCIPPort2 
+         Enabled         =   0   'False
          Height          =   270
-         Left            =   1680
-         TabIndex        =   7
-         Text            =   "1"
-         Top             =   310
+         Left            =   5760
+         TabIndex        =   20
+         Text            =   "99999"
+         Top             =   1030
          Width           =   615
       End
       Begin VB.CommandButton cmdSetSYSTEM 
@@ -49,76 +83,114 @@ Begin VB.Form frmCFG
          Height          =   375
          Left            =   10080
          Style           =   1  '그래픽
+         TabIndex        =   7
+         Top             =   960
+         Width           =   975
+      End
+      Begin VB.TextBox txtSinterNumber1 
+         Height          =   270
+         Left            =   1680
          TabIndex        =   6
-         Top             =   840
-         Width           =   975
+         Text            =   "1"
+         Top             =   310
+         Width           =   615
       End
-      Begin VB.Label lbAVRcnt 
-         Caption         =   "누적횟수"
-         Height          =   255
-         Left            =   3600
-         TabIndex        =   11
-         Top             =   360
-         Width           =   975
+      Begin VB.TextBox txtSinterNumber2 
+         Height          =   270
+         Left            =   1680
+         TabIndex        =   5
+         Text            =   "2"
+         Top             =   670
+         Width           =   615
       End
-      Begin VB.Label lbSinterNumber2 
-         Caption         =   "두번째 소결 번호"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   9
-         Top             =   720
-         Width           =   1575
+      Begin VB.TextBox txtAVRcnt 
+         Height          =   270
+         Left            =   1680
+         TabIndex        =   4
+         Text            =   "99"
+         Top             =   1030
+         Width           =   615
+      End
+      Begin VB.TextBox txtPLCIPAddr 
+         Enabled         =   0   'False
+         Height          =   270
+         Left            =   5760
+         TabIndex        =   3
+         Text            =   "255.255.255.255"
+         Top             =   310
+         Width           =   1455
+      End
+      Begin VB.TextBox txtPLCIPPort1 
+         Enabled         =   0   'False
+         Height          =   270
+         Left            =   5760
+         TabIndex        =   2
+         Text            =   "99999"
+         Top             =   670
+         Width           =   615
       End
       Begin VB.Label lbSinterNumber1 
+         Alignment       =   1  '오른쪽 맞춤
          Caption         =   "첫번째 소결 번호"
          Height          =   255
-         Left            =   240
-         TabIndex        =   8
+         Left            =   120
+         TabIndex        =   13
          Top             =   360
-         Width           =   1575
+         Width           =   1455
+      End
+      Begin VB.Label lbSinterNumber2 
+         Alignment       =   1  '오른쪽 맞춤
+         Caption         =   "두번째 소결 번호"
+         Height          =   255
+         Left            =   120
+         TabIndex        =   12
+         Top             =   720
+         Width           =   1455
+      End
+      Begin VB.Label lbAVRcnt 
+         Alignment       =   1  '오른쪽 맞춤
+         Caption         =   "누적횟수"
+         Height          =   255
+         Left            =   720
+         TabIndex        =   11
+         Top             =   1080
+         Width           =   855
+      End
+      Begin VB.Label lbPLCIPAddr 
+         Alignment       =   1  '오른쪽 맞춤
+         Caption         =   "PLC IP addr."
+         Height          =   255
+         Left            =   4440
+         TabIndex        =   10
+         Top             =   360
+         Width           =   1215
+      End
+      Begin VB.Label lbPLCIPPort1 
+         Alignment       =   1  '오른쪽 맞춤
+         Caption         =   "PLC IP port 1"
+         Height          =   255
+         Left            =   4320
+         TabIndex        =   9
+         Top             =   720
+         Width           =   1335
+      End
+      Begin VB.Label lbPLCIPPort2 
+         Alignment       =   1  '오른쪽 맞춤
+         Caption         =   "PLC IP port 2"
+         Height          =   255
+         Left            =   4320
+         TabIndex        =   8
+         Top             =   1080
+         Width           =   1335
       End
    End
    Begin VB.CommandButton cmdCFGexit 
       Caption         =   "닫 기"
       Height          =   375
       Left            =   10200
-      TabIndex        =   4
+      TabIndex        =   0
       Top             =   4320
       Width           =   1215
-   End
-   Begin VB.Frame Frame2 
-      Caption         =   "센서 종류 설정"
-      Height          =   2415
-      Left            =   240
-      TabIndex        =   0
-      Top             =   1800
-      Width           =   11175
-      Begin VB.CommandButton cmdSetTYPE 
-         Caption         =   "적 용"
-         Height          =   375
-         Left            =   10080
-         Style           =   1  '그래픽
-         TabIndex        =   3
-         Top             =   1920
-         Width           =   975
-      End
-      Begin VB.TextBox txtCtypes 
-         Height          =   270
-         Index           =   0
-         Left            =   1680
-         TabIndex        =   2
-         Top             =   310
-         Width           =   615
-      End
-      Begin VB.Label lbBinNO2 
-         Caption         =   "1) 1소결BIN-01"
-         Height          =   255
-         Index           =   0
-         Left            =   240
-         TabIndex        =   1
-         Top             =   360
-         Width           =   1455
-      End
    End
    Begin VB.Timer tmrCFG 
       Enabled         =   0   'False
@@ -135,6 +207,42 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
+Const TIMEOUT = 60000 ' 60secs
+
+Private Sub chkUseBeckHoof_Click()
+'
+    If (frmCFG.Visible = False) Then
+        Exit Sub
+    End If
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = TIMEOUT
+    tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub chkUsePLC_Click()
+'
+    If (frmCFG.Visible = False) Then
+        Exit Sub
+    End If
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = TIMEOUT
+    tmrCFG.Enabled = True
+'
+    If (chkUsePLC.Value = 1) Then
+        txtPLCIPAddr.Enabled = True
+        txtPLCIPPort1.Enabled = True
+        txtPLCIPPort2.Enabled = True
+    Else
+        txtPLCIPAddr.Enabled = False
+        txtPLCIPPort1.Enabled = False
+        txtPLCIPPort2.Enabled = False
+    End If
+'
+End Sub
+
 Private Sub cmdCFGexit_Click()
 '
     tmrCFG.Enabled = False
@@ -145,62 +253,125 @@ Private Sub cmdCFGexit_Click()
 End Sub
 
 Private Sub cmdSetSYSTEM_Click()
-    Dim i
+    Dim IsValid As Boolean
+    'Dim i
     
     tmrCFG.Enabled = False
-    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Interval = TIMEOUT
     tmrCFG.Enabled = True
     
+    IsValid = True
+    
     If (Val(txtSinterNumber1) < 1) Or (Val(txtSinterNumber1) > 9) Then
-            txtSinterNumber1 = frmMain.SinterNumber1
-                MsgBox lbSinterNumber1 & "는 1 이상 9 이하 이어야 입니다.", vbOKOnly
-            Exit Sub
+        MsgBox lbSinterNumber1 & "는 1 이상 9 이하 이어야 합니다.", vbOKOnly
+        IsValid = False
     End If
-    
-    SaveSetting App.Title, "Settings", "SinterNumber1", Val(txtSinterNumber1)
-    
-    'frmMain.SinterNumber1 = txtSinterNumber1
-    
-    'frmMain.lbTitle.Caption = "[" & txtSinterNumber1 & "," & txtSinterNumber2 & "소결] BIN LEVEL MONITORING"
-    
-    'For i = 0 To 9
-    '    frmMain.ucBINdps1(i).setBinID
-    'Next i
     
     If (Val(txtSinterNumber2) < 1) Or (Val(txtSinterNumber2) > 9) Then
-            txtSinterNumber2 = frmMain.SinterNumber2
-                MsgBox lbSinterNumber2 & "는 1 이상 9 이하 이어야 입니다.", vbOKOnly
-            Exit Sub
+        MsgBox lbSinterNumber2 & "는 1 이상 9 이하 이어야 합니다.", vbOKOnly
+        IsValid = False
     End If
     
-    SaveSetting App.Title, "Settings", "SinterNumber2", Val(txtSinterNumber2)
+    If (Val(txtSinterNumber1) = Val(txtSinterNumber2)) Then
+        MsgBox lbSinterNumber1 & "와 " & lbSinterNumber2 & "는 서로 다른 값이어야 합니다.", vbOKOnly
+        IsValid = False
+    End If
     
-    'frmMain.SinterNumber2 = txtSinterNumber2
+    If (IsValid = True) Then
+        SaveSetting App.Title, "Settings", "SinterNumber1", Val(txtSinterNumber1)
+        
+        'frmMain.SinterNumber1 = txtSinterNumber1
+        
+        'frmMain.lbTitle.Caption = "[" & txtSinterNumber1 & "," & txtSinterNumber2 & "소결] BIN LEVEL MONITORING"
+        
+        'For i = 0 To 9
+        '    frmMain.ucBINdps1(i).setBinID
+        'Next i
+        
+        SaveSetting App.Title, "Settings", "SinterNumber2", Val(txtSinterNumber2)
     
-    'frmMain.lbTitle.Caption = "[" & txtSinterNumber1 & "," & txtSinterNumber2 & "소결] BIN LEVEL MONITORING"
+        'frmMain.SinterNumber2 = txtSinterNumber2
+        
+        'frmMain.lbTitle.Caption = "[" & txtSinterNumber1 & "," & txtSinterNumber2 & "소결] BIN LEVEL MONITORING"
+        
+        'For i = 10 To 19
+        '    frmMain.ucBINdps1(i).setBinID
+        'Next i
+    End If
     
-    'For i = 10 To 19
-    '    frmMain.ucBINdps1(i).setBinID
-    'Next i
-    
+    IsValid = True
     
     If (Val(txtAVRcnt) < 10) Or (Val(txtAVRcnt) > 99) Then
-            txtAVRcnt = frmMain.AOdeepMAX
-                MsgBox lbAVRcnt & "는 10 이상 99 이하 이어야 입니다.", vbOKOnly
-            Exit Sub
+        MsgBox lbAVRcnt & "는 10 이상 99 이하 이어야 합니다.", vbOKOnly
+        IsValid = False
     End If
     
-    SaveSetting App.Title, "Settings", "DeepMax", Val(txtAVRcnt)
-    frmMain.AOdeepFull = False
-    frmMain.AOdeepCNT = 0
-    frmMain.AOdeepMAX = Val(txtAVRcnt)
+    If (IsValid = True) Then
+        SaveSetting App.Title, "Settings", "DeepMax", Val(txtAVRcnt)
+        frmMain.AOdeepFull = False
+        frmMain.AOdeepCNT = 0
+        frmMain.AOdeepMAX = Val(txtAVRcnt)
+    End If
+    
+    If (chkUseBeckHoof.Value <> frmMain.chkUseBeckHoof) Then
+        SaveSetting App.Title, "Settings", "UseBeckHoof", chkUseBeckHoof.Value
+        frmMain.chkUseBeckHoof = chkUseBeckHoof.Value
+    End If
+    
+    If (chkUsePLC.Value <> frmMain.chkUsePLC) Then
+        SaveSetting App.Title, "Settings", "UsePLC", chkUsePLC.Value
+        frmMain.chkUsePLC = chkUsePLC.Value
+    End If
+    
+    IsValid = True
+    
+    If IsValidIPAddress(txtPLCIPAddr) = False Then
+        MsgBox lbPLCIPAddr & "는 192.168.0.1 형태의 값 이어야 합니다.", vbOKOnly
+        IsValid = False
+    End If
+    
+    If IsValidIPPort(txtPLCIPPort1) = False Then
+        MsgBox lbPLCIPPort1 & "는 1024 ~ 65535 사이의 정수 값 이어야 합니다.", vbOKOnly
+        IsValid = False
+    End If
+    
+    If IsValidIPPort(txtPLCIPPort2) = False Then
+        MsgBox lbPLCIPPort2 & "는 1024 ~ 65535 사이의 정수 값 이어야 합니다.", vbOKOnly
+        IsValid = False
+    End If
+    
+    If txtPLCIPPort1 = txtPLCIPPort2 Then
+        MsgBox lbPLCIPPort1 & "와 " & lbPLCIPPort2 & "는 서로 다른 값 이어야 합니다.", vbOKOnly
+        IsValid = False
+    End If
+    
+    If (IsValid = True) Then
+        SaveSetting App.Title, "Settings", "PLCIPAddr", txtPLCIPAddr
+        SaveSetting App.Title, "Settings", "PLCIPPort1", txtPLCIPPort1
+        SaveSetting App.Title, "Settings", "PLCIPPort2", txtPLCIPPort2
+    
+        With frmMain.wsPLC1
+            .Close
+            .RemoteHost = txtPLCIPAddr
+            .RemotePort = txtPLCIPPort1
+            .LocalPort = txtPLCIPPort1
+            .Bind .LocalPort
+        End With
+        With frmMain.wsPLC2
+            .Close
+            .RemoteHost = txtPLCIPAddr
+            .RemotePort = txtPLCIPPort2
+            .LocalPort = txtPLCIPPort2
+            .Bind .LocalPort
+        End With
+    End If
 End Sub
 
 Private Sub cmdSetTYPE_Click()
     Dim i
     
     tmrCFG.Enabled = False
-    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Interval = TIMEOUT
     tmrCFG.Enabled = True
     
     For i = 0 To 19
@@ -217,6 +388,18 @@ Private Sub Form_Load()
     txtSinterNumber2 = frmMain.SinterNumber2
     
     txtAVRcnt = frmMain.AOdeepMAX
+    
+    chkUseBeckHoof.Value = frmMain.chkUseBeckHoof
+    chkUsePLC.Value = frmMain.chkUsePLC
+    If (chkUsePLC.Value = 1) Then
+        txtPLCIPAddr.Enabled = True
+        txtPLCIPPort1.Enabled = True
+        txtPLCIPPort2.Enabled = True
+    End If
+    
+    txtPLCIPAddr.Text = frmMain.wsPLC1.RemoteHost
+    txtPLCIPPort1.Text = frmMain.wsPLC1.RemotePort
+    txtPLCIPPort2.Text = frmMain.wsPLC2.RemotePort
     
     For i = 0 To 19
         If i <> 0 Then
@@ -244,14 +427,14 @@ Private Sub Form_Load()
     Next i
     
     tmrCFG.Enabled = False
-    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Interval = TIMEOUT
     tmrCFG.Enabled = True
 End Sub
 
 Private Sub lbBinNO2_Click(Index As Integer)
 '
     tmrCFG.Enabled = False
-    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Interval = TIMEOUT
     tmrCFG.Enabled = True
 '
     If frmSettings.Visible = True Then
@@ -284,7 +467,7 @@ End Sub
 Private Sub txtAVRcnt_GotFocus()
 '
     tmrCFG.Enabled = False
-    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Interval = TIMEOUT
     tmrCFG.Enabled = True
 '
 End Sub
@@ -292,7 +475,7 @@ End Sub
 Private Sub txtCtypes_GotFocus(Index As Integer)
 '
     tmrCFG.Enabled = False
-    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Interval = TIMEOUT
     tmrCFG.Enabled = True
 '
 End Sub
@@ -300,7 +483,7 @@ End Sub
 Private Sub txtSinterNumber1_GotFocus()
 '
     tmrCFG.Enabled = False
-    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Interval = TIMEOUT
     tmrCFG.Enabled = True
 '
 End Sub
@@ -308,7 +491,7 @@ End Sub
 Private Sub txtSinterNumber2_GotFocus()
 '
     tmrCFG.Enabled = False
-    tmrCFG.Interval = 60000 '' 60secs
+    tmrCFG.Interval = TIMEOUT
     tmrCFG.Enabled = True
 '
 End Sub
