@@ -154,22 +154,6 @@ Begin VB.Form frmMain
       TabIndex        =   0
       Top             =   120
       Width           =   13335
-      Begin MSWinsockLib.Winsock wsPLC2 
-         Left            =   5880
-         Top             =   360
-         _ExtentX        =   741
-         _ExtentY        =   741
-         _Version        =   393216
-         Protocol        =   1
-      End
-      Begin MSWinsockLib.Winsock wsPLC1 
-         Left            =   5760
-         Top             =   360
-         _ExtentX        =   741
-         _ExtentY        =   741
-         _Version        =   393216
-         Protocol        =   1
-      End
       Begin VB.CommandButton cmdCFG 
          BackColor       =   &H00008000&
          Caption         =   "설 정"
@@ -247,6 +231,22 @@ Begin VB.Form frmMain
          TabIndex        =   1
          Top             =   360
          Width           =   1335
+      End
+      Begin MSWinsockLib.Winsock wsPLC2 
+         Left            =   5880
+         Top             =   360
+         _ExtentX        =   741
+         _ExtentY        =   741
+         _Version        =   393216
+         Protocol        =   1
+      End
+      Begin MSWinsockLib.Winsock wsPLC1 
+         Left            =   5760
+         Top             =   360
+         _ExtentX        =   741
+         _ExtentY        =   741
+         _Version        =   393216
+         Protocol        =   1
       End
       Begin VB.Label lbRelDate 
          BackStyle       =   0  '투명
@@ -769,6 +769,12 @@ Dim j As Integer
     
     SinterNumber1 = GetSetting(App.Title, "Settings", "SinterNumber1", 1)
     SinterNumber2 = GetSetting(App.Title, "Settings", "SinterNumber2", 2)
+    If ((SinterNumber1 <> 1) And (SinterNumber1 <> 3)) Or _
+       ((SinterNumber2 <> 2) And (SinterNumber2 <> 4)) Or _
+       ((SinterNumber1 + 1 <> SinterNumber2)) Then
+        SinterNumber1 = 1
+        SinterNumber2 = 2
+    End If
     
     lbTitle.Caption = "[" & SinterNumber1 & "," & SinterNumber2 & "소결] BIN LEVEL MONITORING"
     

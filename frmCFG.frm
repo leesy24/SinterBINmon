@@ -285,20 +285,20 @@ Private Sub cmdSetSYSTEM_Click()
     If (txtSinterNumber1 <> frmMain.SinterNumber1) Or _
        (txtSinterNumber2 <> frmMain.SinterNumber2) Then
         IsValid = True
-        If (Val(txtSinterNumber1) < 1) Or (Val(txtSinterNumber1) > 9) Then
-            MsgBox lbSinterNumber1 & "는 1 이상 9 이하 이어야 합니다.", vbOKOnly
+        If (CInt(txtSinterNumber1) <> 1) And (CInt(txtSinterNumber1) <> 3) Then
+            MsgBox lbSinterNumber1 & "는 1 또는 3 이어야 합니다.", vbOKOnly
             IsValid = False
             isError_cmdSetSYSTEM = True
         End If
         
-        If (Val(txtSinterNumber2) < 1) Or (Val(txtSinterNumber2) > 9) Then
-            MsgBox lbSinterNumber2 & "는 1 이상 9 이하 이어야 합니다.", vbOKOnly
+        If (CInt(txtSinterNumber2) <> 2) And (CInt(txtSinterNumber2) <> 4) Then
+            MsgBox lbSinterNumber2 & "는 2 또는 4 이어야 합니다.", vbOKOnly
             IsValid = False
             isError_cmdSetSYSTEM = True
         End If
         
-        If (Val(txtSinterNumber1) = Val(txtSinterNumber2)) Then
-            MsgBox lbSinterNumber1 & "와 " & lbSinterNumber2 & "는 서로 다른 값이어야 합니다.", vbOKOnly
+        If (CInt(txtSinterNumber1) + 1 <> CInt(txtSinterNumber2)) Then
+            MsgBox lbSinterNumber1 & "와 " & lbSinterNumber2 & "는 1,2 또는 3,4 이어야 합니다.", vbOKOnly
             IsValid = False
             isError_cmdSetSYSTEM = True
         End If
@@ -321,7 +321,7 @@ Private Sub cmdSetSYSTEM_Click()
             End If
             frmMain.wsPcs.Close
             
-            For i = 0 To 9
+            For i = 0 To 19
                 frmMain.ucBINdps1(i).setBinID
                 lbBinNO2(i).Caption = frmMain.ucBINdps1(i).getBinCaption
             Next i
