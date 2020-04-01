@@ -636,7 +636,7 @@ Private Sub cmdCFG_Click()
         frmCFG.Visible = True
     End If
     
-''    frmCFG.tmrCFG_update
+    frmCFG.tmrCFG_update
 
 End Sub
 
