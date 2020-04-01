@@ -250,6 +250,9 @@ Private Sub cmdCFGexit_Click()
     frmSettings.Visible = False
     frmCFG.Visible = False
 '
+    Unload frmSettings
+    Unload Me
+'
 End Sub
 
 Private Sub cmdSetSYSTEM_Click()
@@ -431,6 +434,14 @@ Private Sub Form_Load()
     tmrCFG.Enabled = True
 End Sub
 
+Private Sub lbAVRcnt_Click()
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = TIMEOUT
+    tmrCFG.Enabled = True
+'
+End Sub
+
 Private Sub lbBinNO2_Click(Index As Integer)
 '
     tmrCFG.Enabled = False
@@ -455,12 +466,55 @@ Private Sub lbBinNO2_Click(Index As Integer)
 '
 End Sub
 
+Private Sub lbPLCIPAddr_Click()
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = TIMEOUT
+    tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbPLCIPPort1_Click()
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = TIMEOUT
+    tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbPLCIPPort2_Click()
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = TIMEOUT
+    tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbSinterNumber1_Click()
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = TIMEOUT
+    tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbSinterNumber2_Click()
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = TIMEOUT
+    tmrCFG.Enabled = True
+'
+End Sub
+
 Private Sub tmrCFG_Timer()
 
     tmrCFG.Enabled = False
     
     frmSettings.Visible = False
     frmCFG.Visible = False
+    
+    Unload frmSettings
+    Unload Me
     
 End Sub
 
@@ -473,6 +527,30 @@ Private Sub txtAVRcnt_GotFocus()
 End Sub
 
 Private Sub txtCtypes_GotFocus(Index As Integer)
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = TIMEOUT
+    tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub txtPLCIPAddr_GotFocus()
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = TIMEOUT
+    tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub txtPLCIPPort1_GotFocus()
+'
+    tmrCFG.Enabled = False
+    tmrCFG.Interval = TIMEOUT
+    tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub txtPLCIPPort2_GotFocus()
 '
     tmrCFG.Enabled = False
     tmrCFG.Interval = TIMEOUT

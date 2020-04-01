@@ -86,7 +86,7 @@ Begin VB.Form frmSettings
       Top             =   2040
       Width           =   975
    End
-   Begin VB.Label Label7 
+   Begin VB.Label lbBinMinLH_ 
       Caption         =   "cm, 0~500"
       Height          =   255
       Left            =   2040
@@ -102,7 +102,7 @@ Begin VB.Form frmSettings
       Top             =   1680
       Width           =   975
    End
-   Begin VB.Label Label5 
+   Begin VB.Label lbBinMaxHH_ 
       Caption         =   "cm, 1700~2000"
       Height          =   255
       Left            =   2040
@@ -126,7 +126,7 @@ Begin VB.Form frmSettings
       Top             =   600
       Width           =   975
    End
-   Begin VB.Label Label4 
+   Begin VB.Label lbBinIPAddr_ 
       Caption         =   "Serial2Net¿« IP"
       Height          =   255
       Left            =   2880
@@ -134,7 +134,7 @@ Begin VB.Form frmSettings
       Top             =   240
       Width           =   1575
    End
-   Begin VB.Label Label3 
+   Begin VB.Label lbBinIPPort_ 
       Caption         =   "Serial2Net¿« port"
       Height          =   255
       Left            =   2040
@@ -142,7 +142,7 @@ Begin VB.Form frmSettings
       Top             =   600
       Width           =   2295
    End
-   Begin VB.Label Label2 
+   Begin VB.Label lbSensorAngle_ 
       Caption         =   "°∆, 48~-48"
       Height          =   255
       Left            =   2040
@@ -150,7 +150,7 @@ Begin VB.Form frmSettings
       Top             =   1320
       Width           =   975
    End
-   Begin VB.Label Label1 
+   Begin VB.Label lbBinAngle_ 
       Caption         =   "°∆, 10~-10"
       Height          =   255
       Left            =   2040
@@ -181,7 +181,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-'
+
+Const TIMEOUT = 60000 ' 60secs
+
 Dim Index%
 Dim orgBinIPAddr$, orgBinIPPort$, orgBinAngle$, orgSensorAngle$
 Dim orgBinMaxHH$, orgBinMinLH$
@@ -218,7 +220,7 @@ Private Sub cmdSettingsApply_Click()
     Dim IsValid As Boolean
 '
     frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Interval = TIMEOUT
     frmCFG.tmrCFG.Enabled = True
 '
     'IsApplied = False
@@ -319,17 +321,115 @@ End Sub
 Private Sub cmdSettingsExit_Click()
 '
     frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Interval = TIMEOUT
     frmCFG.tmrCFG.Enabled = True
 '
     frmSettings.Visible = False
+'
+    Unload Me
+'
+End Sub
+
+Private Sub lbBinAngle__Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbBinAngle_Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbBinIPAddr__Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbBinIPAddr_Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbBinIPPort__Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbBinIPPort_Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbBinMaxHH__Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbBinMaxHH_Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbBinMinLH__Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbBinMinLH_Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbSensorAngle__Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
+'
+End Sub
+
+Private Sub lbSensorAngle_Click()
+'
+    frmCFG.tmrCFG.Enabled = False
+    frmCFG.tmrCFG.Interval = TIMEOUT
+    frmCFG.tmrCFG.Enabled = True
 '
 End Sub
 
 Private Sub txtBinAngle_GotFocus()
 '
     frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Interval = TIMEOUT
     frmCFG.tmrCFG.Enabled = True
 '
 End Sub
@@ -337,7 +437,7 @@ End Sub
 Private Sub txtBinIPAddr_GotFocus()
 '
     frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Interval = TIMEOUT
     frmCFG.tmrCFG.Enabled = True
 '
 End Sub
@@ -345,7 +445,7 @@ End Sub
 Private Sub txtBinIPPort_GotFocus()
 '
     frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Interval = TIMEOUT
     frmCFG.tmrCFG.Enabled = True
 '
 End Sub
@@ -353,7 +453,7 @@ End Sub
 Private Sub txtBinMaxHH_GotFocus()
 '
     frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Interval = TIMEOUT
     frmCFG.tmrCFG.Enabled = True
 '
 End Sub
@@ -361,7 +461,7 @@ End Sub
 Private Sub txtBinMinLH_GotFocus()
 '
     frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Interval = TIMEOUT
     frmCFG.tmrCFG.Enabled = True
 '
 End Sub
@@ -369,7 +469,7 @@ End Sub
 Private Sub txtSensorAngle_GotFocus()
 '
     frmCFG.tmrCFG.Enabled = False
-    frmCFG.tmrCFG.Interval = 60000 '' 60secs
+    frmCFG.tmrCFG.Interval = TIMEOUT
     frmCFG.tmrCFG.Enabled = True
 '
 End Sub
