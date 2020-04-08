@@ -704,10 +704,10 @@ Private Sub picGET_Click()
         ''y(k) = r(k) * Sin((angle(k) + 40 + BinAngle) * (PI / 180)) ''180
         y(k) = maxyrange - (scanD(k) * Sin(((k) + 40 + BinAngle) * (PI / 180)))  ''180
         
-        If (x(k) > minxrange) And (minXL > x(k)) Then
+        If (x(k) > minxrange) And (x(k) < minXL) Then
             minXL = x(k)
         End If
-        If (x(k) < maxxrange) And (minXR < x(k)) Then
+        If (x(k) < maxxrange) And (x(k) > minXR) Then
             minXR = x(k)
         End If
     Next k
@@ -843,10 +843,10 @@ Dim X1, Y1, X2, Y2 As Double
         pnt(k).x = x(k) / 100  ''about~(100 / 10000 = 1/100 = 0.01)
         pnt(k).y = y(k) / 100  ''about~(200 / 20000 = 2/200 = 0.01)
         
-        If (minXL > x(k)) Then
+        If (x(k) < minXL) Then
             minXL = x(k)
         End If
-        If (minXR < x(k)) Then
+        If (x(k) > minXR) Then
             minXR = x(k)
         End If
         If (y(k) > maxY) Then
