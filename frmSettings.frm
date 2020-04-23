@@ -405,8 +405,6 @@ Private Sub lbSensorAngle_Click()
 '
 End Sub
 
-cmdSettingsApply
-
 Private Sub cmdSettingsApply_Update()
     cmdSettingsApply_Click
     If (isError_cmdSettingsApply = False) Then
