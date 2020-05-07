@@ -1387,12 +1387,13 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
          UDPiV_2(i) = 0
     Next i
     '''
+    ' Convert 1 ~ 327671 to 1 ~ 2047
     For i = 0 To 9
-        UDPiV_1(i) = aaD(i)
+        UDPiV_1(i) = CLng(aaD(i) - 1) * (2047 - 1) / (32767 - 1) + 1
     Next i
     ''
     For i = 10 To 19
-        UDPiV_2(i - 10) = aaD(i)
+        UDPiV_2(i - 10) = CLng(aaD(i) - 1) * (2047 - 1) / (32767 - 1) + 1
     Next i
     
     ''SAVE--Replace!!
