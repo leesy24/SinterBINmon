@@ -26,7 +26,7 @@ Begin VB.Form frmMain
       _StockProps     =   0
       AdsAmsServerNetId=   "172.16.21.20.1.1"
       AdsAmsServerPort=   800
-      AdsAmsClientPort=   32807
+      AdsAmsClientPort=   32779
       AdsClientType   =   ""
       AdsClientAdsState=   ""
       AdsClientAdsControl=   ""
@@ -382,8 +382,8 @@ Private Declare Sub CopyMemory Lib "kernel32" _
                                            hpvSource As Any, _
                                            ByVal cbCopy As Long)
 
-Private Const relVersion = "v2.00.06"
-Private Const relDate = "2020-04-23"
+Private Const relVersion = "v2.00.07"
+Private Const relDate = "2020-05-07"
 
 Dim d1 As Single
 
@@ -1527,17 +1527,9 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
         Dim buffer(59) As Byte
         
         CopyMemory buffer(0), UDPiV_1(0), 30 * 2
-        ''' Change little-endian to big-endian
-        For i = 0 To 29
-            swap buffer(i * 2), buffer(i * 2 + 1)
-        Next i
         wsPLC1.SendData buffer
         
         CopyMemory buffer(0), UDPiV_2(0), 30 * 2
-        ''' Change little-endian to big-endian
-        For i = 0 To 29
-            swap buffer(i * 2), buffer(i * 2 + 1)
-        Next i
         wsPLC2.SendData buffer
     End If
 
