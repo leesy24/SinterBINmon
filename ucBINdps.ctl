@@ -992,56 +992,7 @@ Dim X1, Y1, X2, Y2 As Double
         txtVV.Text = txtAsum - minLH
     End If
     
-    Dim maxA0d As Long
-    
-    If txtOpMid >= 0.5 Then
-        ''' 원뿔 부피 - 최소높이 이하 부피 + 최대높이 이하 원기둥 부피
-        maxA0d = CLng((1200 * 4 / 12 + 60) ^ 2 / 3 * 1200)
-        maxA0d = maxA0d - CLng((minLH * 4 / 12 + 60) ^ 2 / 3 * minLH)
-        maxA0d = maxA0d + CLng(400 ^ 2 * (maxHH - 1200))
-        
-        If txtAsum <= minLH Then
-            txtAOd = 0
-        ElseIf txtAsum <= 1200 Then
-            ''' 원뿔 부피 - 최소높이 이하 부피
-            txtAOd = CLng((txtAsum * 4 / 12 + 60) ^ 2 / 3 * txtAsum)
-            txtAOd = txtAOd - CLng((minLH * 4 / 12 + 60) ^ 2 / 3 * minLH)
-        ElseIf txtAsum >= maxHH Then
-            ''' 원뿔 부피 - 최소높이 이하 부피 + 최대높이 이하 원기둥 부피
-            txtAOd = CLng((1200 * 4 / 12 + 60) ^ 2 / 3 * 1200)
-            txtAOd = txtAOd - CLng((minLH * 4 / 12 + 60) ^ 2 / 3 * minLH)
-            txtAOd = txtAOd + CLng(400 ^ 2 * (maxHH - 1200))
-        Else
-            ''' 원뿔 부피 - 최소높이 이하 부피 + 원기둥 부피
-            txtAOd = CLng((1200 * 4 / 12 + 60) ^ 2 / 3 * 1200)
-            txtAOd = txtAOd - CLng((minLH * 4 / 12 + 60) ^ 2 / 3 * minLH)
-            txtAOd = txtAOd + CLng(400 ^ 2 * (txtAsum - 1200))
-        End If
-    Else
-        ''' 원뿔 부피 - 최소높이 이하 부피 + 최대높이 이하 원기둥 부피
-        maxA0d = CLng((1000 * 2 / 10 + 60) ^ 2 / 3 * 1000)
-        maxA0d = maxA0d - CLng((minLH * 2 / 10 + 60) ^ 2 / 3 * minLH)
-        maxA0d = maxA0d + CLng(200 ^ 2 * (maxHH - 1000))
-        
-        If txtAsum <= minLH Then
-            txtAOd = 0
-        ElseIf txtAsum <= 1000 Then
-            ''' 원뿔 부피 - 최소높이 이하 부피
-            txtAOd = CLng((txtAsum * 2 / 10 + 60) ^ 2 / 3 * txtAsum)
-            txtAOd = txtAOd - CLng((minLH * 2 / 10 + 60) ^ 2 / 3 * minLH)
-        ElseIf txtAsum >= maxHH Then
-            ''' 원뿔 부피 - 최소높이 이하 부피 +  최대높이 이하 원기둥 부피
-            txtAOd = CLng((1000 * 2 / 10 + 60) ^ 2 / 3 * 1000)
-            txtAOd = txtAOd - CLng((minLH * 2 / 10 + 60) ^ 2 / 3 * minLH)
-            txtAOd = txtAOd + CLng(200 ^ 2 * (maxHH - 1000))
-        Else
-            ''' 원뿔 부피 - 최소높이 이하 부피 + 원기둥 부피
-            txtAOd = CLng((1000 * 2 / 10 + 60) ^ 2 / 3 * 1000)
-            txtAOd = txtAOd - CLng((minLH * 2 / 10 + 60) ^ 2 / 3 * minLH)
-            txtAOd = txtAOd + CLng(200 ^ 2 * (txtAsum - 1000))
-        End If
-    End If
-    txtAOd = CLng(txtAOd / maxA0d * 32767)
+    txtAOd = CLng((txtVV / (maxHH - minLH)) * 32767)
     If txtAOd < 1 Then
         txtAOd = 1          '''v044~
     End If
