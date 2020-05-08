@@ -16,14 +16,14 @@ Begin VB.Form frmCFG
       Caption         =   "센서 종류 설정"
       Height          =   2415
       Left            =   240
-      TabIndex        =   17
+      TabIndex        =   18
       Top             =   1800
       Width           =   11175
       Begin VB.TextBox txtCtypes 
          Height          =   270
          Index           =   0
          Left            =   1680
-         TabIndex        =   9
+         TabIndex        =   10
          Top             =   310
          Width           =   615
       End
@@ -32,7 +32,7 @@ Begin VB.Form frmCFG
          Height          =   375
          Left            =   10080
          Style           =   1  '그래픽
-         TabIndex        =   19
+         TabIndex        =   20
          Top             =   1920
          Width           =   975
       End
@@ -41,7 +41,7 @@ Begin VB.Form frmCFG
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   18
+         TabIndex        =   19
          Top             =   360
          Width           =   1455
       End
@@ -50,9 +50,18 @@ Begin VB.Form frmCFG
       Caption         =   "시스템 설정"
       Height          =   1455
       Left            =   240
-      TabIndex        =   10
+      TabIndex        =   11
       Top             =   240
       Width           =   11175
+      Begin VB.TextBox txtPLCDataRangeMax 
+         Enabled         =   0   'False
+         Height          =   270
+         Left            =   8160
+         TabIndex        =   8
+         Text            =   "32767"
+         Top             =   1030
+         Width           =   615
+      End
       Begin VB.CheckBox chkUsePLC 
          Caption         =   "PLC 이용"
          Height          =   255
@@ -83,7 +92,7 @@ Begin VB.Form frmCFG
          Height          =   375
          Left            =   10080
          Style           =   1  '그래픽
-         TabIndex        =   8
+         TabIndex        =   9
          Top             =   960
          Width           =   975
       End
@@ -129,12 +138,30 @@ Begin VB.Form frmCFG
          Top             =   670
          Width           =   615
       End
+      Begin VB.Label lbPLCDataRangeMax_ 
+         Alignment       =   1  '오른쪽 맞춤
+         Caption         =   "(100~32767)"
+         Height          =   255
+         Left            =   6840
+         TabIndex        =   23
+         Top             =   1080
+         Width           =   1215
+      End
+      Begin VB.Label lbPLCDataRangeMax 
+         Alignment       =   1  '오른쪽 맞춤
+         Caption         =   "PLC Data range max."
+         Height          =   255
+         Left            =   6600
+         TabIndex        =   22
+         Top             =   720
+         Width           =   2175
+      End
       Begin VB.Label lbSinterNumber1 
          Alignment       =   1  '오른쪽 맞춤
          Caption         =   "첫번째 소결 번호"
          Height          =   255
          Left            =   120
-         TabIndex        =   16
+         TabIndex        =   17
          Top             =   360
          Width           =   1455
       End
@@ -143,7 +170,7 @@ Begin VB.Form frmCFG
          Caption         =   "두번째 소결 번호"
          Height          =   255
          Left            =   120
-         TabIndex        =   15
+         TabIndex        =   16
          Top             =   720
          Width           =   1455
       End
@@ -152,7 +179,7 @@ Begin VB.Form frmCFG
          Caption         =   "누적횟수"
          Height          =   255
          Left            =   720
-         TabIndex        =   14
+         TabIndex        =   15
          Top             =   1080
          Width           =   855
       End
@@ -161,7 +188,7 @@ Begin VB.Form frmCFG
          Caption         =   "PLC IP addr."
          Height          =   255
          Left            =   4440
-         TabIndex        =   13
+         TabIndex        =   14
          Top             =   360
          Width           =   1215
       End
@@ -170,7 +197,7 @@ Begin VB.Form frmCFG
          Caption         =   "PLC IP port 1"
          Height          =   255
          Left            =   4320
-         TabIndex        =   12
+         TabIndex        =   13
          Top             =   720
          Width           =   1335
       End
@@ -179,7 +206,7 @@ Begin VB.Form frmCFG
          Caption         =   "PLC IP port 2"
          Height          =   255
          Left            =   4320
-         TabIndex        =   11
+         TabIndex        =   12
          Top             =   1080
          Width           =   1335
       End
@@ -188,7 +215,7 @@ Begin VB.Form frmCFG
       Caption         =   "닫 기"
       Height          =   375
       Left            =   10200
-      TabIndex        =   20
+      TabIndex        =   21
       Top             =   4320
       Width           =   1215
    End
@@ -254,10 +281,12 @@ Private Sub chkUsePLC_Click()
         txtPLCIPAddr.Enabled = True
         txtPLCIPPort1.Enabled = True
         txtPLCIPPort2.Enabled = True
+        txtPLCDataRangeMax.Enabled = True
     Else
         txtPLCIPAddr.Enabled = False
         txtPLCIPPort1.Enabled = False
         txtPLCIPPort2.Enabled = False
+        txtPLCDataRangeMax.Enabled = False
     End If
 '
 End Sub
@@ -405,6 +434,21 @@ Private Sub cmdSetSYSTEM_Click()
             End With
         End If
     End If
+
+    If (txtPLCDataRangeMax <> frmMain.PLCDataRangeMax) Then
+        IsValid = True
+        
+        If IsValidValue(txtPLCDataRangeMax, 100, 32767) = False Then
+            MsgBox lbPLCDataRangeMax & "는 100 ~ 32767 사이의 정수 값 이어야 합니다.", vbOKOnly
+            IsValid = False
+            isError_cmdSetSYSTEM = True
+        End If
+        
+        If (IsValid = True) Then
+            SaveSetting App.Title, "Settings", "PLCDataRangeMax", txtPLCDataRangeMax
+            frmMain.PLCDataRangeMax = txtPLCDataRangeMax.Text
+        End If
+    End If
 End Sub
 
 Private Sub cmdSetTYPE_Click()
@@ -438,11 +482,14 @@ Private Sub Form_Load()
         txtPLCIPAddr.Enabled = True
         txtPLCIPPort1.Enabled = True
         txtPLCIPPort2.Enabled = True
+        txtPLCDataRangeMax.Enabled = True
     End If
     
     txtPLCIPAddr.Text = frmMain.wsPLC1.RemoteHost
     txtPLCIPPort1.Text = frmMain.wsPLC1.RemotePort
     txtPLCIPPort2.Text = frmMain.wsPLC2.RemotePort
+    
+    txtPLCDataRangeMax.Text = frmMain.PLCDataRangeMax
     
     For i = 0 To 19
         If i <> 0 Then
@@ -500,6 +547,18 @@ Private Sub lbBinNO2_Click(Index As Integer)
         , frmMain.ucBINdps1(Index).minLH
 '
     frmSettings.Visible = True
+'
+End Sub
+
+Private Sub lbPLCDataRangeMax__Click()
+'
+    tmrCFG_update
+'
+End Sub
+
+Private Sub lbPLCDataRangeMax_Click()
+'
+    tmrCFG_update
 '
 End Sub
 
@@ -568,6 +627,20 @@ Private Sub txtCtypes_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCtypes_GotFocus(Index As Integer)
+'
+    tmrCFG_update
+'
+End Sub
+
+Private Sub txtPLCDataRangeMax_KeyPress(KeyAscii As Integer)
+'
+    If KeyAscii = 13 Then  ' The ENTER key.
+        cmdSetSYSTEM_Update
+    End If
+'
+End Sub
+
+Private Sub txtPLCDataRangeMax_GotFocus()
 '
     tmrCFG_update
 '

@@ -135,3 +135,20 @@ Public Function IsValidIPPort(ByVal strIPPort As String) As Boolean
 Handler:
 End Function
 
+Public Function IsValidValue(ByVal strValue As String, min As Integer, max As Integer) As Boolean
+    On Error GoTo Handler
+    
+    IsValidValue = False
+    '//
+    If IsNumeric(strValue) = True _
+        And CSng(CInt(Val(strValue))) = CSng(Val(strValue)) _
+        And CInt(Val(strValue)) <= max And CInt(Val(strValue)) >= min _
+        Then
+        IsValidValue = True
+    End If
+    '//
+Handler:
+End Function
+
+
+
