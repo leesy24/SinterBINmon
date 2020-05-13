@@ -382,7 +382,7 @@ Private Declare Sub CopyMemory Lib "kernel32" _
                                            hpvSource As Any, _
                                            ByVal cbCopy As Long)
 
-Private Const relVersion = "v2.00.08"
+Private Const relVersion = "v2.00.09"
 Private Const relDate = "2020-05-08"
 
 Dim d1 As Single
@@ -390,6 +390,8 @@ Dim d1 As Single
 
 Public SinterNumber1 As Integer
 Public SinterNumber2 As Integer
+
+Public PLCDataRangeMax As Integer
 
 Public chkUseBeckHoof As Integer
 Public chkUsePLC As Integer
@@ -1100,6 +1102,13 @@ Dim j As Integer
         .Bind .LocalPort
     End With
     
+    Dim plcDataRangeMax_tmp As String
+    plcDataRangeMax_tmp = GetSetting(App.Title, "Settings", "PLCDataRangeMax", "Fail")
+    If IsValidValue(plcDataRangeMax_tmp, 100, 32767) = False Then
+        plcDataRangeMax_tmp = "2047"
+    End If
+    PLCDataRangeMax = plcDataRangeMax_tmp
+    
 ''    ucBINdps1(0).setOptionD "0", "0.53", "0.5"
 ''    ucBINdps1(1).setOptionD "0", "0.53", "0.5"
 ''    ucBINdps1(2).setOptionD "0", "0.53", "0.5"
@@ -1387,13 +1396,21 @@ Dim UDPiV_2(29) As Integer  '''[16bit-word] to PLC : now-Use-10/30word!
          UDPiV_2(i) = 0
     Next i
     '''
-    ' Convert 1 ~ 327671 to 1 ~ 2047
+    ' Convert 1 ~ 327671 to 1 ~ PLCDataRangeMax
     For i = 0 To 9
-        UDPiV_1(i) = CLng(aaD(i) - 1) * (2047 - 1) / (32767 - 1) + 1
+        If (aaD(i) = 0) Then
+            UDPiV_1(i) = 0
+        Else
+            UDPiV_1(i) = CLng(aaD(i) - 1) * (PLCDataRangeMax - 1) / (32767 - 1) + 1
+        End If
     Next i
     ''
     For i = 10 To 19
-        UDPiV_2(i - 10) = CLng(aaD(i) - 1) * (2047 - 1) / (32767 - 1) + 1
+        If (aaD(i) = 0) Then
+            UDPiV_2(i - 10) = 0
+        Else
+            UDPiV_2(i - 10) = CLng(aaD(i) - 1) * (PLCDataRangeMax - 1) / (32767 - 1) + 1
+        End If
     Next i
     
     ''SAVE--Replace!!
