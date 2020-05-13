@@ -936,8 +936,9 @@ Dim X1, Y1, X2, Y2 As Double
     avrMAX = 0
     avrMIN = maxY
     For k = 10 To 90
-        If ((Abs((y(k - 1) - y(k)) / (x(k - 1) - x(k)))) <= 1.3 And _
-            (Abs((y(k) - y(k + 1)) / (x(k) - x(k + 1)))) <= 1.3 _
+        If (y(k) > 500 And _
+            Abs((y(k - 1) - y(k)) / (x(k - 1) - x(k))) <= 1.3 And _
+            Abs((y(k) - y(k + 1)) / (x(k) - x(k + 1))) <= 1.3 _
             ) Then
             avrSUM = avrSUM + y(k)
             avrCNT = avrCNT + 1
@@ -962,8 +963,8 @@ Dim X1, Y1, X2, Y2 As Double
         avrCNT = 0
         For k = 10 To 90
             If ((y(k) >= avr1) And _
-                (Abs((y(k - 1) - y(k)) / (x(k - 1) - x(k)))) <= 1.3 And _
-                (Abs((y(k) - y(k + 1)) / (x(k) - x(k + 1)))) <= 1.3 _
+                Abs((y(k - 1) - y(k)) / (x(k - 1) - x(k))) <= 1.3 And _
+                Abs((y(k) - y(k + 1)) / (x(k) - x(k + 1))) <= 1.3 _
                 ) Then
                 avrSUM = avrSUM + y(k)
                 avrCNT = avrCNT + 1
