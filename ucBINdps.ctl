@@ -497,6 +497,8 @@ Private inBUF2590 As String   '''inBUF2590(100000) As Byte
 Private centerXsum As Double
 Private centerXcnt As Integer
 
+Private p_maxY As Double
+
 Private Declare Function Polygon Lib "gdi32" (ByVal hdc As Long, lpPoint As POINTAPI, ByVal nCount As Long) As Long
 
 
@@ -735,7 +737,11 @@ Private Sub picGET_Click()
             picGET.ForeColor = vbRed
             picGET.Circle (x(k), y(k)), 150
         Else
-            picGET.ForeColor = vbCyan  ''vbYellow  ''vbMagenta  ''vbBlack
+            If k < 10 Or k > 90 Then
+                picGET.ForeColor = vbYellow  ''vbMagenta  ''vbBlack
+            Else
+                picGET.ForeColor = vbCyan  ''vbYellow  ''vbMagenta  ''vbBlack
+            End If
             picGET.Circle (x(k), y(k)), 100
         End If
     Next k
@@ -849,10 +855,13 @@ Dim X1, Y1, X2, Y2 As Double
         If (x(k) > minXR) Then
             minXR = x(k)
         End If
-        If (y(k) > maxY) Then
+        If (k >= 10 And k <= 90 And y(k) > maxY) Then
             maxY = y(k)
         End If
     Next k
+    If maxY = 0 Then
+        maxY = p_maxY
+    End If
     
     For k = 0 To n
         scanDX(k) = pnt(k).x  ''x(k)
@@ -935,8 +944,19 @@ Dim X1, Y1, X2, Y2 As Double
     avrCNT = 0
     avrMAX = 0
     avrMIN = maxY
+    ''Dim d1, d2 As Double
+    ''Dim s1, s2 As Double
+    ''d1 = 0
+    ''d2 = 0
+    ''s1 = 0
+    ''s2 = 0
     For k = 10 To 90
-        If (y(k) > 500 And _
+        ''d1 = Sqr((x(k - 1) - x(k)) ^ 2 + (y(k - 1) - y(k)) ^ 2)
+        ''d2 = Sqr((x(k) - x(k + 1)) ^ 2 + (y(k) - y(k + 1)) ^ 2)
+        ''s1 = Abs((y(k - 1) - y(k)) / (x(k - 1) - x(k)))
+        ''s2 = Abs((y(k) - y(k + 1)) / (x(k) - x(k + 1)))
+        If (Sqr((x(k - 1) - x(k)) ^ 2 + (y(k - 1) - y(k)) ^ 2) < 1000 And _
+            Sqr((x(k) - x(k + 1)) ^ 2 + (y(k) - y(k + 1)) ^ 2) < 1000 And _
             Abs((y(k - 1) - y(k)) / (x(k - 1) - x(k))) <= 1.3 And _
             Abs((y(k) - y(k + 1)) / (x(k) - x(k + 1))) <= 1.3 _
             ) Then
@@ -976,6 +996,8 @@ Dim X1, Y1, X2, Y2 As Double
     Else
         avrCNT = 0
     End If
+    
+    p_maxY = avr12H
     
     ''maxHH = 1800  ''1800  ''2000
     ''''''''''''''''''''''''''''''''{<={ main:: ucBINmon1(i).set_maxHH CLng(txtMaxHH) }=}
